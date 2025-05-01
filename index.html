@@ -1,0 +1,554 @@
+
+User wants me to extend the existing single HTML store "LapAKABogor" with enhancements:
+- Add features to the cart for:
+  - Input for buyer's name
+  - Method of payment selection (QRIS or Cash)
+  - Method of pickup selection (Delivery or Self-pickup)
+- Integrate all that data into WhatsApp chat message including total price, buyer name, pickup method, and payment method
+- Chat message should be comprehensive with the order details and buyer info
+
+Plan:
+- Add form inputs inside the cart area for buyer name (text input), pickup method (radio buttons or dropdown), payment method (radio buttons or dropdown)
+- Update the checkout button handler to gather those inputs and add them to the WA message
+- Update styling to keep the UI neat and user-friendly
+- Keep everything in the single index.html file with inline CSS/JS as before.
+
+No new dependent files needed.
+
+I will fully edit and rewrite the entire HTML to include the new features plus existing content. I will keep the same structure but insert cart form fields.
+
+Next, I will proceed with code creation.
+
+
+
+`index.html`
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LapAKABogor Store</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 0; background: #f5f5f5;
+  }
+  header {
+    background: #007bff;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 2rem;
+  }
+  #categoryMenu {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    background: #e9ecef;
+    padding: 0.5rem 1rem;
+  }
+  .categoryBtn {
+    background: white;
+    border: 1px solid #007bff;
+    color: #007bff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    font-size: 0.9rem;
+    user-select: none;
+  }
+  .categoryBtn.active, .categoryBtn:hover {
+    background: #007bff;
+    color: white;
+  }
+  #searchBar {
+    display: block;
+    margin: 1rem auto;
+    max-width: 400px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  #productList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0 1rem 4rem;
+  }
+  .productCard {
+    background: white;
+    border-radius: 6px;
+    width: 200px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .productCard img {
+    width: 100%;
+    object-fit: cover;
+    height: 150px;
+  }
+  .productInfo {
+    padding: 1rem;
+    flex-grow: 1;
+  }
+  .productName {
+    font-weight: bold;
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+  }
+  .productCategory {
+    font-size: 0.8rem;
+    color: #555;
+    margin-bottom: 0.3rem;
+  }
+  .productPrice {
+    color: #007bff;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+  }
+  .addBtn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem;
+    width: 100%;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 0 0 6px 6px;
+    transition: background 0.3s ease;
+  }
+  .addBtn:hover {
+    background: #0056b3;
+  }
+  #cart {
+    position: fixed;
+    top: 70px;
+    right: 10px;
+    width: 320px;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 1rem;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+  #cart h2 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+  }
+  .cartItem {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    align-items: center;
+  }
+  .cartItemName {
+    flex: 1;
+    font-size: 0.9rem;
+  }
+  .cartItemQuantity {
+    width: 40px;
+    text-align: center;
+    font-size: 1rem;
+  }
+  .cartItemPrice {
+    width: 70px;
+    text-align: right;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #007bff;
+  }
+  .removeBtn {
+    background:none;
+    border:none;
+    color:#dc3545;
+    font-weight:bold;
+    cursor:pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0 0.3rem;
+  }
+  #totalPrice {
+    font-weight: bold;
+    border-top: 1px solid #ddd;
+    padding-top: 0.5rem;
+    margin-top: 1rem;
+    text-align: right;
+    font-size: 1.2rem;
+  }
+  form#orderForm {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+  form#orderForm label {
+    display: block;
+    margin: 0.4rem 0 0.2rem;
+    font-weight: 600;
+    color: #333;
+  }
+  form#orderForm input[type="text"] {
+    width: 100%;
+    padding: 0.4rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
+  .radioGroup {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+  }
+  .radioGroup label {
+    font-weight: normal;
+    cursor: pointer;
+  }
+  .radioGroup input[type="radio"] {
+    margin-right: 0.3rem;
+    cursor: pointer;
+  }
+  #checkoutBtn {
+    background: #25d366;
+    color: white;
+    border: none;
+    padding: 0.7rem;
+    width: 100%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    margin-top: 0.5rem;
+    transition: background 0.3s ease;
+  }
+  #checkoutBtn:hover {
+    background: #1ebe57;
+  }
+  /* Responsive */
+  @media(max-width: 700px) {
+    #cart {
+      position: static;
+      width: 100%;
+      max-height: none;
+      box-shadow: none;
+      padding: 0.5rem;
+      order: 2;
+    }
+    #productList {
+      padding-bottom: 1rem;
+      order: 1;
+    }
+    #categoryMenu {
+      justify-content: center;
+    }
+  }
+  /* Container for #productList and #cart side by side on bigger screens */
+  #mainContainer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding-bottom: 3rem;
+  }
+  @media(max-width: 700px) {
+    #mainContainer {
+      flex-direction: column;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>LapAKABogor Store</h1>
+</header>
+
+<nav id="categoryMenu" aria-label="Pilih kategori produk">
+  <!-- Tombol kategori akan dinamis -->
+</nav>
+
+<input type="text" id="searchBar" placeholder="Cari produk..." aria-label="Cari produk" />
+
+<div id="mainContainer">
+  <div id="productList" aria-live="polite" aria-atomic="true" role="list">
+    <!-- Produk akan muncul di sini -->
+  </div>
+
+  <aside id="cart" aria-label="Keranjang belanja" aria-live="polite" aria-atomic="true" role="region" tabindex="0">
+    <h2>Keranjang</h2>
+    <div id="cartItems">
+      Keranjang kosong
+    </div>
+    <div id="totalPrice"></div>
+
+    <form id="orderForm" aria-label="Formulir informasi pembeli">
+      <label for="buyerName">Nama Pembeli*</label>
+      <input type="text" id="buyerName" name="buyerName" placeholder="Masukkan nama Anda" required aria-required="true" autocomplete="name"/>
+
+      <label>Metode Pengambilan*</label>
+      <div class="radioGroup" role="radiogroup" aria-required="true" aria-labelledby="pickupLabel">
+        <label><input type="radio" name="pickupMethod" value="Diantar" required /> Diantar</label>
+        <label><input type="radio" name="pickupMethod" value="Ambil Sendiri" /> Ambil Sendiri</label>
+      </div>
+
+      <label>Metode Pembayaran*</label>
+      <div class="radioGroup" role="radiogroup" aria-required="true" aria-labelledby="paymentLabel">
+        <label><input type="radio" name="paymentMethod" value="QRIS" required /> QRIS</label>
+        <label><input type="radio" name="paymentMethod" value="Cash" /> Cash</label>
+      </div>
+    </form>
+
+    <button id="checkoutBtn" aria-label="Checkout dan hubungi lewat WhatsApp">Checkout via WhatsApp</button>
+  </aside>
+</div>
+
+<script>
+  // Nomor WhatsApp penjual, ganti dengan nomor Anda, awali dengan kode negara tanpa +
+  const sellerWhatsAppNumber = "6281234567890";
+
+  // Kategori produk
+  const categories = [
+    "Semua",
+    "Makanan Ringan",
+    "Makanan Berat",
+    "Minuman",
+    "Alat dan Bahan Kimia",
+    "Produk Inovasi Mahasiswa",
+    "Lain-lain"
+  ];
+
+  // Daftar produk dengan kategori
+  const products = [
+    { id: 1, name: "Keripik Singkong", price: 15000, category: "Makanan Ringan", img: "https://via.placeholder.com/200x150?text=Keripik+Singkong" },
+    { id: 2, name: "Nasi Goreng Spesial", price: 30000, category: "Makanan Berat", img: "https://via.placeholder.com/200x150?text=Nasi+Goreng+Spesial" },
+    { id: 3, name: "Es Teh Manis", price: 10000, category: "Minuman", img: "https://via.placeholder.com/200x150?text=Es+Teh+Manis" },
+    { id: 4, name: "Cairan pH Meter", price: 120000, category: "Alat dan Bahan Kimia", img: "https://via.placeholder.com/200x150?text=Cairan+pH+Meter" },
+    { id: 5, name: "Hydroponic Nutrient", price: 85000, category: "Alat dan Bahan Kimia", img: "https://via.placeholder.com/200x150?text=Hydroponic+Nutrient" },
+    { id: 6, name: "Smart Plant Sensor", price: 250000, category: "Produk Inovasi Mahasiswa", img: "https://via.placeholder.com/200x150?text=Smart+Plant+Sensor" },
+    { id: 7, name: "Minuman Jahe Rempah", price: 20000, category: "Minuman", img: "https://via.placeholder.com/200x150?text=Minuman+Jahe+Rempah" },
+    { id: 8, name: "Roti Bakar Cokelat", price: 25000, category: "Makanan Ringan", img: "https://via.placeholder.com/200x150?text=Roti+Bakar+Cokelat" },
+    { id: 9, name: "Ayam Bakar Taliwang", price: 40000, category: "Makanan Berat", img: "https://via.placeholder.com/200x150?text=Ayam+Bakar+Taliwang" },
+    { id: 10, name: "Lampu LED Hemat Energi", price: 75000, category: "Produk Inovasi Mahasiswa", img: "https://via.placeholder.com/200x150?text=Lampu+LED+Hemat+Energi" },
+    { id: 11, name: "Sabun Cuci Alat Laboratorium", price: 35000, category: "Alat dan Bahan Kimia", img: "https://via.placeholder.com/200x150?text=Sabun+Cuci+Alat+Laboratorium" },
+    { id: 12, name: "Kue Lapis Legit", price: 60000, category: "Makanan Ringan", img: "https://via.placeholder.com/200x150?text=Kue+Lapis+Legit" },
+    { id: 13, name: "Teh Hijau Organik", price: 15000, category: "Minuman", img: "https://via.placeholder.com/200x150?text=Teh+Hijau+Organik" },
+    { id: 14, name: "Lainnya Produk Contoh", price: 50000, category: "Lain-lain", img: "https://via.placeholder.com/200x150?text=Lainnya+Produk+Contoh" }
+  ];
+
+  let currentCategory = "Semua";
+  let cart = {};
+
+  // Referensi elemen
+  const categoryMenu = document.getElementById("categoryMenu");
+  const productList = document.getElementById("productList");
+  const cartItems = document.getElementById("cartItems");
+  const totalPriceElem = document.getElementById("totalPrice");
+  const searchBar = document.getElementById("searchBar");
+  const checkoutBtn = document.getElementById("checkoutBtn");
+  const orderForm = document.getElementById("orderForm");
+
+  function formatPrice(num) {
+    return "Rp " + num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+
+  // Render tombol kategori
+  function renderCategoryMenu() {
+    categoryMenu.innerHTML = "";
+    categories.forEach(cat => {
+      const btn = document.createElement("button");
+      btn.textContent = cat;
+      btn.className = "categoryBtn" + (cat === currentCategory ? " active" : "");
+      btn.setAttribute("aria-pressed", cat === currentCategory ? "true" : "false");
+      btn.addEventListener("click", () => {
+        currentCategory = cat;
+        renderCategoryMenu();
+        renderProducts(searchBar.value);
+      });
+      categoryMenu.appendChild(btn);
+    });
+  }
+
+  // Render produk
+  function renderProducts(filterText = "") {
+    productList.innerHTML = "";
+    let filtered = products.filter(p => {
+      const matchesCategory = currentCategory === "Semua" || p.category === currentCategory;
+      const matchesSearch = p.name.toLowerCase().includes(filterText.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+    if(filtered.length === 0) {
+      productList.innerHTML = "<p>Tidak ada produk ditemukan.</p>";
+      return;
+    }
+    filtered.forEach(product => {
+      const card = document.createElement("div");
+      card.className = "productCard";
+      card.innerHTML = `
+        <img src="${product.img}" alt="${product.name}" loading="lazy" />
+        <div class="productInfo">
+          <div class="productName">${product.name}</div>
+          <div class="productCategory">${product.category}</div>
+          <div class="productPrice">${formatPrice(product.price)}</div>
+        </div>
+        <button class="addBtn" aria-label="Tambah ${product.name} ke keranjang" data-id="${product.id}">
+          Tambah ke Keranjang
+        </button>
+      `;
+      productList.appendChild(card);
+    });
+  }
+
+  // Render keranjang
+  function renderCart() {
+    if(Object.keys(cart).length === 0) {
+      cartItems.innerHTML = "Keranjang kosong";
+      totalPriceElem.textContent = "";
+      return;
+    }
+    cartItems.innerHTML = "";
+    let total = 0;
+    for(let id in cart) {
+      let product = products.find(p => p.id == id);
+      let qty = cart[id];
+      let linePrice = product.price * qty;
+      total += linePrice;
+
+      const item = document.createElement("div");
+      item.className = "cartItem";
+      item.innerHTML = `
+        <div class="cartItemName">${product.name}</div>
+        <input type="number" min="1" max="99" class="cartItemQuantity" data-id="${id}" value="${qty}" aria-label="Jumlah ${product.name}" />
+        <div class="cartItemPrice">${formatPrice(linePrice)}</div>
+        <button aria-label="Hapus ${product.name} dari keranjang" data-id="${id}" class="removeBtn">×</button>
+      `;
+      cartItems.appendChild(item);
+    }
+    totalPriceElem.textContent = "Total: " + formatPrice(total);
+  }
+
+  // Update kuantitas keranjang
+  function updateCart(id, qty) {
+    if(qty <= 0) {
+      delete cart[id];
+    } else {
+      cart[id] = qty;
+    }
+    renderCart();
+  }
+
+  // Event listener clicks
+  document.addEventListener("click", (e) => {
+    if(e.target.classList.contains("addBtn")) {
+      const id = e.target.getAttribute("data-id");
+      cart[id] = (cart[id] || 0) + 1;
+      renderCart();
+    }
+    if(e.target.classList.contains("removeBtn")) {
+      const id = e.target.getAttribute("data-id");
+      delete cart[id];
+      renderCart();
+    }
+  });
+
+  // Event listener input quantity
+  document.addEventListener("input", (e) => {
+    if(e.target.classList.contains("cartItemQuantity")) {
+      const id = e.target.getAttribute("data-id");
+      let val = parseInt(e.target.value);
+      if(isNaN(val) || val < 1) val = 1;
+      if(val > 99) val = 99;
+      e.target.value = val;
+      updateCart(id, val);
+    }
+  });
+
+  // Filter produk berdasarkan pencarian
+  searchBar.addEventListener("input", () => {
+    renderProducts(searchBar.value);
+  });
+
+  // Checkout ke WhatsApp dengan data form
+  checkoutBtn.addEventListener("click", () => {
+    if(Object.keys(cart).length === 0) {
+      alert("Keranjang kosong, silakan tambahkan produk terlebih dahulu.");
+      return;
+    }
+    // Validasi input form
+    const buyerName = orderForm.buyerName.value.trim();
+    if(!buyerName) {
+      alert("Mohon isi nama pembeli.");
+      orderForm.buyerName.focus();
+      return;
+    }
+    const pickupRadios = orderForm.pickupMethod;
+    let pickupMethod = null;
+    for (const radio of pickupRadios) {
+      if(radio.checked) {
+        pickupMethod = radio.value;
+        break;
+      }
+    }
+    if(!pickupMethod) {
+      alert("Mohon pilih metode pengambilan.");
+      pickupRadios[0].focus();
+      return;
+    }
+    const paymentRadios = orderForm.paymentMethod;
+    let paymentMethod = null;
+    for (const radio of paymentRadios) {
+      if(radio.checked) {
+        paymentMethod = radio.value;
+        break;
+      }
+    }
+    if(!paymentMethod) {
+      alert("Mohon pilih metode pembayaran.");
+      paymentRadios[0].focus();
+      return;
+    }
+
+    let message = `Halo, saya ingin memesan:\n`;
+    for(let id in cart) {
+      let product = products.find(p => p.id == id);
+      let qty = cart[id];
+      message += `- ${product.name} (x${qty})\n`;
+    }
+    let total = 0;
+    for(let id in cart) {
+      let product = products.find(p => p.id == id);
+      total += product.price * cart[id];
+    }
+    message += `\nTotal Pembayaran: ${formatPrice(total)}\n`;
+    message += `Nama Pembeli: ${buyerName}\n`;
+    message += `Metode Pengambilan: ${pickupMethod}\n`;
+    message += `Metode Pembayaran: ${paymentMethod}\n`;
+    message += `\nTerima kasih.`;
+
+    const encodedMessage = encodeURIComponent(message);
+    const waUrl = `https://wa.me/${sellerWhatsAppNumber}?text=${encodedMessage}`;
+    window.open(waUrl, "_blank");
+  });
+
+  // Render awal dan setup
+  renderCategoryMenu();
+  renderProducts();
+  renderCart();
+</script>
+
+</body>
+</html>
+
+```
+
