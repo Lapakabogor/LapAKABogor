@@ -1,101 +1,207 @@
-<script>
-  const cart = [];
-
-  function addToCart(productName, price) {
-    const existing = cart.find(item => item.name === productName);
-    if (existing) {
-      existing.quantity++;
-      existing.totalPrice = existing.quantity * existing.price;
-    } else {
-      cart.push({ name: productName, price: price, quantity: 1, totalPrice: price });
-    }
-    updateCartDisplay();
-  }
-
-  function updateCartDisplay() {
-    const cartItemsContainer = document.getElementById("cartItems");
-    const totalContainer = document.getElementById("totalPrice");
-
-    if (cart.length === 0) {
-      cartItemsContainer.innerHTML = "Keranjang kosong";
-      totalContainer.innerHTML = "";
-      return;
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LapAKABogor</title>
+  <style>
+    /* Splash screen */
+    #splashScreen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 1s ease;
     }
 
-    let html = "<ul>";
-    let total = 0;
-    cart.forEach(item => {
-      html += `<li>${item.name} x ${item.quantity} = Rp${item.totalPrice}</li>`;
-      total += item.totalPrice;
-    });
-    html += "</ul>";
-    cartItemsContainer.innerHTML = html;
-    totalContainer.innerHTML = `<strong>Total: Rp${total}</strong>`;
-  }
-
-  function sendOrderToWhatsApp() {
-    const buyerName = document.getElementById("buyerName").value.trim();
-    const pickupMethod = document.querySelector('input[name="pickupMethod"]:checked')?.value;
-    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
-
-    if (!buyerName || !pickupMethod || !paymentMethod) {
-      alert("Harap lengkapi semua data pemesanan.");
-      return;
+    .fade-out {
+      opacity: 0;
+      pointer-events: none;
     }
 
-    if (cart.length === 0) {
-      alert("Keranjang masih kosong.");
-      return;
+    /* Header */
+    header {
+      padding: 10px 20px;
+      background: #f5f5f5;
+      text-align: center;
     }
 
-    let orderText = `Nama: ${buyerName}\nMetode Pengambilan: ${pickupMethod}\nMetode Pembayaran: ${paymentMethod}\n\nDaftar Pesanan:\n`;
-    let total = 0;
-    cart.forEach(item => {
-      orderText += `${item.name} x ${item.quantity} = Rp${item.totalPrice}\n`;
-      total += item.totalPrice;
-    });
-
-    if (pickupMethod === "Diantar") {
-      const ongkir = cart.reduce((sum, item) => sum + item.quantity * 1000, 0);
-      orderText += `\nBiaya Antar: Rp${ongkir}`;
-      total += ongkir;
+    header img {
+      height: 70px;
+      max-width: 100%;
     }
 
-    orderText += `\n\nTotal Bayar: Rp${total}`;
+    header h1 {
+      margin-top: 10px;
+      font-size: 1.5em;
+      color: #333;
+    }
 
-    const whatsappNumber = "089664363463";
-    const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(orderText)}`;
-    window.open(waUrl, "_blank");
-  }
-
-  // Splash screen fade
-  window.addEventListener("load", function () {
-    setTimeout(function () {
-      const splash = document.getElementById("splashScreen");
-      if (splash) {
-        splash.classList.add("fade-out");
-        setTimeout(() => splash.style.display = "none", 1000);
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.2em;
       }
-    }, 3000);
-  });
 
-  // Contoh produk untuk demo (hapus ini kalau sudah pakai loader produk dinamis)
-  document.addEventListener("DOMContentLoaded", function () {
-    const demoProductList = document.getElementById("productList");
-    const sampleProducts = [
-      { name: "Donat Cokelat", price: 5000 },
-      { name: "Kopi Susu", price: 8000 },
-      { name: "Keripik Pedas", price: 7000 }
-    ];
-    sampleProducts.forEach(prod => {
-      const div = document.createElement("div");
-      div.innerHTML = `
-        <strong>${prod.name}</strong><br/>
-        Harga: Rp${prod.price}<br/>
-        <button onclick="addToCart('${prod.name}', ${prod.price})">Tambah ke Keranjang</button>
-        <hr/>
-      `;
-      demoProductList.appendChild(div);
+      header img {
+        height: 50px;
+      }
+    }
+
+    /* Produk dan keranjang */
+    #productList div {
+      margin-bottom: 15px;
+    }
+    #cartItems {
+      margin-top: 10px;
+    }
+    #orderSection {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Splash Screen -->
+  <div id="splashScreen">
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/a6d2c0f552631ebc4105832a706037c84973b449/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor">
+  </div>
+
+  <!-- Header -->
+  <header>
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/a6d2c0f552631ebc4105832a706037c84973b449/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor">
+    <h1>Selamat Datang di LapAKABogor</h1>
+  </header>
+
+  <!-- Daftar Produk -->
+  <section id="productList"></section>
+
+  <!-- Keranjang -->
+  <section>
+    <h2>Keranjang Belanja</h2>
+    <div id="cartItems">Keranjang kosong</div>
+    <div id="totalPrice"></div>
+  </section>
+
+  <!-- Checkout -->
+  <section id="orderSection">
+    <h2>Checkout</h2>
+    <input type="text" id="buyerName" placeholder="Nama Pembeli"><br><br>
+
+    <label><input type="radio" name="pickupMethod" value="Ambil Sendiri"> Ambil Sendiri</label><br>
+    <label><input type="radio" name="pickupMethod" value="Diantar"> Diantar (Rp1000/item)</label><br><br>
+
+    <label><input type="radio" name="paymentMethod" value="QRIS"> Bayar via QRIS</label><br>
+    <label><input type="radio" name="paymentMethod" value="Cash"> Bayar Cash</label><br><br>
+
+    <button onclick="sendOrderToWhatsApp()">Kirim Pesanan via WhatsApp</button>
+  </section>
+
+  <!-- Script -->
+  <script>
+    const cart = [];
+
+    function addToCart(productName, price) {
+      const existing = cart.find(item => item.name === productName);
+      if (existing) {
+        existing.quantity++;
+        existing.totalPrice = existing.quantity * existing.price;
+      } else {
+        cart.push({ name: productName, price: price, quantity: 1, totalPrice: price });
+      }
+      updateCartDisplay();
+    }
+
+    function updateCartDisplay() {
+      const cartItemsContainer = document.getElementById("cartItems");
+      const totalContainer = document.getElementById("totalPrice");
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = "Keranjang kosong";
+        totalContainer.innerHTML = "";
+        return;
+      }
+
+      let html = "<ul>";
+      let total = 0;
+      cart.forEach(item => {
+        html += `<li>${item.name} x ${item.quantity} = Rp${item.totalPrice}</li>`;
+        total += item.totalPrice;
+      });
+      html += "</ul>";
+      cartItemsContainer.innerHTML = html;
+      totalContainer.innerHTML = `<strong>Total: Rp${total}</strong>`;
+    }
+
+    function sendOrderToWhatsApp() {
+      const buyerName = document.getElementById("buyerName").value.trim();
+      const pickupMethod = document.querySelector('input[name="pickupMethod"]:checked')?.value;
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+
+      if (!buyerName || !pickupMethod || !paymentMethod) {
+        alert("Harap lengkapi semua data pemesanan.");
+        return;
+      }
+
+      if (cart.length === 0) {
+        alert("Keranjang masih kosong.");
+        return;
+      }
+
+      let orderText = `Nama: ${buyerName}\nMetode Pengambilan: ${pickupMethod}\nMetode Pembayaran: ${paymentMethod}\n\nDaftar Pesanan:\n`;
+      let total = 0;
+      cart.forEach(item => {
+        orderText += `${item.name} x ${item.quantity} = Rp${item.totalPrice}\n`;
+        total += item.totalPrice;
+      });
+
+      if (pickupMethod === "Diantar") {
+        const ongkir = cart.reduce((sum, item) => sum + item.quantity * 1000, 0);
+        orderText += `\nBiaya Antar: Rp${ongkir}`;
+        total += ongkir;
+      }
+
+      orderText += `\n\nTotal Bayar: Rp${total}`;
+
+      const whatsappNumber = "089664363463";
+      const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(orderText)}`;
+      window.open(waUrl, "_blank");
+    }
+
+    // Splash screen fade
+    window.addEventListener("load", function () {
+      setTimeout(function () {
+        const splash = document.getElementById("splashScreen");
+        if (splash) {
+          splash.classList.add("fade-out");
+          setTimeout(() => splash.style.display = "none", 1000);
+        }
+      }, 3000);
     });
-  });
-</script>
+
+    // Produk demo
+    document.addEventListener("DOMContentLoaded", function () {
+      const demoProductList = document.getElementById("productList");
+      const sampleProducts = [
+        { name: "Donat Cokelat", price: 5000 },
+        { name: "Kopi Susu", price: 8000 },
+        { name: "Keripik Pedas", price: 7000 }
+      ];
+      sampleProducts.forEach(prod => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <strong>${prod.name}</strong><br/>
+          Harga: Rp${prod.price}<br/>
+          <button onclick="addToCart('${prod.name}', ${prod.price})">Tambah ke Keranjang</button>
+          <hr/>
+        `;
+        demoProductList.appendChild(div);
+      });
+    });
+  </script>
+</body>
+</html>
