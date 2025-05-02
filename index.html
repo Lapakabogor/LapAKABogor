@@ -72,10 +72,7 @@
       opacity: 0;
       transition: opacity 0.5s;
     }
-
-    .toast.show {
-      opacity: 1;
-    }
+    .toast.show { opacity: 1; }
 
     #cartToggle {
       position: fixed;
@@ -89,12 +86,7 @@
       border-radius: 5px;
     }
 
-    #cartSection {
-      display: none;
-      border-top: 2px solid #ddd;
-      margin-top: 20px;
-      padding-top: 10px;
-    }
+    #cartSection { display: none; border-top: 2px solid #ddd; margin-top: 20px; padding-top: 10px; }
 
     .category-btn {
       margin: 5px;
@@ -251,9 +243,9 @@
 
       document.getElementById("searchBar").addEventListener("input", e => {
         const keyword = e.target.value.toLowerCase();
-        document.querySelectorAll(".product-item").forEach(item => {
-          const isVisible = item.innerText.toLowerCase().includes(keyword);
-          item.style.display = isVisible ? "block" : "none";
+        document.querySelectorAll(".product-item").forEach(i => {
+          const visible = i.textContent.toLowerCase().includes(keyword);
+          i.style.display = visible ? "block" : "none";
         });
       });
     });
