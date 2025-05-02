@@ -5,85 +5,106 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LapAKABogor</title>
   <style>
-    /* Splash screen */
-    #splashScreen {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 1s ease;
-    }
-
-    .fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* Header */
-    header {
-      padding: 10px 20px;
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
       background: #f5f5f5;
-      text-align: center;
-    }
-
-    header img {
-      height: 70px;
-      max-width: 100%;
-    }
-
-    header h1 {
-      margin-top: 10px;
-      font-size: 1.5em;
       color: #333;
     }
-
-    @media (max-width: 600px) {
-      header h1 {
-        font-size: 1.2em;
-      }
-
-      header img {
-        height: 50px;
-      }
+    h1, h2 {
+      color: #d32f2f;
     }
-
-    /* Produk dan keranjang */
-    #productList div {
-      margin-bottom: 15px;
+    section {
+      margin-bottom: 30px;
     }
-    #cartItems {
-      margin-top: 10px;
+    .product {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 10px;
+      width: 200px;
+      display: inline-block;
+      background: white;
+      vertical-align: top;
+      text-align: center;
     }
-    #orderSection {
-      margin-top: 20px;
+    .product img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    button {
+      padding: 5px 10px;
+      margin-top: 5px;
+      background-color: #0288d1;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0277bd;
+    }
+    #categoryFilter button {
+      margin: 5px;
+      background-color: #388e3c;
+    }
+    #categoryFilter button:hover {
+      background-color: #2e7d32;
+    }
+    input[type="text"] {
+      padding: 8px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    #cartItems ul {
+      padding-left: 20px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Splash Screen -->
-  <div id="splashScreen">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/a6d2c0f552631ebc4105832a706037c84973b449/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor">
-  </div>
+  <h1>LapAKABogor</h1>
 
-  <!-- Header -->
-  <header>
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/a6d2c0f552631ebc4105832a706037c84973b449/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor">
-    <h1>Selamat Datang di LapAKABogor</h1>
-  </header>
+  <!-- Filter Kategori -->
+  <section id="categoryFilter">
+    <h2>Filter Kategori</h2>
+    <button onclick="filterCategory('Semua')">Semua</button>
+    <button onclick="filterCategory('Makanan')">Makanan</button>
+    <button onclick="filterCategory('Minuman')">Minuman</button>
+  </section>
 
-  <!-- Daftar Produk -->
-  <section id="productList"></section>
+  <!-- Katalog Produk -->
+  <section id="productList">
+    <div class="product" data-category="Makanan">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/780f3a1fd69640b8693bcee6047d6539f68f4f4e/th.jpeg" alt="Keripik Pedas">
+      <h3>Keripik Pedas</h3>
+      <p>Harga: Rp7.000</p>
+      <button onclick="addToCart('Keripik Pedas', 7000)">Tambah ke Keranjang</button>
+    </div>
+    <div class="product" data-category="Minuman">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/54a648da68c2fd967f6688002102c4b96e280f65/aa54a8198cd5c4d7e37eeadbf1cac7c6-large.webp" alt="Kopi Susu">
+      <h3>Kopi Susu</h3>
+      <p>Harga: Rp8.000</p>
+      <button onclick="addToCart('Kopi Susu', 8000)">Tambah ke Keranjang</button>
+    </div>
+    <div class="product" data-category="Makanan">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/54a648da68c2fd967f6688002102c4b96e280f65/donat.jpeg" alt="Donat Cokelat">
+      <h3>Donat Cokelat</h3>
+      <p>Harga: Rp5.000</p>
+      <button onclick="addToCart('Donat Cokelat', 5000)">Tambah ke Keranjang</button>
+    </div>
+  </section>
 
-  <!-- Keranjang -->
+  <!-- Keranjang Belanja -->
   <section>
-    <h2>Keranjang Belanja</h2>
-    <div id="cartItems">Keranjang kosong</div>
+    <h2 onclick="toggleCart()" style="cursor:pointer;">🛒 Keranjang Belanja (klik untuk buka/tutup)</h2>
+    <div id="cartItems" style="display: none;">Keranjang kosong</div>
     <div id="totalPrice"></div>
   </section>
 
@@ -92,18 +113,17 @@
     <h2>Checkout</h2>
     <input type="text" id="buyerName" placeholder="Nama Pembeli"><br><br>
 
-    <label><input type="radio" name="pickupMethod" value="Ambil Sendiri"> Ambil Sendiri</label><br>
-    <label><input type="radio" name="pickupMethod" value="Diantar"> Diantar (Rp1000/item)</label><br><br>
+    <label><input type="radio" name="pickupMethod" value="Ambil Sendiri"> Ambil Sendiri</label>
+    <label><input type="radio" name="pickupMethod" value="Diantar"> Diantar (Rp1.000/item)</label><br><br>
 
-    <label><input type="radio" name="paymentMethod" value="QRIS"> Bayar via QRIS</label><br>
+    <label><input type="radio" name="paymentMethod" value="QRIS"> Bayar via QRIS</label>
     <label><input type="radio" name="paymentMethod" value="Cash"> Bayar Cash</label><br><br>
 
     <button onclick="sendOrderToWhatsApp()">Kirim Pesanan via WhatsApp</button>
   </section>
 
-  <!-- Script -->
   <script>
-    const cart = [];
+    let cart = [];
 
     function addToCart(productName, price) {
       const existing = cart.find(item => item.name === productName);
@@ -135,6 +155,22 @@
       html += "</ul>";
       cartItemsContainer.innerHTML = html;
       totalContainer.innerHTML = `<strong>Total: Rp${total}</strong>`;
+    }
+
+    function toggleCart() {
+      const cartItemsContainer = document.getElementById("cartItems");
+      cartItemsContainer.style.display = cartItemsContainer.style.display === "none" ? "block" : "none";
+    }
+
+    function filterCategory(category) {
+      const products = document.querySelectorAll("#productList .product");
+      products.forEach(product => {
+        if (category === "Semua" || product.dataset.category === category) {
+          product.style.display = "inline-block";
+        } else {
+          product.style.display = "none";
+        }
+      });
     }
 
     function sendOrderToWhatsApp() {
@@ -171,37 +207,6 @@
       const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(orderText)}`;
       window.open(waUrl, "_blank");
     }
-
-    // Splash screen fade
-    window.addEventListener("load", function () {
-      setTimeout(function () {
-        const splash = document.getElementById("splashScreen");
-        if (splash) {
-          splash.classList.add("fade-out");
-          setTimeout(() => splash.style.display = "none", 1000);
-        }
-      }, 3000);
-    });
-
-    // Produk demo
-    document.addEventListener("DOMContentLoaded", function () {
-      const demoProductList = document.getElementById("productList");
-      const sampleProducts = [
-        { name: "Donat Cokelat", price: 5000 },
-        { name: "Kopi Susu", price: 8000 },
-        { name: "Keripik Pedas", price: 7000 }
-      ];
-      sampleProducts.forEach(prod => {
-        const div = document.createElement("div");
-        div.innerHTML = `
-          <strong>${prod.name}</strong><br/>
-          Harga: Rp${prod.price}<br/>
-          <button onclick="addToCart('${prod.name}', ${prod.price})">Tambah ke Keranjang</button>
-          <hr/>
-        `;
-        demoProductList.appendChild(div);
-      });
-    });
   </script>
 </body>
 </html>
