@@ -152,7 +152,7 @@
 </head>
 <body>
   <div id="splashScreen">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/10293c74accc2601ca05d0bba72799e3ea6864d1/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor" style="width: 100vw; max-height: 100vh; object-fit: contain;">
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/bb53049eb06ea0483492c0ea46e614d6df1ff4da/logo%20AKA%20Bogor.jpg" alt="Logo LapAKABogor" style="width: 100vw; max-height: 100vh; object-fit: contain;">
   </div>
 
   <header>
@@ -187,7 +187,7 @@
 
     <div id="qrisContainer">
       <p>Silakan scan QRIS berikut:</p>
-      <img src="qris.png" alt="QRIS Payment">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/bb53049eb06ea0483492c0ea46e614d6df1ff4da/logo%20AKA%20Bogor.jpg" alt="QRIS Payment">
     </div>
 
     <br><button onclick="sendOrderToWhatsApp()">Kirim Pesanan via WhatsApp</button>
@@ -263,45 +263,27 @@
       const phone = document.getElementById("buyerPhone").value.trim();
       const pickup = document.querySelector('input[name="pickupMethod"]:checked')?.value;
       const payment = document.querySelector('input[name="paymentMethod"]:checked')?.value;
-      if (!name || !pickup || !payment || !/^62\d{9,12}$/.test(phone)) return alert("Lengkapi semua data dengan benar!");
+
+      if (!name || !phone || !pickup || !payment || !/^62\d{9,12}$/.test(phone)) {
+        return alert("Lengkapi semua data dengan benar! Pastikan format nomor WhatsApp benar (mulai dengan 62).");
+      }
+
       let text = `Nama: ${name}\nWA: ${phone}\nMetode Pengambilan: ${pickup}\nMetode Pembayaran: ${payment}\n\nPesanan:\n`;
       let total = 0;
-      cart.forEach(i => { text += `${i.name} x ${i.quantity} = Rp${i.totalPrice}\n`; total += i.totalPrice; });
+      cart.forEach(i => {
+        text += `${i.name} x ${i.quantity} = Rp${i.totalPrice}\n`;
+        total += i.totalPrice;
+      });
+
       if (pickup === "Diantar") {
         const ongkir = cart.reduce((sum, i) => sum + i.quantity * 1000, 0);
-        total += ongkir; text += `\nOngkir: Rp${ongkir}`;
+        total += ongkir;
+        text += `\nOngkir: Rp${ongkir}`;
       }
+
       text += `\n\nTotal: Rp${total}`;
       window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, "_blank");
     }
-
-    window.addEventListener("load", () => {
-      setTimeout(() => document.getElementById("splashScreen").style.display = "none", 4000);
-    });
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const list = document.getElementById("productList");
-      const products = [
-        { name: "Donat Cokelat", price: 5000, kategori: "makanan", img: "donat.jpeg" },
-        { name: "Kopi Susu", price: 8000, kategori: "minuman", img: "kopi.webp" },
-        { name: "Keripik Pedas", price: 7000, kategori: "makanan", img: "keripik.jpeg" },
-      ];
-      products.forEach(p => {
-        const div = document.createElement("div");
-        div.className = "product-item";
-        div.dataset.kategori = p.kategori;
-        div.innerHTML = `<img src="${p.img}" alt="${p.name}"><br/><strong>${p.name}</strong><br/>Harga: Rp${p.price}<br/>Jumlah: <input type='number' id='qty-${p.name}' value='1' min='1'> <button onclick="addToCart('${p.name}', ${p.price})">Tambah ke Keranjang</button>`;
-        list.appendChild(div);
-      });
-
-      document.getElementById("searchBar").addEventListener("input", e => {
-        const keyword = e.target.value.toLowerCase();
-        document.querySelectorAll(".product-item").forEach(i => {
-          const visible = i.textContent.toLowerCase().includes(keyword);
-          i.style.display = visible ? "block" : "none";
-        });
-      });
-    });
   </script>
 </body>
 </html>
