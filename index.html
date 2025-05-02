@@ -50,6 +50,38 @@
       text-align: center;
     }
 
+    /* Carousel */
+    #carouselContainer {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 15px;
+    }
+
+    .carousel {
+      display: flex;
+      width: 100%;
+      animation: slide 15s infinite;
+    }
+
+    .carousel-item {
+      min-width: 100%;
+      text-align: center;
+    }
+
+    .carousel-item img {
+      width: 100%;
+      height: auto;
+    }
+
+    @keyframes slide {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-100%); }
+      50% { transform: translateX(-200%); }
+      75% { transform: translateX(-300%); }
+      100% { transform: translateX(0); }
+    }
+
     #productList {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -157,6 +189,16 @@
 
   <header>
     <h1>LapAKABogor</h1>
+    
+    <!-- Carousel Iklan -->
+    <div id="carouselContainer">
+      <div class="carousel">
+        <div class="carousel-item"><img src="https://via.placeholder.com/1200x400?text=Iklan+1" alt="Iklan 1"></div>
+        <div class="carousel-item"><img src="https://via.placeholder.com/1200x400?text=Iklan+2" alt="Iklan 2"></div>
+        <div class="carousel-item"><img src="https://via.placeholder.com/1200x400?text=Iklan+3" alt="Iklan 3"></div>
+      </div>
+    </div>
+
     <input type="text" id="searchBar" placeholder="Cari produk...">
     <div>
       <button class="category-btn" onclick="filterCategory('semua')">Semua</button>
@@ -268,22 +310,31 @@
         return alert("Lengkapi semua data dengan benar! Pastikan format nomor WhatsApp benar (mulai dengan 62).");
       }
 
-      let text = `Nama: ${name}\nWA: ${phone}\nMetode Pengambilan: ${pickup}\nMetode Pembayaran: ${payment}\n\nPesanan:\n`;
-      let total = 0;
-      cart.forEach(i => {
-        text += `${i.name} x ${i.quantity} = Rp${i.totalPrice}\n`;
-        total += i.totalPrice;
-      });
+      let message = `Pesanan oleh: ${name}\nNomor WhatsApp: ${phone}\nMetode Pengambilan: ${pickup}\nMetode Pembayaran: ${payment}\n\nKeranjang Belanja:\n`;
+      cart.forEach(item => message += `${item.name} x ${item.quantity} = Rp${item.totalPrice}\n`);
+      message += `\nTotal Pembayaran: Rp${cart.reduce((sum, item) => sum + item.totalPrice, 0)}`;
 
-      if (pickup === "Diantar") {
-        const ongkir = cart.reduce((sum, i) => sum + i.quantity * 1000, 0);
-        total += ongkir;
-        text += `\nOngkir: Rp${ongkir}`;
-      }
-
-      text += `\n\nTotal: Rp${total}`;
-      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, "_blank");
+      const url = `https://wa.me/089664363463?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank");
     }
+
+    function loadProducts() {
+      const products = [
+        { name: "Keripik Pedas", price: 20000, img: "https://via.placeholder.com/150", category: "makanan" },
+        { name: "Kopi Susu", price: 15000, img: "https://via.placeholder.com/150", category: "minuman" }
+      ];
+      
+      const productList = document.getElementById("productList");
+      products.forEach(p => {
+        const product = document.createElement("div");
+        product.className = "product-item";
+        product.dataset.kategori = p.category;
+        product.innerHTML = `<img src="${p.img}" alt="${p.name}"><h3>${p.name}</h3><p>Rp${p.price}</p><input type="number" id="qty-${p.name}" value="1" min="1"><button onclick="addToCart('${p.name}', ${p.price})">Tambah ke Keranjang</button>`;
+        productList.appendChild(product);
+      });
+    }
+
+    loadProducts();
   </script>
 </body>
 </html>
