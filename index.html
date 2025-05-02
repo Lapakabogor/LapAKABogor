@@ -229,7 +229,7 @@
 
     <div id="qrisContainer">
       <p>Silakan scan QRIS berikut:</p>
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/bb53049eb06ea0483492c0ea46e614d6df1ff4da/logo%20AKA%20Bogor.jpg" alt="QRIS Payment">
+      <img src="https://via.placeholder.com/250" alt="QRIS Payment">
     </div>
 
     <br><button onclick="sendOrderToWhatsApp()">Kirim Pesanan via WhatsApp</button>
@@ -284,38 +284,15 @@
       const cartItems = document.getElementById("cartItems");
       const totalDiv = document.getElementById("totalPrice");
       if (!cart.length) return cartItems.innerHTML = "Keranjang kosong", totalDiv.innerHTML = "";
+      let cartHTML = "<ul>";
       let total = 0;
-      let html = "<ul>";
-      cart.forEach(i => {
-        total += i.totalPrice;
-        html += `<li>${i.name} x ${i.quantity} = Rp${i.totalPrice} <button onclick="removeFromCart('${i.name}')">❌</button></li>`;
+      cart.forEach(item => {
+        cartHTML += `<li>${item.name} x ${item.quantity} = Rp${item.totalPrice} <button onclick="removeFromCart('${item.name}')">Hapus</button></li>`;
+        total += item.totalPrice;
       });
-      html += "</ul>";
-      cartItems.innerHTML = html;
+      cartHTML += "</ul>";
+      cartItems.innerHTML = cartHTML;
       totalDiv.innerHTML = `<strong>Total: Rp${total}</strong>`;
-    }
-
-    function filterCategory(cat) {
-      const items = document.querySelectorAll(".product-item");
-      items.forEach(i => i.style.display = cat === "semua" || i.dataset.kategori === cat ? "block" : "none");
-    }
-
-    function sendOrderToWhatsApp() {
-      const name = document.getElementById("buyerName").value.trim();
-      const phone = document.getElementById("buyerPhone").value.trim();
-      const pickup = document.querySelector('input[name="pickupMethod"]:checked')?.value;
-      const payment = document.querySelector('input[name="paymentMethod"]:checked')?.value;
-
-      if (!name || !phone || !pickup || !payment || !/^62\d{9,12}$/.test(phone)) {
-        return alert("Lengkapi semua data dengan benar! Pastikan format nomor WhatsApp benar (mulai dengan 62).");
-      }
-
-      let message = `Pesanan oleh: ${name}\nNomor WhatsApp: ${phone}\nMetode Pengambilan: ${pickup}\nMetode Pembayaran: ${payment}\n\nKeranjang Belanja:\n`;
-      cart.forEach(item => message += `${item.name} x ${item.quantity} = Rp${item.totalPrice}\n`);
-      message += `\nTotal Pembayaran: Rp${cart.reduce((sum, item) => sum + item.totalPrice, 0)}`;
-
-      const url = `https://wa.me/089664363463?text=${encodeURIComponent(message)}`;
-      window.open(url, "_blank");
     }
 
     function loadProducts() {
