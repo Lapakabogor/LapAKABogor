@@ -2,10 +2,28 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LapAKABogor</title>
-  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/favicon.png">
   <style>
+    :root {
+      --bg-light: #ffffff;
+      --text-light: #000000;
+      --bg-dark: #121212;
+      --text-dark: #ffffff;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: var(--bg-light);
+      color: var(--text-light);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    body.dark-mode {
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+    }
+
     #splashScreen {
       position: fixed;
       top: 0; left: 0;
@@ -16,7 +34,9 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
+      transition: opacity 1s ease;
     }
+    .fade-out { opacity: 0; pointer-events: none; }
 
     header {
       padding: 10px 20px;
@@ -24,64 +44,82 @@
       text-align: center;
     }
 
-    header img {
-      height: 70px;
-      max-width: 100%;
-    }
-
-    header h1 {
-      margin-top: 10px;
-      font-size: 1.5em;
-      color: #333;
-    }
-
     #productList div {
-      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
     }
 
-    #cartItems {
-      margin-top: 10px;
-    }
-
-    #orderSection {
-      margin-top: 20px;
-    }
-
-    #scrollBtn {
-      display: none;
+    .toast {
       position: fixed;
-      bottom: 40px;
-      right: 30px;
-      z-index: 99;
-      font-size: 18px;
-      background-color: #0288d1;
-      color: white;
+      bottom: 20px;
+      right: 20px;
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .toast.show { opacity: 1; }
+
+    #cartToggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+      cursor: pointer;
+      background: #ff9800;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    #cartSection { display: none; border-top: 2px solid #ddd; margin-top: 20px; padding-top: 10px; }
+
+    .category-btn {
+      margin: 5px;
+      padding: 5px 10px;
       border: none;
-      padding: 10px 15px;
-      border-radius: 50%;
+      background-color: #4CAF50;
+      color: white;
       cursor: pointer;
     }
-    #scrollBtn:hover {
-      background-color: #0277bd;
+
+    #themeToggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background-color: #607d8b;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1000;
     }
   </style>
 </head>
 <body>
   <div id="splashScreen">
-    <div style="text-align:center;">
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/logo.png" alt="Logo LapAKABogor" width="120">
-      <p style="margin-top:10px;font-weight:bold;color:#d32f2f;">Memuat LapAKABogor...</p>
-    </div>
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/logo.jpg" alt="Logo LapAKABogor">
   </div>
 
   <header>
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/logo.png" alt="Logo LapAKABogor">
-    <h1>Selamat Datang di LapAKABogor</h1>
+    <h1>LapAKABogor</h1>
+    <input type="text" id="searchBar" placeholder="Cari produk...">
+    <div>
+      <button class="category-btn" onclick="filterCategory('semua')">Semua</button>
+      <button class="category-btn" onclick="filterCategory('makanan')">Makanan</button>
+      <button class="category-btn" onclick="filterCategory('minuman')">Minuman</button>
+    </div>
   </header>
+
+  <button id="cartToggle" onclick="toggleCart()">🛒 Keranjang</button>
+  <button id="themeToggle" onclick="toggleTheme()">🌙 Mode Gelap</button>
 
   <section id="productList"></section>
 
-  <section>
+  <section id="cartSection">
     <h2>Keranjang Belanja</h2>
     <div id="cartItems">Keranjang kosong</div>
     <div id="totalPrice"></div>
@@ -90,131 +128,114 @@
   <section id="orderSection">
     <h2>Checkout</h2>
     <input type="text" id="buyerName" placeholder="Nama Pembeli"><br><br>
-
+    <input type="text" id="buyerPhone" placeholder="Nomor WhatsApp (62...)"><br><br>
     <label><input type="radio" name="pickupMethod" value="Ambil Sendiri"> Ambil Sendiri</label><br>
     <label><input type="radio" name="pickupMethod" value="Diantar"> Diantar (Rp1000/item)</label><br><br>
-
     <label><input type="radio" name="paymentMethod" value="QRIS"> Bayar via QRIS</label><br>
     <label><input type="radio" name="paymentMethod" value="Cash"> Bayar Cash</label><br><br>
-
     <button onclick="sendOrderToWhatsApp()">Kirim Pesanan via WhatsApp</button>
   </section>
 
-  <button onclick="scrollToTop()" id="scrollBtn" title="Kembali ke atas">⬆️</button>
+  <div id="toast" class="toast">Produk ditambahkan ke keranjang!</div>
 
   <script>
     const cart = [];
+    let darkMode = false;
 
-    function addToCart(productName, price) {
-      const existing = cart.find(item => item.name === productName);
-      if (existing) {
-        existing.quantity++;
-        existing.totalPrice = existing.quantity * existing.price;
-      } else {
-        cart.push({ name: productName, price: price, quantity: 1, totalPrice: price });
-      }
-      updateCartDisplay();
+    function toggleCart() {
+      const section = document.getElementById("cartSection");
+      section.style.display = (section.style.display === "none") ? "block" : "none";
     }
 
-    function updateCartDisplay() {
-      const cartItemsContainer = document.getElementById("cartItems");
-      const totalContainer = document.getElementById("totalPrice");
+    function toggleTheme() {
+      darkMode = !darkMode;
+      document.body.classList.toggle("dark-mode", darkMode);
+    }
 
-      if (cart.length === 0) {
-        cartItemsContainer.innerHTML = "Keranjang kosong";
-        totalContainer.innerHTML = "";
-        return;
-      }
+    function showToast() {
+      const toast = document.getElementById("toast");
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2000);
+    }
 
-      let html = "<ul>";
+    function addToCart(name, price) {
+      const qtyInput = document.getElementById(`qty-${name}`);
+      const qty = parseInt(qtyInput.value);
+      if (isNaN(qty) || qty < 1) return alert("Jumlah tidak valid");
+      const found = cart.find(i => i.name === name);
+      if (found) { found.quantity += qty; found.totalPrice = found.quantity * price; }
+      else { cart.push({ name, price, quantity: qty, totalPrice: price * qty }); }
+      updateCart(); showToast();
+    }
+
+    function removeFromCart(name) {
+      const idx = cart.findIndex(i => i.name === name);
+      if (idx > -1) cart.splice(idx, 1);
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById("cartItems");
+      const totalDiv = document.getElementById("totalPrice");
+      if (!cart.length) return cartItems.innerHTML = "Keranjang kosong", totalDiv.innerHTML = "";
       let total = 0;
-      cart.forEach(item => {
-        html += `<li>${item.name} x ${item.quantity} = Rp${item.totalPrice}</li>`;
-        total += item.totalPrice;
+      let html = "<ul>";
+      cart.forEach(i => {
+        total += i.totalPrice;
+        html += `<li>${i.name} x ${i.quantity} = Rp${i.totalPrice} <button onclick=\"removeFromCart('${i.name}')\">❌</button></li>`;
       });
       html += "</ul>";
-      cartItemsContainer.innerHTML = html;
-      totalContainer.innerHTML = `<strong>Total: Rp${total}</strong>`;
+      cartItems.innerHTML = html;
+      totalDiv.innerHTML = `<strong>Total: Rp${total}</strong>`;
+    }
+
+    function filterCategory(cat) {
+      const items = document.querySelectorAll(".product-item");
+      items.forEach(i => i.style.display = cat === "semua" || i.dataset.kategori === cat ? "block" : "none");
     }
 
     function sendOrderToWhatsApp() {
-      const buyerName = document.getElementById("buyerName").value.trim();
-      const pickupMethod = document.querySelector('input[name="pickupMethod"]:checked')?.value;
-      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value;
-
-      if (!buyerName || !pickupMethod || !paymentMethod) {
-        alert("Harap lengkapi semua data pemesanan.");
-        return;
-      }
-
-      if (cart.length === 0) {
-        alert("Keranjang masih kosong.");
-        return;
-      }
-
-      let orderText = `Nama: ${buyerName}\nMetode Pengambilan: ${pickupMethod}\nMetode Pembayaran: ${paymentMethod}\n\nDaftar Pesanan:\n`;
+      const name = document.getElementById("buyerName").value.trim();
+      const phone = document.getElementById("buyerPhone").value.trim();
+      const pickup = document.querySelector('input[name="pickupMethod"]:checked')?.value;
+      const payment = document.querySelector('input[name="paymentMethod"]:checked')?.value;
+      if (!name || !pickup || !payment || !/^62\d{9,12}$/.test(phone)) return alert("Lengkapi semua data dengan benar!");
+      let text = `Nama: ${name}\nWA: ${phone}\nMetode Pengambilan: ${pickup}\nMetode Pembayaran: ${payment}\n\nPesanan:\n`;
       let total = 0;
-      cart.forEach(item => {
-        orderText += `${item.name} x ${item.quantity} = Rp${item.totalPrice}\n`;
-        total += item.totalPrice;
-      });
-
-      if (pickupMethod === "Diantar") {
-        const ongkir = cart.reduce((sum, item) => sum + item.quantity * 1000, 0);
-        orderText += `\nBiaya Antar: Rp${ongkir}`;
-        total += ongkir;
+      cart.forEach(i => { text += `${i.name} x ${i.quantity} = Rp${i.totalPrice}\n`; total += i.totalPrice; });
+      if (pickup === "Diantar") {
+        const ongkir = cart.reduce((sum, i) => sum + i.quantity * 1000, 0);
+        total += ongkir; text += `\nOngkir: Rp${ongkir}`;
       }
-
-      orderText += `\n\nTotal Bayar: Rp${total}`;
-
-      const whatsappNumber = "089664363463";
-      const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(orderText)}`;
-      window.open(waUrl, "_blank");
+      text += `\n\nTotal: Rp${total}`;
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(text)}`, "_blank");
     }
 
-    window.addEventListener("load", function () {
-      setTimeout(() => {
-        document.getElementById("splashScreen").style.display = "none";
-      }, 2000);
+    window.addEventListener("load", () => {
+      setTimeout(() => document.getElementById("splashScreen").classList.add("fade-out"), 3000);
     });
 
-    window.onscroll = function () {
-      document.getElementById("scrollBtn").style.display = window.scrollY > 300 ? "block" : "none";
-    };
-
-    function scrollToTop() {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-      const demoProductList = document.getElementById("productList");
-      const sampleProducts = [
-        {
-          name: "Keripik Pedas",
-          price: 7000,
-          img: "https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/keripik_pedas.rar"
-        },
-        {
-          name: "Kopi Susu",
-          price: 8000,
-          img: "https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/kopi_susu.rar"
-        },
-        {
-          name: "Donat Cokelat",
-          price: 5000,
-          img: "https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/donat_cokelat.rar"
-        }
+    document.addEventListener("DOMContentLoaded", () => {
+      const list = document.getElementById("productList");
+      const products = [
+        { name: "Donat Cokelat", price: 5000, kategori: "makanan", img: "donat.jpeg" },
+        { name: "Kopi Susu", price: 8000, kategori: "minuman", img: "kopi.webp" },
+        { name: "Keripik Pedas", price: 7000, kategori: "makanan", img: "keripik.jpeg" },
       ];
-      sampleProducts.forEach(prod => {
+      products.forEach(p => {
         const div = document.createElement("div");
-        div.innerHTML = `
-          <img src="${prod.img}" alt="${prod.name}" style="width:120px;height:auto;"><br/>
-          <strong>${prod.name}</strong><br/>
-          Harga: Rp${prod.price}<br/>
-          <button onclick="addToCart('${prod.name}', ${prod.price})">Tambah ke Keranjang</button>
-          <hr/>
-        `;
-        demoProductList.appendChild(div);
+        div.className = "product-item";
+        div.dataset.kategori = p.kategori;
+        div.innerHTML = `<img src="${p.img}" alt="${p.name}" width="100"><br/><strong>${p.name}</strong><br/>Harga: Rp${p.price}<br/>Jumlah: <input type='number' id='qty-${p.name}' value='1' min='1' style='width:50px;'> <button onclick=\"addToCart('${p.name}', ${p.price})\">Tambah ke Keranjang</button>`;
+        list.appendChild(div);
+      });
+
+      document.getElementById("searchBar").addEventListener("input", e => {
+        const keyword = e.target.value.toLowerCase();
+        document.querySelectorAll(".product-item").forEach(i => {
+          const visible = i.textContent.toLowerCase().includes(keyword);
+          i.style.display = visible ? "block" : "none";
+        });
       });
     });
   </script>
