@@ -180,6 +180,22 @@
       border: 2px solid #ccc;
       border-radius: 8px;
     }
+
+    .product-rating {
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .star {
+      cursor: pointer;
+      font-size: 20px;
+      color: #f39c12;
+    }
+
+    .star.selected {
+      color: #f1c40f;
+    }
   </style>
 </head>
 <body>
@@ -199,7 +215,7 @@
       </div>
     </div>
 
-    <input type="text" id="searchBar" placeholder="Cari produk...">
+    <input type="text" id="searchBar" placeholder="Cari produk..." oninput="searchProducts()">
     <div>
       <button class="category-btn" onclick="filterCategory('semua')">Semua</button>
       <button class="category-btn" onclick="filterCategory('makanan')">Makanan</button>
@@ -269,49 +285,83 @@
       const qty = parseInt(qtyInput.value);
       if (isNaN(qty) || qty < 1) return alert("Jumlah tidak valid");
       const found = cart.find(i => i.name === name);
-      if (found) { found.quantity += qty; found.totalPrice = found.quantity * price; }
-      else { cart.push({ name, price, quantity: qty, totalPrice: price * qty }); }
-      updateCart(); showToast();
-    }
-
-    function removeFromCart(name) {
-      const idx = cart.findIndex(i => i.name === name);
-      if (idx > -1) cart.splice(idx, 1);
+      if (found) {
+        found.quantity += qty;
+      } else {
+        cart.push({ name, price, quantity: qty, totalPrice: qty * price });
+      }
+      showToast();
       updateCart();
     }
 
     function updateCart() {
       const cartItems = document.getElementById("cartItems");
-      const totalDiv = document.getElementById("totalPrice");
-      if (!cart.length) return cartItems.innerHTML = "Keranjang kosong", totalDiv.innerHTML = "";
-      let cartHTML = "<ul>";
-      let total = 0;
-      cart.forEach(item => {
-        cartHTML += `<li>${item.name} x ${item.quantity} = Rp${item.totalPrice} <button onclick="removeFromCart('${item.name}')">Hapus</button></li>`;
-        total += item.totalPrice;
+      cartItems.innerHTML = cart.length ? `
+        <ul>
+          ${cart.map(item => `<li>${item.name} x${item.quantity} - Rp${item.totalPrice}</li>`).join('')}
+        </ul>
+      ` : "Keranjang kosong";
+      document.getElementById("totalPrice").textContent = `Total: Rp${cart.reduce((total, item) => total + item.totalPrice, 0)}`;
+    }
+
+    function searchProducts() {
+      const searchTerm = document.getElementById("searchBar").value.toLowerCase();
+      const products = document.querySelectorAll('.product-item');
+      products.forEach(product => {
+        const productName = product.querySelector('h3').textContent.toLowerCase();
+        product.style.display = productName.includes(searchTerm) ? 'block' : 'none';
       });
-      cartHTML += "</ul>";
-      cartItems.innerHTML = cartHTML;
-      totalDiv.innerHTML = `<strong>Total: Rp${total}</strong>`;
+    }
+
+    function filterCategory(category) {
+      const products = document.querySelectorAll('.product-item');
+      products.forEach(product => {
+        const productCategory = product.dataset.kategori;
+        product.style.display = (category === 'semua' || productCategory === category) ? 'block' : 'none';
+      });
+    }
+
+    function sendOrderToWhatsApp() {
+      let orderDetails = `Order Detail: `;
+      cart.forEach(item => {
+        orderDetails += `${item.name} x ${item.quantity} - Rp${item.totalPrice}%0A`;
+      });
+      orderDetails += `Total: Rp${cart.reduce((sum, item) => sum + item.totalPrice, 0)}%0A`;
+      orderDetails += `Nama: ${document.getElementById('buyerName').value}%0A`;
+      orderDetails += `Nomor: ${document.getElementById('buyerPhone').value}%0A`;
+      const pickupMethod = document.querySelector('input[name="pickupMethod"]:checked');
+      orderDetails += `Metode Ambil: ${pickupMethod ? pickupMethod.value : 'Tidak Dipilih'}%0A`;
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+      orderDetails += `Metode Pembayaran: ${paymentMethod ? paymentMethod.value : 'Tidak Dipilih'}%0A`;
+      window.open(`https://wa.me/089664363463?text=${encodeURIComponent(orderDetails)}`, '_blank');
     }
 
     function loadProducts() {
       const products = [
-        { name: "Keripik Pedas", price: 20000, img: "https://via.placeholder.com/150", category: "makanan" },
-        { name: "Kopi Susu", price: 15000, img: "https://via.placeholder.com/150", category: "minuman" }
+        { name: 'Keripik Pedas', price: 25000, category: 'makanan', img: 'https://via.placeholder.com/240x180?text=Keripik+Pedas' },
+        { name: 'Kopi Susu', price: 15000, category: 'minuman', img: 'https://via.placeholder.com/240x180?text=Kopi+Susu' },
+        // Add more products here
       ];
-      
+
       const productList = document.getElementById("productList");
-      products.forEach(p => {
-        const product = document.createElement("div");
-        product.className = "product-item";
-        product.dataset.kategori = p.category;
-        product.innerHTML = `<img src="${p.img}" alt="${p.name}"><h3>${p.name}</h3><p>Rp${p.price}</p><input type="number" id="qty-${p.name}" value="1" min="1"><button onclick="addToCart('${p.name}', ${p.price})">Tambah ke Keranjang</button>`;
-        productList.appendChild(product);
+      products.forEach(product => {
+        const productElement = document.createElement("div");
+        productElement.classList.add("product-item");
+        productElement.dataset.kategori = product.category;
+
+        productElement.innerHTML = `
+          <img src="${product.img}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p>Rp${product.price}</p>
+          <input type="number" id="qty-${product.name}" min="1" value="1" />
+          <button onclick="addToCart('${product.name}', ${product.price})">Tambah ke Keranjang</button>
+        `;
+
+        productList.appendChild(productElement);
       });
     }
 
-    loadProducts();
+    window.onload = loadProducts;
   </script>
 </body>
 </html>
