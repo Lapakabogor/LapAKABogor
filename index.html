@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LapAKABogor</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/favicon.ico">
   <style>
     :root {
       --bg-light: #ffffff;
@@ -36,8 +37,6 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
-      opacity: 1;
-      transition: opacity 1s ease;
       animation: fadeIn 2s ease-out, fadeOut 1s 3s forwards;
     }
 
@@ -152,7 +151,7 @@
 </head>
 <body>
   <div id="splashScreen">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/10293c74accc2601ca05d0bba72799e3ea6864d1/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor" style="width: 100vw; max-height: 100vh; object-fit: contain;">
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/assets/logo.jpg" alt="Logo LapAKABogor" style="width: 100vw; max-height: 100vh; object-fit: contain;">
   </div>
 
   <header>
@@ -187,7 +186,7 @@
 
     <div id="qrisContainer">
       <p>Silakan scan QRIS berikut:</p>
-      <img src="qris.png" alt="QRIS Payment">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/assets/qris.png" alt="QRIS Payment">
     </div>
 
     <br><button onclick="sendOrderToWhatsApp()">Kirim Pesanan via WhatsApp</button>
@@ -282,9 +281,9 @@
     document.addEventListener("DOMContentLoaded", () => {
       const list = document.getElementById("productList");
       const products = [
-        { name: "Donat Cokelat", price: 5000, kategori: "makanan", img: "donat.jpeg" },
-        { name: "Kopi Susu", price: 8000, kategori: "minuman", img: "kopi.webp" },
-        { name: "Keripik Pedas", price: 7000, kategori: "makanan", img: "keripik.jpeg" },
+        { name: "Donat Cokelat", price: 5000, kategori: "makanan", img: "https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/assets/donat.jpeg" },
+        { name: "Kopi Susu", price: 8000, kategori: "minuman", img: "https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/assets/kopi.webp" },
+        { name: "Keripik Pedas", price: 7000, kategori: "makanan", img: "https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/assets/keripik.jpeg" },
       ];
       products.forEach(p => {
         const div = document.createElement("div");
