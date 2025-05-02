@@ -2,128 +2,108 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LapAKABogor</title>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/favicon.png">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 20px;
-      background: #f5f5f5;
-      color: #333;
-    }
-    h1, h2 {
-      color: #d32f2f;
-    }
-    section {
-      margin-bottom: 30px;
-    }
-    .product {
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 10px;
-      margin: 10px;
-      width: 200px;
-      display: inline-block;
+    #splashScreen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
       background: white;
-      vertical-align: top;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    header {
+      padding: 10px 20px;
+      background: #f5f5f5;
       text-align: center;
     }
-    .product img {
-      width: 100%;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 8px;
+
+    header img {
+      height: 70px;
+      max-width: 100%;
     }
-    button {
-      padding: 5px 10px;
-      margin-top: 5px;
+
+    header h1 {
+      margin-top: 10px;
+      font-size: 1.5em;
+      color: #333;
+    }
+
+    #productList div {
+      margin-bottom: 15px;
+    }
+
+    #cartItems {
+      margin-top: 10px;
+    }
+
+    #orderSection {
+      margin-top: 20px;
+    }
+
+    #scrollBtn {
+      display: none;
+      position: fixed;
+      bottom: 40px;
+      right: 30px;
+      z-index: 99;
+      font-size: 18px;
       background-color: #0288d1;
       color: white;
       border: none;
-      border-radius: 5px;
+      padding: 10px 15px;
+      border-radius: 50%;
       cursor: pointer;
     }
-    button:hover {
+    #scrollBtn:hover {
       background-color: #0277bd;
-    }
-    #categoryFilter button {
-      margin: 5px;
-      background-color: #388e3c;
-    }
-    #categoryFilter button:hover {
-      background-color: #2e7d32;
-    }
-    input[type="text"] {
-      padding: 8px;
-      width: 100%;
-      margin-bottom: 10px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
-    #cartItems ul {
-      padding-left: 20px;
     }
   </style>
 </head>
 <body>
-
-  <h1>LapAKABogor</h1>
-
-  <!-- Filter Kategori -->
-  <section id="categoryFilter">
-    <h2>Filter Kategori</h2>
-    <button onclick="filterCategory('Semua')">Semua</button>
-    <button onclick="filterCategory('Makanan')">Makanan</button>
-    <button onclick="filterCategory('Minuman')">Minuman</button>
-  </section>
-
-  <!-- Katalog Produk -->
-  <section id="productList">
-    <div class="product" data-category="Makanan">
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/780f3a1fd69640b8693bcee6047d6539f68f4f4e/th.jpeg" alt="Keripik Pedas">
-      <h3>Keripik Pedas</h3>
-      <p>Harga: Rp7.000</p>
-      <button onclick="addToCart('Keripik Pedas', 7000)">Tambah ke Keranjang</button>
+  <div id="splashScreen">
+    <div style="text-align:center;">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/logo.png" alt="Logo LapAKABogor" width="120">
+      <p style="margin-top:10px;font-weight:bold;color:#d32f2f;">Memuat LapAKABogor...</p>
     </div>
-    <div class="product" data-category="Minuman">
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/54a648da68c2fd967f6688002102c4b96e280f65/aa54a8198cd5c4d7e37eeadbf1cac7c6-large.webp" alt="Kopi Susu">
-      <h3>Kopi Susu</h3>
-      <p>Harga: Rp8.000</p>
-      <button onclick="addToCart('Kopi Susu', 8000)">Tambah ke Keranjang</button>
-    </div>
-    <div class="product" data-category="Makanan">
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/54a648da68c2fd967f6688002102c4b96e280f65/donat.jpeg" alt="Donat Cokelat">
-      <h3>Donat Cokelat</h3>
-      <p>Harga: Rp5.000</p>
-      <button onclick="addToCart('Donat Cokelat', 5000)">Tambah ke Keranjang</button>
-    </div>
-  </section>
+  </div>
 
-  <!-- Keranjang Belanja -->
+  <header>
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/logo.png" alt="Logo LapAKABogor">
+    <h1>Selamat Datang di LapAKABogor</h1>
+  </header>
+
+  <section id="productList"></section>
+
   <section>
-    <h2 onclick="toggleCart()" style="cursor:pointer;">🛒 Keranjang Belanja (klik untuk buka/tutup)</h2>
-    <div id="cartItems" style="display: none;">Keranjang kosong</div>
+    <h2>Keranjang Belanja</h2>
+    <div id="cartItems">Keranjang kosong</div>
     <div id="totalPrice"></div>
   </section>
 
-  <!-- Checkout -->
   <section id="orderSection">
     <h2>Checkout</h2>
     <input type="text" id="buyerName" placeholder="Nama Pembeli"><br><br>
 
-    <label><input type="radio" name="pickupMethod" value="Ambil Sendiri"> Ambil Sendiri</label>
-    <label><input type="radio" name="pickupMethod" value="Diantar"> Diantar (Rp1.000/item)</label><br><br>
+    <label><input type="radio" name="pickupMethod" value="Ambil Sendiri"> Ambil Sendiri</label><br>
+    <label><input type="radio" name="pickupMethod" value="Diantar"> Diantar (Rp1000/item)</label><br><br>
 
-    <label><input type="radio" name="paymentMethod" value="QRIS"> Bayar via QRIS</label>
+    <label><input type="radio" name="paymentMethod" value="QRIS"> Bayar via QRIS</label><br>
     <label><input type="radio" name="paymentMethod" value="Cash"> Bayar Cash</label><br><br>
 
     <button onclick="sendOrderToWhatsApp()">Kirim Pesanan via WhatsApp</button>
   </section>
 
+  <button onclick="scrollToTop()" id="scrollBtn" title="Kembali ke atas">⬆️</button>
+
   <script>
-    let cart = [];
+    const cart = [];
 
     function addToCart(productName, price) {
       const existing = cart.find(item => item.name === productName);
@@ -155,22 +135,6 @@
       html += "</ul>";
       cartItemsContainer.innerHTML = html;
       totalContainer.innerHTML = `<strong>Total: Rp${total}</strong>`;
-    }
-
-    function toggleCart() {
-      const cartItemsContainer = document.getElementById("cartItems");
-      cartItemsContainer.style.display = cartItemsContainer.style.display === "none" ? "block" : "none";
-    }
-
-    function filterCategory(category) {
-      const products = document.querySelectorAll("#productList .product");
-      products.forEach(product => {
-        if (category === "Semua" || product.dataset.category === category) {
-          product.style.display = "inline-block";
-        } else {
-          product.style.display = "none";
-        }
-      });
     }
 
     function sendOrderToWhatsApp() {
@@ -207,6 +171,52 @@
       const waUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(orderText)}`;
       window.open(waUrl, "_blank");
     }
+
+    window.addEventListener("load", function () {
+      setTimeout(() => {
+        document.getElementById("splashScreen").style.display = "none";
+      }, 2000);
+    });
+
+    window.onscroll = function () {
+      document.getElementById("scrollBtn").style.display = window.scrollY > 300 ? "block" : "none";
+    };
+
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const demoProductList = document.getElementById("productList");
+      const sampleProducts = [
+        {
+          name: "Keripik Pedas",
+          price: 7000,
+          img: "https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/keripik_pedas.rar"
+        },
+        {
+          name: "Kopi Susu",
+          price: 8000,
+          img: "https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/kopi_susu.rar"
+        },
+        {
+          name: "Donat Cokelat",
+          price: 5000,
+          img: "https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/donat_cokelat.rar"
+        }
+      ];
+      sampleProducts.forEach(prod => {
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <img src="${prod.img}" alt="${prod.name}" style="width:120px;height:auto;"><br/>
+          <strong>${prod.name}</strong><br/>
+          Harga: Rp${prod.price}<br/>
+          <button onclick="addToCart('${prod.name}', ${prod.price})">Tambah ke Keranjang</button>
+          <hr/>
+        `;
+        demoProductList.appendChild(div);
+      });
+    });
   </script>
 </body>
 </html>
