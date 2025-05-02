@@ -34,9 +34,20 @@
       align-items: center;
       justify-content: center;
       z-index: 9999;
+      opacity: 1;
       transition: opacity 1s ease;
+      animation: fadeIn 2s ease-out, fadeOut 1s 3s forwards;
     }
-    .fade-out { opacity: 0; pointer-events: none; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
 
     header {
       padding: 10px 20px;
@@ -101,7 +112,7 @@
 </head>
 <body>
   <div id="splashScreen">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/logo.jpg" alt="Logo LapAKABogor">
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/10293c74accc2601ca05d0bba72799e3ea6864d1/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor" style="max-width: 200px; animation: logoAnimation 2s ease-out;">
   </div>
 
   <header>
