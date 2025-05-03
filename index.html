@@ -47,6 +47,47 @@
       font-size: 3em;
     }
 
+    /* Slider iklan */
+    #slider {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      margin: 20px 0;
+    }
+
+    .slider-images {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slider-images img {
+      width: 100%;
+      height: auto;
+    }
+
+    .slider-control {
+      position: absolute;
+      top: 50%;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 30px;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .prev {
+      left: 10px;
+      transform: translateY(-50%);
+    }
+
+    .next {
+      right: 10px;
+      transform: translateY(-50%);
+    }
+
     /* Header */
     header {
       padding: 10px 20px;
@@ -206,6 +247,18 @@
     <h1>LapAKABogor</h1>
   </header>
 
+  <!-- Slider iklan -->
+  <div id="slider">
+    <div class="slider-images">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%201.jpg" alt="Iklan 1">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%202.jpg" alt="Iklan 2">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%203.jpg" alt="Iklan 3">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%204.jpg" alt="Iklan 4">
+    </div>
+    <button class="slider-control prev" onclick="moveSlider(-1)">&#10094;</button>
+    <button class="slider-control next" onclick="moveSlider(1)">&#10095;</button>
+  </div>
+
   <input type="text" id="searchBar" placeholder="Cari produk...">
 
   <div id="categoryFilter">
@@ -245,93 +298,102 @@
     ];
 
     let keranjang = [];
+    let sliderIndex = 0;
 
     function tampilkanProduk() {
-      const listProduk = document.getElementById('productList');
-      listProduk.innerHTML = '';
-      produk.forEach((item, index) => {
-        listProduk.innerHTML += `
-          <div class="product-item" data-kategori="${item.kategori}">
-            <img src="${item.gambar}" alt="${item.nama}">
-            <h3>${item.nama}</h3>
-            <p>Rp${item.harga.toLocaleString()}</p>
-            <button onclick="tambahKeKeranjang(${index})">Tambah ke Keranjang</button>
-          </div>
+      const produkList = document.getElementById('productList');
+      produkList.innerHTML = '';
+      produk.forEach(item => {
+        const div = document.createElement('div');
+        div.classList.add('product-item');
+        div.innerHTML = `
+          <img src="${item.gambar}" alt="${item.nama}">
+          <h3>${item.nama}</h3>
+          <p>Rp${item.harga.toLocaleString()}</p>
+          <button onclick="tambahKeKeranjang('${item.nama}', ${item.harga})">Tambah ke Keranjang</button>
         `;
+        produkList.appendChild(div);
       });
     }
 
-    function tambahKeKeranjang(index) {
-      let produkTersedia = keranjang.find(item => item.nama === produk[index].nama);
-      if (produkTersedia) {
-        produkTersedia.jumlah++;
+    function tambahKeKeranjang(nama, harga) {
+      let found = keranjang.find(item => item.nama === nama);
+      if (found) {
+        found.jumlah += 1;
       } else {
-        keranjang.push({ ...produk[index], jumlah: 1 });
+        keranjang.push({ nama, harga, jumlah: 1 });
       }
-      document.getElementById('cartCount').innerText = keranjang.length;
-      showToast(`${produk[index].nama} telah ditambahkan ke keranjang`);
-      tampilkanKeranjang();
+      updateKeranjang();
     }
 
-    function kurangiJumlah(index) {
-      if (keranjang[index].jumlah > 1) {
-        keranjang[index].jumlah--;
-      } else {
-        keranjang.splice(index, 1);
-      }
-      tampilkanKeranjang();
+    function updateKeranjang() {
+      const cartItems = document.getElementById('cartItems');
+      const cartCount = document.getElementById('cartCount');
+      let total = 0;
+      cartItems.innerHTML = '';
+      keranjang.forEach(item => {
+        total += item.harga * item.jumlah;
+        cartItems.innerHTML += `
+          <div class="cart-item">
+            <span>${item.nama} x ${item.jumlah}</span>
+            <button onclick="kurangiJumlah('${item.nama}')">-</button>
+            <button onclick="tambahJumlah('${item.nama}')">+</button>
+            <button onclick="hapusItem('${item.nama}')">Hapus</button>
+          </div>
+        `;
+      });
+      cartCount.innerText = keranjang.length;
+      document.getElementById('totalHarga').innerText = total.toLocaleString();
     }
 
-    function tambahJumlah(index) {
-      keranjang[index].jumlah++;
-      tampilkanKeranjang();
+    function kurangiJumlah(nama) {
+      const item = keranjang.find(item => item.nama === nama);
+      if (item && item.jumlah > 1) {
+        item.jumlah--;
+        updateKeranjang();
+      }
+    }
+
+    function tambahJumlah(nama) {
+      const item = keranjang.find(item => item.nama === nama);
+      if (item) {
+        item.jumlah++;
+        updateKeranjang();
+      }
+    }
+
+    function hapusItem(nama) {
+      keranjang = keranjang.filter(item => item.nama !== nama);
+      updateKeranjang();
     }
 
     function toggleCart() {
       const cartSection = document.getElementById('cartSection');
-      cartSection.style.display = cartSection.style.display === 'none' ? 'block' : 'none';
-    }
-
-    function tampilkanKeranjang() {
-      const container = document.getElementById('cartItems');
-      container.innerHTML = '';
-      let total = 0;
-      keranjang.forEach((item, index) => {
-        total += item.harga * item.jumlah;
-        container.innerHTML += `
-          <div class="cart-item">
-            <span>${item.nama} x ${item.jumlah} - Rp${(item.harga * item.jumlah).toLocaleString()}</span>
-            <button onclick="kurangiJumlah(${index})">-</button>
-            <button onclick="tambahJumlah(${index})">+</button>
-          </div>
-        `;
-      });
-      document.getElementById('totalHarga').innerText = total.toLocaleString();
+      cartSection.style.display = (cartSection.style.display === 'none') ? 'block' : 'none';
     }
 
     function checkoutWA() {
-      const pickup = document.querySelector('input[name="pickup"]:checked').value;
-      const payment = document.querySelector('input[name="payment"]:checked').value;
-      let pesan = "Pesanan: %0A";
+      let pickup = document.querySelector('input[name="pickup"]:checked').value;
+      let payment = document.querySelector('input[name="payment"]:checked').value;
+      let pesan = 'Pesanan Anda:%0A';
       let total = 0;
       keranjang.forEach(item => {
-        pesan += `${item.nama} x ${item.jumlah} - Rp${(item.harga * item.jumlah).toLocaleString()}%0A`;
+        pesan += `${item.nama} x ${item.jumlah} = Rp${(item.harga * item.jumlah).toLocaleString()}%0A`;
         total += item.harga * item.jumlah;
       });
       pesan += `Total: Rp${total.toLocaleString()}%0A${pickup}%0APembayaran: ${payment}`;
       if (payment === 'QRIS') {
         document.getElementById('qrisImage').style.display = 'block';
       }
-      window.open(`https://wa.me/089664363463?text=${encodeURIComponent(pesan)}`);
+      window.open(`https://wa.me/6289664363463?text=${encodeURIComponent(pesan)}`);
     }
 
-    function showToast(message) {
-      const toast = document.createElement('div');
-      toast.classList.add('toast');
-      toast.innerText = message;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.classList.add('show'), 100);
-      setTimeout(() => toast.remove(), 3000);
+    function moveSlider(direction) {
+      sliderIndex += direction;
+      const slides = document.querySelectorAll('.slider-images img');
+      if (sliderIndex < 0) sliderIndex = slides.length - 1;
+      if (sliderIndex >= slides.length) sliderIndex = 0;
+      document.querySelector('.slider-images').style.transform = `translateX(-${sliderIndex * 100}%)`;
     }
 
     setTimeout(() => document.getElementById('splashScreen').style.opacity = 0, 4000);
