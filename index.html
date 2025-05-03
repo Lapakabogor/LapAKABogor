@@ -25,24 +25,6 @@
       transition: background-color 0.3s, color 0.3s;
     }
 
-    #splashScreen {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      opacity: 1;
-      transition: opacity 1s ease;
-      animation: fadeIn 2s ease-out, fadeOut 1s 3s forwards;
-      flex-direction: column;
-    }
-
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; display: none; } }
-
     header {
       padding: 10px 20px;
       background: var(--green);
@@ -55,38 +37,6 @@
       font-size: 2em;
     }
 
-    #carouselContainer {
-      width: 100%;
-      overflow: hidden;
-      position: relative;
-      margin: 10px 0;
-    }
-
-    .carousel {
-      display: flex;
-      width: 400%;
-      animation: slide 20s infinite;
-    }
-
-    .carousel-item {
-      min-width: 100%;
-      text-align: center;
-    }
-
-    .carousel-item img {
-      width: 100%;
-      max-height: 400px;
-      object-fit: cover;
-    }
-
-    @keyframes slide {
-      0%, 20% { transform: translateX(0); }
-      25%, 45% { transform: translateX(-100%); }
-      50%, 70% { transform: translateX(-200%); }
-      75%, 95% { transform: translateX(-300%); }
-      100% { transform: translateX(0); }
-    }
-
     #searchBar {
       width: 90%;
       padding: 10px;
@@ -95,6 +45,11 @@
       border-radius: 5px;
       border: 1px solid #ccc;
       font-size: 16px;
+    }
+
+    #categoryFilter {
+      text-align: center;
+      margin: 10px 0;
     }
 
     .category-btn {
@@ -160,6 +115,14 @@
     #cartSection {
       padding: 20px;
       background: #f9f9f9;
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: 300px;
+      box-shadow: 0px 2px 10px rgba(0,0,0,0.3);
+      border-radius: 8px;
+      display: none;
+      z-index: 9999;
     }
 
     #cartItems ul {
@@ -167,17 +130,31 @@
       list-style: none;
     }
 
-    input[type="text"] {
-      width: 90%;
-      padding: 10px;
-      margin: 10px auto;
-      display: block;
-      border-radius: 5px;
-      border: 1px solid #ccc;
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
     }
 
-    button {
+    .cart-item button {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
       cursor: pointer;
+    }
+
+    .cart-item input {
+      width: 40px;
+      text-align: center;
+    }
+
+    #qrisImage {
+      display: none;
+      width: 100%;
+      margin-top: 10px;
     }
 
     .toast {
@@ -195,44 +172,12 @@
 
     .toast.show { opacity: 1; }
 
-    .product-item img[src=""] {
-      content: url('https://via.placeholder.com/240x180.png?text=Produk');
-    }
-
-    /* Menambahkan responsif untuk gambar splash screen */
-    #splashScreen img {
-      max-width: 100%;
-      height: auto;
-      margin-bottom: 15px;
-    }
-
-    /* Menambahkan responsif untuk gambar carousel */
-    .carousel-item img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-    }
-
   </style>
 </head>
 <body>
-  <div id="splashScreen">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/9cc0c2cc6fd16fa96d773a42368381bd8c01d72c/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="LapAKABogor Logo">
-    <h2>Selamat Datang di LapAKABogor</h2>
-  </div>
-
   <header>
     <h1>LapAKABogor</h1>
   </header>
-
-  <div id="carouselContainer">
-    <div class="carousel">
-      <div class="carousel-item"><img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%201.jpg" alt="Iklan 1"></div>
-      <div class="carousel-item"><img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%202.jpg" alt="Iklan 2"></div>
-      <div class="carousel-item"><img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%203.jpg" alt="Iklan 3"></div>
-      <div class="carousel-item"><img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%204.jpg" alt="Iklan 4"></div>
-    </div>
-  </div>
 
   <input type="text" id="searchBar" placeholder="Cari produk...">
 
@@ -249,15 +194,19 @@
     <i class="fas fa-shopping-cart"></i> <span id="cartCount">0</span>
   </div>
 
-  <div id="cartSection" style="display:none">
+  <div id="cartSection">
     <h2>Keranjang</h2>
     <div id="cartItems"></div>
+    <p>Total: Rp<span id="totalHarga">0</span></p>
     <label><input type="radio" name="pickup" value="Ambil Sendiri" checked> Ambil Sendiri</label>
     <label><input type="radio" name="pickup" value="Diantar"> Diantar (+Rp1000/item)</label>
     <br><br>
     <label><input type="radio" name="payment" value="QRIS" checked> Bayar via QRIS</label>
     <label><input type="radio" name="payment" value="Cash"> Bayar Tunai</label>
     <br><br>
+    <div id="qrisImage">
+      <img src="https://via.placeholder.com/150x150.png?text=QRIS" alt="QRIS" />
+    </div>
     <button onclick="checkoutWA()">Checkout via WhatsApp</button>
   </div>
 
@@ -286,23 +235,51 @@
     }
 
     function tambahKeKeranjang(index) {
-      keranjang.push(produk[index]);
+      let produkTersedia = keranjang.find(item => item.nama === produk[index].nama);
+      if (produkTersedia) {
+        produkTersedia.jumlah++;
+      } else {
+        keranjang.push({ ...produk[index], jumlah: 1 });
+      }
       document.getElementById('cartCount').innerText = keranjang.length;
       showToast(`${produk[index].nama} telah ditambahkan ke keranjang`);
+      tampilkanKeranjang();
+    }
+
+    function kurangiJumlah(index) {
+      if (keranjang[index].jumlah > 1) {
+        keranjang[index].jumlah--;
+      } else {
+        keranjang.splice(index, 1);
+      }
+      tampilkanKeranjang();
+    }
+
+    function tambahJumlah(index) {
+      keranjang[index].jumlah++;
+      tampilkanKeranjang();
     }
 
     function toggleCart() {
       const cartSection = document.getElementById('cartSection');
       cartSection.style.display = cartSection.style.display === 'none' ? 'block' : 'none';
-      tampilkanKeranjang();
     }
 
     function tampilkanKeranjang() {
       const container = document.getElementById('cartItems');
       container.innerHTML = '';
+      let total = 0;
       keranjang.forEach((item, index) => {
-        container.innerHTML += `<ul><li>${item.nama} - Rp${item.harga.toLocaleString()}</li></ul>`;
+        total += item.harga * item.jumlah;
+        container.innerHTML += `
+          <div class="cart-item">
+            <span>${item.nama} x ${item.jumlah} - Rp${(item.harga * item.jumlah).toLocaleString()}</span>
+            <button onclick="kurangiJumlah(${index})">-</button>
+            <button onclick="tambahJumlah(${index})">+</button>
+          </div>
+        `;
       });
+      document.getElementById('totalHarga').innerText = total.toLocaleString();
     }
 
     function checkoutWA() {
@@ -311,22 +288,23 @@
       let pesan = "Pesanan: %0A";
       let total = 0;
       keranjang.forEach(item => {
-        pesan += `${item.nama} - Rp${item.harga.toLocaleString()}%0A`;
-        total += item.harga;
+        pesan += `${item.nama} x ${item.jumlah} - Rp${(item.harga * item.jumlah).toLocaleString()}%0A`;
+        total += item.harga * item.jumlah;
       });
       pesan += `Total: Rp${total.toLocaleString()}%0AMetode Ambil: ${pickup}%0AMetode Pembayaran: ${payment}`;
+      if (payment === 'QRIS') {
+        document.getElementById('qrisImage').style.display = 'block';
+      }
       window.open(`https://wa.me/089664363463?text=${encodeURIComponent(pesan)}`);
     }
 
-    function filterCategory(kategori) {
-      const produkItems = document.querySelectorAll('.product-item');
-      produkItems.forEach(item => {
-        if (kategori === 'Semua' || item.dataset.kategori === kategori) {
-          item.style.display = 'block';
-        } else {
-          item.style.display = 'none';
-        }
-      });
+    function showToast(message) {
+      const toast = document.createElement('div');
+      toast.classList.add('toast');
+      toast.innerText = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.classList.add('show'), 100);
+      setTimeout(() => toast.remove(), 3000);
     }
 
     setTimeout(() => document.getElementById('splashScreen').style.opacity = 0, 4000);
