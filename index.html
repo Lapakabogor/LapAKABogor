@@ -25,6 +25,29 @@
       transition: background-color 0.3s, color 0.3s;
     }
 
+    /* Splash Screen */
+    #splashScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7) url('https://via.placeholder.com/600x400.png?text=LapAKABogor') center no-repeat;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 1;
+      transition: opacity 1s ease;
+    }
+
+    #splashScreen h1 {
+      color: #fff;
+      font-size: 3em;
+    }
+
+    /* Header */
     header {
       padding: 10px 20px;
       background: var(--green);
@@ -175,6 +198,10 @@
   </style>
 </head>
 <body>
+  <div id="splashScreen">
+    <h1>LapAKABogor</h1>
+  </div>
+
   <header>
     <h1>LapAKABogor</h1>
   </header>
@@ -291,7 +318,7 @@
         pesan += `${item.nama} x ${item.jumlah} - Rp${(item.harga * item.jumlah).toLocaleString()}%0A`;
         total += item.harga * item.jumlah;
       });
-      pesan += `Total: Rp${total.toLocaleString()}%0AMetode Ambil: ${pickup}%0AMetode Pembayaran: ${payment}`;
+      pesan += `Total: Rp${total.toLocaleString()}%0A${pickup}%0APembayaran: ${payment}`;
       if (payment === 'QRIS') {
         document.getElementById('qrisImage').style.display = 'block';
       }
