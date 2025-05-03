@@ -43,7 +43,6 @@
       text-align: center;
     }
 
-    /* Carousel */
     #carouselContainer {
       width: 100%;
       overflow: hidden;
@@ -165,22 +164,6 @@
       border: 2px solid #ccc;
       border-radius: 8px;
     }
-
-    .product-rating {
-      display: flex;
-      justify-content: center;
-      margin-top: 10px;
-    }
-
-    .star {
-      cursor: pointer;
-      font-size: 20px;
-      color: #f39c12;
-    }
-
-    .star.selected {
-      color: #f1c40f;
-    }
   </style>
 </head>
 <body>
@@ -190,8 +173,6 @@
 
   <header>
     <h1>LapAKABogor</h1>
-    
-    <!-- Carousel Iklan -->
     <div id="carouselContainer">
       <div class="carousel">
         <div class="carousel-item"><img src="https://via.placeholder.com/1200x400?text=Iklan+1" alt="Iklan 1"></div>
@@ -199,7 +180,6 @@
         <div class="carousel-item"><img src="https://via.placeholder.com/1200x400?text=Iklan+3" alt="Iklan 3"></div>
       </div>
     </div>
-
     <input type="text" id="searchBar" placeholder="Cari produk..." oninput="searchProducts()">
     <div>
       <button class="category-btn" onclick="filterCategory('semua')">Semua</button>
@@ -221,17 +201,15 @@
   <section id="orderSection">
     <h2>Checkout</h2>
     <input type="text" id="buyerName" placeholder="Nama Pembeli"><br>
-    <input type="text" id="buyerPhone" placeholder="Nomor WhatsApp (62...)"><br>
+    <input type="text" id="buyerPhone" placeholder="Nomor WhatsApp (62...)" value="6289664363463"><br>
     <label><input type="radio" name="pickupMethod" value="Ambil Sendiri"> Ambil Sendiri</label><br>
     <label><input type="radio" name="pickupMethod" value="Diantar"> Diantar (Rp1000/item)</label><br><br>
     <label><input type="radio" name="paymentMethod" value="QRIS" onclick="toggleQRIS(true)"> Bayar via QRIS</label><br>
     <label><input type="radio" name="paymentMethod" value="Cash" onclick="toggleQRIS(false)"> Bayar Cash</label><br><br>
-
     <div id="qrisContainer">
       <p>Silakan scan QRIS berikut:</p>
       <img src="https://via.placeholder.com/250" alt="QRIS Payment">
     </div>
-
     <br><button onclick="sendOrderToWhatsApp()">Kirim Pesanan via WhatsApp</button>
   </section>
 
@@ -254,6 +232,41 @@
 
     function showToast() {
       const toast = document.getElementById("toast");
-      toast.classList
-::contentReference[oaicite:29]{index=29}
- 
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3000);
+    }
+
+    function sendOrderToWhatsApp() {
+      const name = document.getElementById("buyerName").value;
+      const phone = document.getElementById("buyerPhone").value;
+      const pickupMethod = document.querySelector('input[name="pickupMethod"]:checked')?.value || "";
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || "";
+
+      if (!name || !phone || cart.length === 0) {
+        alert("Lengkapi data dan tambahkan produk ke keranjang.");
+        return;
+      }
+
+      let message = `Halo, saya *${name}* ingin memesan produk berikut:%0A`;
+      let total = 0;
+
+      cart.forEach(item => {
+        message += `- ${item.name} x ${item.qty} = Rp${item.price * item.qty}%0A`;
+        total += item.price * item.qty;
+      });
+
+      if (pickupMethod === "Diantar") {
+        const biayaAntar = 1000 * cart.reduce((a, b) => a + b.qty, 0);
+        total += biayaAntar;
+        message += `Biaya antar: Rp${biayaAntar}%0A`;
+      }
+
+      message += `Total: *Rp${total}*%0A`; 
+      message += `Metode Ambil: ${pickupMethod}%0AMetode Bayar: ${paymentMethod}%0ATerima kasih.`;
+
+      const url = `https://wa.me/${phone}?text=${message}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
