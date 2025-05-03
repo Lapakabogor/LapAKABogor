@@ -198,11 +198,26 @@
     .product-item img[src=""] {
       content: url('https://via.placeholder.com/240x180.png?text=Produk');
     }
+
+    /* Menambahkan responsif untuk gambar splash screen */
+    #splashScreen img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 15px;
+    }
+
+    /* Menambahkan responsif untuk gambar carousel */
+    .carousel-item img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+
   </style>
 </head>
 <body>
   <div id="splashScreen">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/9cc0c2cc6fd16fa96d773a42368381bd8c01d72c/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="LapAKABogor Logo" style="max-width: 200px; margin-bottom: 15px;">
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/9cc0c2cc6fd16fa96d773a42368381bd8c01d72c/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="LapAKABogor Logo">
     <h2>Selamat Datang di LapAKABogor</h2>
   </div>
 
@@ -256,41 +271,47 @@
     let keranjang = [];
 
     function tampilkanProduk() {
-      const list = document.getElementById('productList');
-      list.innerHTML = '';
-      produk.forEach((p, i) => {
-        const item = document.createElement('div');
-        item.className = 'product-item';
-        item.dataset.kategori = p.kategori;
-        item.innerHTML = `<img src="${p.gambar}"><h3>${p.nama}</h3><p>Rp${p.harga.toLocaleString()}</p><button onclick="tambahKeranjang(${i})">+ Keranjang</button>`;
-        list.appendChild(item);
+      const listProduk = document.getElementById('productList');
+      listProduk.innerHTML = '';
+      produk.forEach((item, index) => {
+        listProduk.innerHTML += `
+          <div class="product-item" data-kategori="${item.kategori}">
+            <img src="${item.gambar}" alt="${item.nama}">
+            <h3>${item.nama}</h3>
+            <p>Rp${item.harga.toLocaleString()}</p>
+            <button onclick="tambahKeKeranjang(${index})">Tambah ke Keranjang</button>
+          </div>
+        `;
       });
     }
 
-    function tambahKeranjang(index) {
+    function tambahKeKeranjang(index) {
       keranjang.push(produk[index]);
       document.getElementById('cartCount').innerText = keranjang.length;
-      alert("Ditambahkan ke keranjang!");
+      showToast(`${produk[index].nama} telah ditambahkan ke keranjang`);
     }
 
     function toggleCart() {
-      const cart = document.getElementById('cartSection');
-      cart.style.display = cart.style.display === 'none' ? 'block' : 'none';
+      const cartSection = document.getElementById('cartSection');
+      cartSection.style.display = cartSection.style.display === 'none' ? 'block' : 'none';
       tampilkanKeranjang();
     }
 
     function tampilkanKeranjang() {
       const container = document.getElementById('cartItems');
-      container.innerHTML = '<ul>' + keranjang.map(item => `<li>${item.nama} - Rp${item.harga.toLocaleString()}</li>`).join('') + '</ul>';
+      container.innerHTML = '';
+      keranjang.forEach((item, index) => {
+        container.innerHTML += `<ul><li>${item.nama} - Rp${item.harga.toLocaleString()}</li></ul>`;
+      });
     }
 
     function checkoutWA() {
       const pickup = document.querySelector('input[name="pickup"]:checked').value;
       const payment = document.querySelector('input[name="payment"]:checked').value;
-      let pesan = "Halo, saya ingin memesan:%0A";
+      let pesan = "Pesanan: %0A";
       let total = 0;
       keranjang.forEach(item => {
-        pesan += `- ${item.nama} (Rp${item.harga.toLocaleString()})%0A`;
+        pesan += `${item.nama} - Rp${item.harga.toLocaleString()}%0A`;
         total += item.harga;
       });
       pesan += `Total: Rp${total.toLocaleString()}%0AMetode Ambil: ${pickup}%0AMetode Pembayaran: ${payment}`;
@@ -308,7 +329,6 @@
       });
     }
 
-    // Memulai aplikasi
     setTimeout(() => document.getElementById('splashScreen').style.opacity = 0, 4000);
     setTimeout(() => document.getElementById('splashScreen').style.display = 'none', 5000);
 
