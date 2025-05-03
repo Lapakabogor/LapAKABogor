@@ -37,6 +37,7 @@
       opacity: 1;
       transition: opacity 1s ease;
       animation: fadeIn 2s ease-out, fadeOut 1s 3s forwards;
+      flex-direction: column;
     }
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -201,6 +202,7 @@
 </head>
 <body>
   <div id="splashScreen">
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/9cc0c2cc6fd16fa96d773a42368381bd8c01d72c/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="LapAKABogor Logo" style="max-width: 200px; margin-bottom: 15px;">
     <h2>Selamat Datang di LapAKABogor</h2>
   </div>
 
@@ -291,29 +293,26 @@
         pesan += `- ${item.nama} (Rp${item.harga.toLocaleString()})%0A`;
         total += item.harga;
       });
-      if (pickup === "Diantar") total += keranjang.length * 1000;
-      pesan += `%0ATotal: Rp${total.toLocaleString()}`;
-      pesan += `%0APengambilan: ${pickup}`;
-      pesan += `%0APembayaran: ${payment}`;
-      window.open(`https://wa.me/6289664363463?text=${pesan}`);
+      pesan += `Total: Rp${total.toLocaleString()}%0AMetode Ambil: ${pickup}%0AMetode Pembayaran: ${payment}`;
+      window.open(`https://wa.me/089664363463?text=${encodeURIComponent(pesan)}`);
     }
 
-    function filterCategory(kat) {
-      const items = document.querySelectorAll('.product-item');
-      items.forEach(item => {
-        item.style.display = kat === 'Semua' || item.dataset.kategori === kat ? 'block' : 'none';
+    function filterCategory(kategori) {
+      const produkItems = document.querySelectorAll('.product-item');
+      produkItems.forEach(item => {
+        if (kategori === 'Semua' || item.dataset.kategori === kategori) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
       });
     }
 
-    document.getElementById('searchBar').addEventListener('input', function() {
-      const keyword = this.value.toLowerCase();
-      document.querySelectorAll('.product-item').forEach(item => {
-        const nama = item.querySelector('h3').innerText.toLowerCase();
-        item.style.display = nama.includes(keyword) ? 'block' : 'none';
-      });
-    });
+    // Memulai aplikasi
+    setTimeout(() => document.getElementById('splashScreen').style.opacity = 0, 4000);
+    setTimeout(() => document.getElementById('splashScreen').style.display = 'none', 5000);
 
-    window.onload = tampilkanProduk;
+    tampilkanProduk();
   </script>
 </body>
 </html>
