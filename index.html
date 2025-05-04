@@ -1,274 +1,541 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LapAKABogor Marketplace</title>
-  <style>
-    /* Warna tema utama */
-    :root {
-      --merah: #e74c3c;
-      --biru: #3498db;
-      --hijau: #2ecc71;
-      --jingga: #f39c12;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LapAKABogor - Marketplace Politeknik AKA Bogor</title>
+<style>
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
+    color: #333;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+  }
 
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f9f9f9;
-    }
+  /* Colors */
+  :root {
+    --jingga: #f97316; /* orange */
+    --biru: #2563eb; /* blue */
+    --merah: #dc2626; /* red */
+    --hijau: #16a34a; /* green */
+    --gray-light: #f3f4f6;
+    --gray-dark: #4b5563;
+  }
 
-    /* Splash Screen */
-    #splash {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
+  /* Header */
+  header {
+    background: var(--jingga);
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header .logo {
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+  }
+  header .logo span {
+    color: var(--biru);
+  }
+  header .search-bar {
+    flex-grow: 1;
+    margin: 0 1rem;
+    position: relative;
+  }
+  header .search-bar input {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+    border-radius: 9999px;
+    border: none;
+    font-size: 1rem;
+  }
+  header .search-bar button {
+    position: absolute;
+    right: 0.3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--biru);
+    color: white;
+    padding: 0.4rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  header .icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  header .icon-btn {
+    background: none;
+    color: white;
+    font-size: 1.5rem;
+    position: relative;
+  }
+  header .icon-btn .cart-count {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: var(--merah);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 9999px;
+  }
 
-    #splash img {
-      width: 200px;
-      height: auto;
-    }
+  /* Main Layout */
+  main {
+    padding: 1rem;
+    max-width: 1200px;
+    margin: auto;
+  }
 
-    #splash h1 {
-      margin-bottom: 20px;
-      font-size: 20px;
-      color: var(--biru);
-    }
+  /* Catalog Grid */
+  .catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
+    gap: 1rem;
+  }
+  .product-card {
+    border: 1px solid var(--gray-light);
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
+    transition: box-shadow 0.2s ease;
+  }
+  .product-card:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.15);
+  }
+  .product-image {
+    width: 100%;
+    padding-top: 100%; /* Square aspect ratio */
+    background-position: center;
+    background-size: cover;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+  .product-info {
+    padding: 0.5rem 0.75rem 0.75rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .product-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--gray-dark);
+    margin: 0 0 0.25rem;
+    height: 2.5em; /* limit lines */
+    overflow: hidden;
+  }
+  .product-price {
+    color: var(--merah);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+  .add-cart-btn {
+    background: var(--hijau);
+    color: white;
+    border-radius: 9999px;
+    padding: 0.4rem 0;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+  }
+  .add-cart-btn:hover {
+    background: #138c35;
+  }
 
+  /* Cart Modal */
+  #cartModal {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 320px;
+    max-width: 100vw;
+    height: 100vh;
+    background: white;
+    box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+    transition: right 0.3s ease;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+  }
+  #cartModal.open {
+    right: 0;
+  }
+  #cartModal header {
+    background: var(--biru);
+    color: white;
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #cartModal header button.close-cart {
+    background: none;
+    color: white;
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
+  }
+  #cartContent {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+  .cart-item {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+  .cart-item-image {
+    width: 60px;
+    height: 60px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 0.25rem;
+    flex-shrink: 0;
+  }
+  .cart-item-info {
+    flex-grow: 1;
+    font-size: 0.9rem;
+  }
+  .cart-item-name {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .cart-item-qty button {
+    background: var(--biru);
+    color: white;
+    width: 22px;
+    height: 22px;
+    font-weight: 700;
+    border-radius: 4px;
+    line-height: 1;
+    padding: 0;
+  }
+  .cart-item-qty span {
+    min-width: 20px;
+    text-align: center;
+    display: inline-block;
+  }
+  .cart-item-price {
+    font-weight: 700;
+    color: var(--merah);
+    min-width: 60px;
+    text-align: right;
+  }
+
+  #cartFooter {
+    padding: 1rem;
+    border-top: 1px solid var(--gray-light);
+  }
+  #cartFooter .total {
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+    color: var(--merah);
+  }
+  #cartFooter button.checkout-btn {
+    width: 100%;
+    background: var(--jingga);
+    color: white;
+    font-weight: 700;
+    padding: 0.75rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+  }
+  #cartFooter button.checkout-btn:hover {
+    background: #db6e17;
+  }
+
+  /* Responsive & Mobile friendly adjustments */
+  @media (max-width: 600px) {
     header {
-      background: linear-gradient(to right, var(--jingga), var(--merah), var(--biru), var(--hijau));
-      color: white;
-      padding: 15px;
-      text-align: center;
+      padding: 0.5rem 0.75rem;
     }
-
-    header img {
-      height: 40px;
-      vertical-align: middle;
+    main {
+      padding: 0.75rem;
     }
-
-    header h2 {
-      margin: 0;
-      font-size: 24px;
+    #cartModal {
+      width: 100vw;
+      max-width: none;
     }
-
-    /* Image Slider */
-    .slider {
-      width: 100%;
-      overflow: hidden;
+    .product-card {
+      font-size: 14px;
     }
-
-    .slides {
-      display: flex;
-      width: 400%;
-      animation: slide 10s infinite;
+    .product-info {
+      padding: 0.5rem 0.5rem 0.75rem;
     }
-
-    .slides img {
-      width: 100%;
-      height: auto;
-    }
-
-    @keyframes slide {
-      0% {margin-left: 0%;}
-      25% {margin-left: -100%;}
-      50% {margin-left: -200%;}
-      75% {margin-left: -300%;}
-      100% {margin-left: 0%;}
-    }
-
-    .produk, .keranjang {
-      padding: 15px;
-    }
-
-    .produk-item {
-      border: 1px solid #ddd;
-      margin-bottom: 10px;
-      padding: 10px;
-      background: white;
-    }
-
-    .produk-item button {
-      background: var(--jingga);
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-
-    .keranjang-total {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
-    .qris-img {
-      display: none;
-      margin-top: 10px;
-    }
-
-    #alamat-antar {
-      display: none;
-      margin-top: 10px;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <!-- Splash Screen -->
-  <div id="splash">
-    <h1>Selamat datang di</h1>
-    <img src="./WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor">
+<header>
+  <div class="logo">Lap<span>AKA</span>Bogor</div>
+  <form class="search-bar" onsubmit="event.preventDefault(); performSearch();">
+    <input type="search" id="searchInput" placeholder="Cari produk, UKM, atau kategori..." aria-label="Cari produk" />
+    <button type="submit" aria-label="Cari">Cari</button>
+  </form>
+  <div class="icons">
+    <button class="icon-btn" id="cartBtn" aria-label="Keranjang Belanja (0)">
+      🛒<span class="cart-count" id="cartCount" style="display:none;">0</span>
+    </button>
   </div>
+</header>
 
-  <!-- Header -->
+<main>
+  <section class="catalog" id="catalog">
+    <!-- Product cards inserted by JavaScript -->
+  </section>
+</main>
+
+<!-- Cart Modal -->
+<aside id="cartModal" aria-label="Keranjang Belanja">
   <header>
-    <img src="./WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo">
-    <h2>LapAKABogor - Selamat Berbelanja!</h2>
+    Keranjang Anda
+    <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
   </header>
-
-  <!-- Slider Iklan -->
-  <div class="slider">
-    <div class="slides">
-      <img src="./iklan%201.jpg" alt="iklan1">
-      <img src="./iklan%202.jpg" alt="iklan2">
-      <img src="./iklan%203.jpg" alt="iklan3">
-      <img src="./iklan%204.jpg" alt="iklan4">
-    </div>
+  <div id="cartContent">
+    <p style="text-align:center;color:#666;">Keranjang kosong.</p>
   </div>
+  <footer id="cartFooter" style="display:none;">
+    <div class="total">Total: Rp <span id="cartTotal">0</span></div>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+  </footer>
+</aside>
 
-  <!-- Produk Section -->
-  <div class="produk">
-    <input type="text" id="search" placeholder="Cari produk...">
-    <select id="kategori">
-      <option value="semua">Semua Kategori</option>
-      <option value="berat">Makanan Berat</option>
-      <option value="ringan">Makanan Ringan</option>
-      <option value="minuman">Minuman</option>
-      <option value="inovasi">Produk Inovasi</option>
-      <option value="kimia">Alat dan Bahan Kimia</option>
-      <option value="lain">Lain-lain</option>
-    </select>
-    <div id="produk-list"></div>
-  </div>
+<script>
+  // Sample product data for catalog
+  const products = [
+    {
+      id: 'p1',
+      name: 'Kerajinan Tangan Anyaman Lokal',
+      price: 55000,
+      img: 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p2',
+      name: 'Pakaian Batik Modern',
+      price: 120000,
+      img: 'https://images.pexels.com/photos/3764477/pexels-photo-3764477.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p3',
+      name: 'Aksesori Kulit Mahasiswa',
+      price: 75000,
+      img: 'https://images.pexels.com/photos/168009/pexels-photo-168009.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p4',
+      name: 'Makanan Ringan Khas Bogor',
+      price: 30000,
+      img: 'https://images.pexels.com/photos/2553658/pexels-photo-2553658.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p5',
+      name: 'Tas Ransel Kulit Sintetis',
+      price: 200000,
+      img: 'https://images.pexels.com/photos/267202/pexels-photo-267202.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p6',
+      name: 'Jaket Hoodie Unik',
+      price: 135000,
+      img: 'https://images.pexels.com/photos/2540696/pexels-photo-2540696.jpeg?auto=compress&cs=tinysrgb&w=300',
+    }
+  ];
 
-  <!-- Keranjang -->
-  <div class="keranjang">
-    <h3>Keranjang Belanja</h3>
-    <div id="keranjang-list"></div>
-    <div class="keranjang-total">Total: <span id="total-harga">Rp 0</span></div>
-    <label><input type="radio" name="pembayaran" value="cash"> Cash</label>
-    <label><input type="radio" name="pembayaran" value="qris"> QRIS</label>
-    <img src="./qris.jpg" alt="QRIS" class="qris-img" id="qris-image" width="200">
-    <br>
-    <label><input type="radio" name="pengiriman" value="ambil" checked> Ambil Sendiri</label>
-    <label><input type="radio" name="pengiriman" value="antar"> Diantar (Rp500/item)</label>
-    <select id="alamat-antar">
-      <option value="Gedung A">Gedung A</option>
-      <option value="Gedung B">Gedung B</option>
-      <option value="Gedung C">Gedung C</option>
-      <option value="Gedung D">Gedung D</option>
-      <option value="Gedung E">Gedung E</option>
-      <option value="Gedung F">Gedung F</option>
-      <option value="Gedung G">Gedung G</option>
-      <option value="Satpam">Post Satpam</option>
-    </select>
-    <br>
-    <button onclick="checkoutWhatsApp()">Checkout via WhatsApp</button>
-  </div>
+  const catalogEl = document.getElementById('catalog');
+  const cartBtn = document.getElementById('cartBtn');
+  const cartModal = document.getElementById('cartModal');
+  const closeCartBtn = document.getElementById('closeCartBtn');
+  const cartCountEl = document.getElementById('cartCount');
+  const cartContent = document.getElementById('cartContent');
+  const cartFooter = document.getElementById('cartFooter');
+  const cartTotalEl = document.getElementById('cartTotal');
+  let cart = {};
 
-  <script>
-    // Splash screen delay
-    window.onload = function() {
-      setTimeout(() => {
-        document.getElementById('splash').style.display = 'none';
-      }, 3000);
-    };
+  // Format number to Indonesian Rupiah string
+  function formatPrice(num) {
+    return num.toLocaleString('id-ID');
+  }
 
-    // Contoh produk
-    const produkData = [
-      { nama: 'Keripik Pedas', harga: 5000, kategori: 'ringan' },
-      { nama: 'Kopi Susu', harga: 7000, kategori: 'minuman' }
-    ];
+  // Render catalog products
+  function renderCatalog(productsToRender) {
+    catalogEl.innerHTML = '';
+    if(productsToRender.length === 0) {
+      catalogEl.innerHTML = '<p style="font-style:italic;color:#666;text-align:center;">Tidak ada produk ditemukan.</p>';
+      return;
+    }
+    productsToRender.forEach(product => {
+      const card = document.createElement('article');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <div class="product-image" style="background-image:url('${product.img}');" aria-label="Gambar produk ${product.name}"></div>
+        <div class="product-info">
+          <h3 class="product-name">${product.name}</h3>
+          <div class="product-price">Rp ${formatPrice(product.price)}</div>
+          <button class="add-cart-btn" aria-label="Tambah ${product.name} ke keranjang" onclick="addToCart('${product.id}')">Tambah ke Keranjang</button>
+        </div>
+      `;
+      catalogEl.appendChild(card);
+    });
+  }
 
-    const produkList = document.getElementById('produk-list');
-    const keranjang = [];
+  // Add product to cart
+  function addToCart(productId) {
+    if(cart[productId]) {
+      cart[productId].qty++;
+    } else {
+      const product = products.find(p => p.id === productId);
+      cart[productId] = {
+        ...product,
+        qty: 1
+      };
+    }
+    updateCartUI();
+    openCart();
+  }
 
-    function tampilkanProduk() {
-      produkList.innerHTML = '';
-      const filter = document.getElementById('kategori').value;
-      const keyword = document.getElementById('search').value.toLowerCase();
+  // Remove product from cart
+  function removeFromCart(productId) {
+    delete cart[productId];
+    updateCartUI();
+  }
 
-      produkData.forEach((p, index) => {
-        if ((filter === 'semua' || p.kategori === filter) && p.nama.toLowerCase().includes(keyword)) {
-          const div = document.createElement('div');
-          div.className = 'produk-item';
-          div.innerHTML = `${p.nama} - Rp ${p.harga}<br><button onclick="tambahKeKeranjang(${index})">Tambah</button>`;
-          produkList.appendChild(div);
-        }
-      });
+  // Change quantity in cart
+  function changeQty(productId, delta) {
+    if(!cart[productId]) return;
+    cart[productId].qty += delta;
+    if(cart[productId].qty <= 0) {
+      removeFromCart(productId);
+    } else {
+      updateCartUI();
+    }
+  }
+
+  // Update cart count and cart UI
+  function updateCartUI() {
+    const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+    if(totalItems > 0) {
+      cartCountEl.style.display = 'inline-block';
+      cartCountEl.textContent = totalItems;
+    } else {
+      cartCountEl.style.display = 'none';
     }
 
-    function tambahKeKeranjang(i) {
-      const produk = produkData[i];
-      const item = keranjang.find(k => k.nama === produk.nama);
-      if (item) item.jumlah++;
-      else keranjang.push({...produk, jumlah: 1});
-      renderKeranjang();
+    if(totalItems === 0) {
+      cartContent.innerHTML = '<p style="text-align:center;color:#666;">Keranjang kosong.</p>';
+      cartFooter.style.display = 'none';
+    } else {
+      cartFooter.style.display = 'block';
+      renderCartItems();
     }
+  }
 
-    function renderKeranjang() {
-      const list = document.getElementById('keranjang-list');
-      list.innerHTML = '';
-      let total = 0;
-      keranjang.forEach((item, i) => {
-        const biayaAntar = document.querySelector('input[name=pengiriman]:checked').value === 'antar' ? 500 * item.jumlah : 0;
-        total += item.harga * item.jumlah + biayaAntar;
-        list.innerHTML += `${item.nama} x <button onclick="ubahJumlah(${i}, -1)">-</button> ${item.jumlah} <button onclick="ubahJumlah(${i}, 1)">+</button><br>`;
-      });
-      document.getElementById('total-harga').textContent = `Rp ${total}`;
+  // Render cart items
+  function renderCartItems() {
+    cartContent.innerHTML = '';
+    let totalPrice = 0;
+    for(const key in cart) {
+      const item = cart[key];
+      totalPrice += item.price * item.qty;
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-qty" aria-label="Jumlah produk">
+            <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
+            <span>${item.qty}</span>
+            <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
+          </div>
+        </div>
+        <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
+      `;
+      cartContent.appendChild(div);
     }
+    cartTotalEl.textContent = formatPrice(totalPrice);
+  }
 
-    function ubahJumlah(i, delta) {
-      keranjang[i].jumlah += delta;
-      if (keranjang[i].jumlah <= 0) keranjang.splice(i, 1);
-      renderKeranjang();
+  // Open cart modal
+  function openCart() {
+    cartModal.classList.add('open');
+  }
+
+  // Close cart modal
+  function closeCart() {
+    cartModal.classList.remove('open');
+  }
+
+  cartBtn.addEventListener('click', () => {
+    if (cartModal.classList.contains('open')) {
+      closeCart();
+    } else {
+      openCart();
     }
+  });
+  closeCartBtn.addEventListener('click', closeCart);
 
-    function checkoutWhatsApp() {
-      let teks = 'Halo, saya ingin memesan:\n';
-      keranjang.forEach(item => {
-        teks += `- ${item.nama} x ${item.jumlah}\n`;
-      });
-      const metode = document.querySelector('input[name=pembayaran]:checked')?.value || 'Belum pilih';
-      const pengiriman = document.querySelector('input[name=pengiriman]:checked')?.value || 'ambil';
-      const alamat = pengiriman === 'antar' ? document.getElementById('alamat-antar').value : 'Ambil Sendiri';
-      teks += `\nTotal: ${document.getElementById('total-harga').textContent}`;
-      teks += `\nPembayaran: ${metode}`;
-      teks += `\nPengiriman: ${pengiriman} - ${alamat}`;
-      window.open(`https://wa.me/6289664363463?text=${encodeURIComponent(teks)}`);
+  // Perform search (simple filter by product name)
+  function performSearch() {
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (query === '') {
+      renderCatalog(products);
+    } else {
+      const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+      renderCatalog(filtered);
     }
+  }
 
-    document.getElementById('kategori').addEventListener('change', tampilkanProduk);
-    document.getElementById('search').addEventListener('input', tampilkanProduk);
-    document.querySelectorAll('input[name=pengiriman]').forEach(r => r.addEventListener('change', () => {
-      document.getElementById('alamat-antar').style.display = r.value === 'antar' ? 'block' : 'none';
-      renderKeranjang();
-    }));
-    document.querySelectorAll('input[name=pembayaran]').forEach(r => r.addEventListener('change', () => {
-      document.getElementById('qris-image').style.display = r.value === 'qris' ? 'block' : 'none';
-    }));
+  // Placeholder for checkout
+  function checkout() {
+    if(Object.keys(cart).length === 0){
+      alert('Keranjang kosong.');
+      return;
+    }
+    alert('Terima kasih telah berbelanja di LapAKABogor! Fitur checkout belum tersedia.');
+  }
 
-    tampilkanProduk();
-  </script>
+  // Initialize page
+  renderCatalog(products);
+  updateCartUI();
+
+</script>
 </body>
 </html>
