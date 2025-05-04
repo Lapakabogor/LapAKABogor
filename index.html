@@ -1,345 +1,542 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LapAKABogor</title>
-  <link rel="icon" href="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <style>
-    :root {
-      --red: #f44336;
-      --blue: #2196F3;
-      --green: #4CAF50;
-      --orange: #ff9800;
-      --bg-light: #ffffff;
-      --text-light: #000000;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LapAKABogor - Marketplace Politeknik AKA Bogor</title>
+<style>
+  /* Reset and base */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #fff;
+    color: #333;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+  button {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
+  }
 
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: var(--bg-light);
-      color: var(--text-light);
-      margin: 0;
-      padding: 0;
-      transition: background-color 0.3s, color 0.3s;
-    }
+  /* Colors */
+  :root {
+    --jingga: #f97316; /* orange */
+    --biru: #2563eb; /* blue */
+    --merah: #dc2626; /* red */
+    --hijau: #16a34a; /* green */
+    --gray-light: #f3f4f6;
+    --gray-dark: #4b5563;
+  }
 
-    /* Splash Screen */
-    #splashScreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.7) url('https://github.com/Lapakabogor/LapAKABogor/raw/27df65db65859ae75edec9f2b6a52ca8a385f1f8/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg') center no-repeat;
-      background-size: cover;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      opacity: 1;
-      transition: opacity 1s ease;
-    }
+  /* Header */
+  header {
+    background: var(--jingga);
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header .logo {
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+  }
+  header .logo span {
+    color: var(--biru);
+  }
+  header .search-bar {
+    flex-grow: 1;
+    margin: 0 1rem;
+    position: relative;
+  }
+  header .search-bar input {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+    border-radius: 9999px;
+    border: none;
+    font-size: 1rem;
+  }
+  header .search-bar button {
+    position: absolute;
+    right: 0.3rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--biru);
+    color: white;
+    padding: 0.4rem 0.75rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  header .icons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  header .icon-btn {
+    background: none;
+    color: white;
+    font-size: 1.5rem;
+    position: relative;
+  }
+  header .icon-btn .cart-count {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    background: var(--merah);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 9999px;
+  }
 
-    #splashScreen h1 {
-      color: #fff;
-      font-size: 3em;
-      text-align: center;
-    }
+  /* Main Layout */
+  main {
+    padding: 1rem;
+    max-width: 1200px;
+    margin: auto;
+  }
 
-    /* Header */
+  /* Catalog Grid */
+  .catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
+    gap: 1rem;
+  }
+  .product-card {
+    border: 1px solid var(--gray-light);
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
+    transition: box-shadow 0.2s ease;
+  }
+  .product-card:hover {
+    box-shadow: 0 4px 8px rgb(0 0 0 / 0.15);
+  }
+  .product-image {
+    width: 100%;
+    padding-top: 100%; /* Square aspect ratio */
+    background-position: center;
+    background-size: cover;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+  .product-info {
+    padding: 0.5rem 0.75rem 0.75rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .product-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--gray-dark);
+    margin: 0 0 0.25rem;
+    height: 2.5em; /* limit lines */
+    overflow: hidden;
+  }
+  .product-price {
+    color: var(--merah);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+  }
+  .add-cart-btn {
+    background: var(--hijau);
+    color: white;
+    border-radius: 9999px;
+    padding: 0.4rem 0;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+  }
+  .add-cart-btn:hover {
+    background: #138c35;
+  }
+
+  /* Cart Modal */
+  #cartModal {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 320px;
+    max-width: 100vw;
+    height: 100vh;
+    background: white;
+    box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+    transition: right 0.3s ease;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+  }
+  #cartModal.open {
+    right: 0;
+  }
+  #cartModal header {
+    background: var(--biru);
+    color: white;
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #cartModal header button.close-cart {
+    background: none;
+    color: white;
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
+  }
+  #cartContent {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+  }
+  .cart-item {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+  .cart-item-image {
+    width: 60px;
+    height: 60px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 0.25rem;
+    flex-shrink: 0;
+  }
+  .cart-item-info {
+    flex-grow: 1;
+    font-size: 0.9rem;
+  }
+  .cart-item-name {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .cart-item-qty button {
+    background: var(--biru);
+    color: white;
+    width: 22px;
+    height: 22px;
+    font-weight: 700;
+    border-radius: 4px;
+    line-height: 1;
+    padding: 0;
+  }
+  .cart-item-qty span {
+    min-width: 20px;
+    text-align: center;
+    display: inline-block;
+  }
+  .cart-item-price {
+    font-weight: 700;
+    color: var(--merah);
+    min-width: 60px;
+    text-align: right;
+  }
+
+  #cartFooter {
+    padding: 1rem;
+    border-top: 1px solid var(--gray-light);
+  }
+  #cartFooter .total {
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 0.75rem;
+    color: var(--merah);
+  }
+  #cartFooter button.checkout-btn {
+    width: 100%;
+    background: var(--jingga);
+    color: white;
+    font-weight: 700;
+    padding: 0.75rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+  }
+  #cartFooter button.checkout-btn:hover {
+    background: #db6e17;
+  }
+
+  /* Responsive & Mobile friendly adjustments */
+  @media (max-width: 600px) {
     header {
-      padding: 10px 20px;
-      background: var(--green);
-      text-align: center;
-      color: white;
+      padding: 0.5rem 0.75rem;
     }
-
-    header img {
-      max-width: 100px; /* Sesuaikan ukuran logo */
-      height: auto;
+    main {
+      padding: 0.75rem;
     }
-
-    header h1 {
-      margin: 10px 0 0; /* Menambahkan margin atas untuk jarak dari logo */
-      font-size: 1.5em; /* Ukuran font untuk tulisan di bawah logo */
+    #cartModal {
+      width: 100vw;
+      max-width: none;
     }
-
-    /* ... (kode CSS lainnya tetap sama) ... */
-
-  </style>
+    .product-card {
+      font-size: 14px;
+    }
+    .product-info {
+      padding: 0.5rem 0.5rem 0.75rem;
+    }
+  }
+</style>
 </head>
 <body>
-  <div id="splashScreen">
-    <h1>Selamat Datang di LapAKABogor</h1>
+<header>
+  <div class="logo">Lap<span>AKA</span>Bogor</div>
+  <form class="search-bar" onsubmit="event.preventDefault(); performSearch();">
+    <input type="search" id="searchInput" placeholder="Cari produk, UKM, atau kategori..." aria-label="Cari produk" />
+    <button type="submit" aria-label="Cari">Cari</button>
+  </form>
+  <div class="icons">
+    <button class="icon-btn" id="cartBtn" aria-label="Keranjang Belanja (0)">
+      🛒<span class="cart-count" id="cartCount" style="display:none;">0</span>
+    </button>
   </div>
+</header>
 
+<main>
+  <section class="catalog" id="catalog">
+    <!-- Product cards inserted by JavaScript -->
+  </section>
+</main>
+
+<!-- Cart Modal -->
+<aside id="cartModal" aria-label="Keranjang Belanja">
   <header>
-    <img src="https://github.com/Lapakabogor/LapAKABogor/raw/27df65db65859ae75edec9f2b6a52ca8a385f1f8/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor">
-    <h1>LapAKABogor</h1>
+    Keranjang Anda
+    <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
   </header>
-
-  <!-- ... (kode HTML lainnya tetap sama) ... -->
-
-</body>
-</html>
-
-
-    /* Slider iklan */
-    #slider {
-      position: relative;
-      width: 100%;
-      overflow: hidden;
-      margin: 20px 0;
-    }
-
-    .slider-images {
-      display: flex;
-      transition: transform 0.5s ease;
-    }
-
-    .slider-images img {
-      width: 100%;
-      height: auto;
-    }
-
-    .slider-control {
-      position: absolute;
-      top: 50%;
-      width: 40px;
-      height: 40px;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      font-size: 30px;
-      border: none;
-      cursor: pointer;
-      z-index: 1000;
-    }
-
-    .prev {
-      left: 10px;
-      transform: translateY(-50%);
-    }
-
-    .next {
-      right: 10px;
-      transform: translateY(-50%);
-    }
-
-    /* Header */
-    header {
-      padding: 10px 20px;
-      background: var(--green);
-      text-align: center;
-      color: white;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2em;
-    }
-
-    #searchBar {
-      width: 90%;
-      padding: 10px;
-      margin: 10px auto;
-      display: block;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
-
-    #categoryFilter {
-      text-align: center;
-      margin: 10px 0;
-    }
-
-    .category-btn {
-      margin: 5px;
-      padding: 8px 14px;
-      border: none;
-      background-color: var(--blue);
-      color: white;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-
-    #productList {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 15px;
-      padding: 10px;
-    }
-
-    .product-item {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align:
-  </style>
-</head>
-<body>
-  <div id="splashScreen">
-    <h1>LapAKABogor</h1>
+  <div id="cartContent">
+    <p style="text-align:center;color:#666;">Keranjang kosong.</p>
   </div>
+  <footer id="cartFooter" style="display:none;">
+    <div class="total">Total: Rp <span id="cartTotal">0</span></div>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+  </footer>
+</aside>
 
-  <header>
-    <h1>LapAKABogor</h1>
-  </header>
+<script>
+  // Sample product data for catalog
+  const products = [
+    {
+      id: 'p1',
+      name: 'Kerajinan Tangan Anyaman Lokal',
+      price: 55000,
+      img: 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p2',
+      name: 'Pakaian Batik Modern',
+      price: 120000,
+      img: 'https://images.pexels.com/photos/3764477/pexels-photo-3764477.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p3',
+      name: 'Aksesori Kulit Mahasiswa',
+      price: 75000,
+      img: 'https://images.pexels.com/photos/168009/pexels-photo-168009.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p4',
+      name: 'Makanan Ringan Khas Bogor',
+      price: 30000,
+      img: 'https://images.pexels.com/photos/2553658/pexels-photo-2553658.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p5',
+      name: 'Tas Ransel Kulit Sintetis',
+      price: 200000,
+      img: 'https://images.pexels.com/photos/267202/pexels-photo-267202.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p6',
+      name: 'Jaket Hoodie Unik',
+      price: 135000,
+      img: 'https://images.pexels.com/photos/2540696/pexels-photo-2540696.jpeg?auto=compress&cs=tinysrgb&w=300',
+    }
+  ];
 
-  <!-- Slider iklan -->
-  <div id="slider">
-    <div class="slider-images">
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%201.jpg" alt="Iklan 1">
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%202.jpg" alt="Iklan 2">
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%203.jpg" alt="Iklan 3">
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%204.jpg" alt="Iklan 4">
-    </div>
-    <button class="slider-control prev" onclick="moveSlider(-1)">&#10094;</button>
-    <button class="slider-control next" onclick="moveSlider(1)">&#10095;</button>
-  </div>
+  const catalogEl = document.getElementById('catalog');
+  const cartBtn = document.getElementById('cartBtn');
+  const cartModal = document.getElementById('cartModal');
+  const closeCartBtn = document.getElementById('closeCartBtn');
+  const cartCountEl = document.getElementById('cartCount');
+  const cartContent = document.getElementById('cartContent');
+  const cartFooter = document.getElementById('cartFooter');
+  const cartTotalEl = document.getElementById('cartTotal');
+  let cart = {};
 
-  <input type="text" id="searchBar" placeholder="Cari produk...">
+  // Format number to Indonesian Rupiah string
+  function formatPrice(num) {
+    return num.toLocaleString('id-ID');
+  }
 
-  <div id="categoryFilter">
-    <button class="category-btn" onclick="filterCategory('Semua')">Semua</button>
-    <button class="category-btn" onclick="filterCategory('Makanan')">Makanan</button>
-    <button class="category-btn" onclick="filterCategory('Minuman')">Minuman</button>
-    <button class="category-btn" onclick="filterCategory('Inovasi')">Inovasi</button>
-  </div>
+  // Render catalog products
+  function renderCatalog(productsToRender) {
+    catalogEl.innerHTML = '';
+    if(productsToRender.length === 0) {
+      catalogEl.innerHTML = '<p style="font-style:italic;color:#666;text-align:center;">Tidak ada produk ditemukan.</p>';
+      return;
+    }
+    productsToRender.forEach(product => {
+      const card = document.createElement('article');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <div class="product-image" style="background-image:url('${product.img}');" aria-label="Gambar produk ${product.name}"></div>
+        <div class="product-info">
+          <h3 class="product-name">${product.name}</h3>
+          <div class="product-price">Rp ${formatPrice(product.price)}</div>
+          <button class="add-cart-btn" aria-label="Tambah ${product.name} ke keranjang" onclick="addToCart('${product.id}')">Tambah ke Keranjang</button>
+        </div>
+      `;
+      catalogEl.appendChild(card);
+    });
+  }
 
-  <div id="productList"></div>
+  // Add product to cart
+  function addToCart(productId) {
+    if(cart[productId]) {
+      cart[productId].qty++;
+    } else {
+      const product = products.find(p => p.id === productId);
+      cart[productId] = {
+        ...product,
+        qty: 1
+      };
+    }
+    updateCartUI();
+    openCart();
+  }
 
-  <div id="cartToggle" onclick="toggleCart()">
-    <i class="fas fa-shopping-cart"></i> <span id="cartCount">0</span>
-  </div>
+  // Remove product from cart
+  function removeFromCart(productId) {
+    delete cart[productId];
+    updateCartUI();
+  }
 
-  <div id="cartSection">
-    <h2>Keranjang</h2>
-    <div id="cartItems"></div>
-    <p>Total: Rp<span id="totalHarga">0</span></p>
-    <label><input type="radio" name="pickup" value="Ambil Sendiri" checked> Ambil Sendiri</label>
-    <label><input type="radio" name="pickup" value="Diantar"> Diantar (+Rp1000/item)</label>
-    <br><br>
-    <label><input type="radio" name="payment" value="QRIS" checked> Bayar via QRIS</label>
-    <label><input type="radio" name="payment" value="Cash"> Bayar Tunai</label>
-    <br><br>
-    <div id="qrisImage">
-      <img src="https://via.placeholder.com/150x150.png?text=QRIS" alt="QRIS" />
-    </div>
-    <button onclick="checkoutWA()">Checkout via WhatsApp</button>
-  </div>
+  // Change quantity in cart
+  function changeQty(productId, delta) {
+    if(!cart[productId]) return;
+    cart[productId].qty += delta;
+    if(cart[productId].qty <= 0) {
+      removeFromCart(productId);
+    } else {
+      updateCartUI();
+    }
+  }
 
-  <script>
-    const produk = [
-      { nama: "Keripik Pedas", harga: 8000, kategori: "Makanan", gambar: "https://via.placeholder.com/240x180.png?text=Keripik+Pedas" },
-      { nama: "Kopi Susu", harga: 10000, kategori: "Minuman", gambar: "https://via.placeholder.com/240x180.png?text=Kopi+Susu" },
-      { nama: "Sabun Herbal", harga: 12000, kategori: "Inovasi", gambar: "https://via.placeholder.com/240x180.png?text=Sabun+Herbal" }
-    ];
-
-    let keranjang = [];
-    let sliderIndex = 0;
-
-    function tampilkanProduk() {
-      const produkList = document.getElementById('productList');
-      produkList.innerHTML = '';
-      produk.forEach(item => {
-        const div = document.createElement('div');
-        div.classList.add('product-item');
-        div.innerHTML = 
-          <img src="${item.gambar}" alt="${item.nama}">
-          <h3>${item.nama}</h3>
-          <p>Rp${item.harga.toLocaleString()}</p>
-          <button onclick="tambahKeKeranjang('${item.nama}', ${item.harga})">Tambah ke Keranjang</button>
-        ;
-        produkList.appendChild(div);
-      });
+  // Update cart count and cart UI
+  function updateCartUI() {
+    const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+    if(totalItems > 0) {
+      cartCountEl.style.display = 'inline-block';
+      cartCountEl.textContent = totalItems;
+    } else {
+      cartCountEl.style.display = 'none';
     }
 
-    function tambahKeKeranjang(nama, harga) {
-      let found = keranjang.find(item => item.nama === nama);
-      if (found) {
-        found.jumlah += 1;
-      } else {
-        keranjang.push({ nama, harga, jumlah: 1 });
-      }
-      updateKeranjang();
+    if(totalItems === 0) {
+      cartContent.innerHTML = '<p style="text-align:center;color:#666;">Keranjang kosong.</p>';
+      cartFooter.style.display = 'none';
+    } else {
+      cartFooter.style.display = 'block';
+      renderCartItems();
     }
+  }
 
-    function updateKeranjang() {
-      const cartItems = document.getElementById('cartItems');
-      const cartCount = document.getElementById('cartCount');
-      let total = 0;
-      cartItems.innerHTML = '';
-      keranjang.forEach(item => {
-        total += item.harga * item.jumlah;
-        cartItems.innerHTML += 
-          <div class="cart-item">
-            <span>${item.nama} x ${item.jumlah}</span>
-            <button onclick="kurangiJumlah('${item.nama}')">-</button>
-            <button onclick="tambahJumlah('${item.nama}')">+</button>
-            <button onclick="hapusItem('${item.nama}')">Hapus</button>
+  // Render cart items
+  function renderCartItems() {
+    cartContent.innerHTML = '';
+    let totalPrice = 0;
+    for(const key in cart) {
+      const item = cart[key];
+      totalPrice += item.price * item.qty;
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-qty" aria-label="Jumlah produk">
+            <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
+            <span>${item.qty}</span>
+            <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
           </div>
-        ;
-      });
-      cartCount.innerText = keranjang.length;
-      document.getElementById('totalHarga').innerText = total.toLocaleString();
+        </div>
+        <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
+      `;
+      cartContent.appendChild(div);
     }
+    cartTotalEl.textContent = formatPrice(totalPrice);
+  }
 
-    function kurangiJumlah(nama) {
-      const item = keranjang.find(item => item.nama === nama);
-      if (item && item.jumlah > 1) {
-        item.jumlah--;
-        updateKeranjang();
-      }
+  // Open cart modal
+  function openCart() {
+    cartModal.classList.add('open');
+  }
+
+  // Close cart modal
+  function closeCart() {
+    cartModal.classList.remove('open');
+  }
+
+  cartBtn.addEventListener('click', () => {
+    if (cartModal.classList.contains('open')) {
+      closeCart();
+    } else {
+      openCart();
     }
+  });
+  closeCartBtn.addEventListener('click', closeCart);
 
-    function tambahJumlah(nama) {
-      const item = keranjang.find(item => item.nama === nama);
-      if (item) {
-        item.jumlah++;
-        updateKeranjang();
-      }
+  // Perform search (simple filter by product name)
+  function performSearch() {
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (query === '') {
+      renderCatalog(products);
+    } else {
+      const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+      renderCatalog(filtered);
     }
+  }
 
-    function hapusItem(nama) {
-      keranjang = keranjang.filter(item => item.nama !== nama);
-      updateKeranjang();
+  // Placeholder for checkout
+  function checkout() {
+    if(Object.keys(cart).length === 0){
+      alert('Keranjang kosong.');
+      return;
     }
+    alert('Terima kasih telah berbelanja di LapAKABogor! Fitur checkout belum tersedia.');
+  }
 
-    function toggleCart() {
-      const cartSection = document.getElementById('cartSection');
-      cartSection.style.display = (cartSection.style.display === 'none') ? 'block' : 'none';
-    }
+  // Initialize page
+  renderCatalog(products);
+  updateCartUI();
 
-    function checkoutWA() {
-      let pickup = document.querySelector('input[name="pickup"]:checked').value;
-      let payment = document.querySelector('input[name="payment"]:checked').value;
-      let pesan = 'Pesanan Anda:%0A';
-      let total = 0;
-      keranjang.forEach(item => {
-        pesan += ${item.nama} x ${item.jumlah} = Rp${(item.harga * item.jumlah).toLocaleString()}%0A;
-        total += item.harga * item.jumlah;
-      });
-      pesan += Total: Rp${total.toLocaleString()}%0A${pickup}%0APembayaran: ${payment};
-      if (payment === 'QRIS') {
-        document.getElementById('qrisImage').style.display = 'block';
-      }
-      window.open(https://wa.me/6289664363463?text=${encodeURIComponent(pesan)});
-    }
-
-    function moveSlider(direction) {
-      sliderIndex += direction;
-      const slides = document.querySelectorAll('.slider-images img');
-      if (sliderIndex < 0) sliderIndex = slides.length - 1;
-      if (sliderIndex >= slides.length) sliderIndex = 0;
-      document.querySelector('.slider-images').style.transform = translateX(-${sliderIndex * 100}%);
-    }
-
-    setTimeout(() => document.getElementById('splashScreen').style.opacity = 0, 4000);
-    setTimeout(() => document.getElementById('splashScreen').style.display = 'none', 5000);
-
-    tampilkanProduk();
-  </script>
+</script>
 </body>
 </html>
+
