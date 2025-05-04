@@ -24,6 +24,79 @@
     border: none;
     font-family: inherit;
   }
+  
+  /* Splash Screen Styles */
+  #splashScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://github.com/Lapakabogor/LapAKABogor/blob/96d6b4f7e6fed14e652d77767e9e67b602e459e6/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg') no-repeat center center;
+    background-size: cover;
+    z-index: 9999;
+  }
+
+  /* Existing styles... */
+  /* (Keep the existing styles here) */
+</style>
+</head>
+<body>
+
+<div id="splashScreen"></div>
+
+<header>
+  <div class="logo">Lap<span>AKA</span>Bogor</div>
+  <form class="search-bar" onsubmit="event.preventDefault(); performSearch();">
+    <input type="search" id="searchInput" placeholder="Cari produk, UKM, atau kategori..." aria-label="Cari produk" />
+    <button type="submit" aria-label="Cari">Cari</button>
+  </form>
+  <div class="icons">
+    <button class="icon-btn" id="cartBtn" aria-label="Keranjang Belanja (0)">
+      🛒<span class="cart-count" id="cartCount" style="display:none;">0</span>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="catalog" id="catalog">
+    <!-- Product cards inserted by JavaScript -->
+  </section>
+</main>
+
+<!-- Cart Modal -->
+<aside id="cartModal" aria-label="Keranjang Belanja">
+  <header>
+    Keranjang Anda
+    <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
+  </header>
+  <div id="cartContent">
+    <p style="text-align:center;color:#666;">Keranjang kosong.</p>
+  </div>
+  <footer id="cartFooter" style="display:none;">
+    <div class="total">Total: Rp <span id="cartTotal">0</span></div>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+  </footer>
+</aside>
+
+<script>
+  // Sample product data for catalog
+  const products = [
+    // (Keep the existing product data here)
+  ];
+
+  // (Keep the existing JavaScript functions here)
+
+  // Splash Screen Logic
+  window.onload = function() {
+    setTimeout(function() {
+      document.getElementById('splashScreen').style.display = 'none';
+    }, 3000); // 3000 milliseconds = 3 seconds
+  };
+
+  // Initialize page
+  renderCatalog(products);
+  updateCartUI();
 
   /* Colors */
   :root {
