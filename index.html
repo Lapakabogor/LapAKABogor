@@ -1,80 +1,58 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LapAKABogor</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     :root {
-      --orange: #ff7f50;
-      --red: #e63946;
-      --blue: #457b9d;
-      --green: #2a9d8f;
+      --red: #f44336;
+      --blue: #2196F3;
+      --green: #4CAF50;
+      --orange: #ff9800;
+      --bg-light: #ffffff;
+      --text-light: #000000;
     }
 
     body {
-      margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f0f0;
-    }
-
-    #splash-screen {
-      position: fixed;
-      z-index: 9999;
-      width: 100%;
-      height: 100vh;
-      background: linear-gradient(135deg, var(--orange), var(--blue), var(--green));
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-align: center;
-    }
-
-    #splash-screen img {
-      max-width: 180px;
-      margin-bottom: 20px;
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    }
-
-    #splash-screen h2 {
-      font-size: 24px;
-    }
-
-    header {
-      background: linear-gradient(to right, var(--green), var(--blue));
-      color: white;
-      display: flex;
-      align-items: center;
-      padding: 15px 20px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    header img {
-      height: 50px;
-      margin-right: 15px;
-      border-radius: 50%;
-    }
-
-    header h1 {
-      font-size: 26px;
+      background-color: var(--bg-light);
+      color: var(--text-light);
       margin: 0;
+      padding: 0;
+      transition: background-color 0.3s, color 0.3s;
     }
 
-    main {
-      padding: 20px;
+    /* Splash Screen */
+    #splashScreen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7) url('https://via.placeholder.com/600x400.png?text=LapAKABogor') center no-repeat;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      opacity: 1;
+      transition: opacity 1s ease;
     }
 
+    #splashScreen h1 {
+      color: #fff;
+      font-size: 3em;
+    }
+
+    /* Slider iklan */
     #slider {
       position: relative;
       width: 100%;
       overflow: hidden;
       margin: 20px 0;
-      border-radius: 10px;
     }
 
     .slider-images {
@@ -87,99 +65,341 @@
       height: auto;
     }
 
-    #checkoutButton {
+    .slider-control {
+      position: absolute;
+      top: 50%;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 30px;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .prev {
+      left: 10px;
+      transform: translateY(-50%);
+    }
+
+    .next {
+      right: 10px;
+      transform: translateY(-50%);
+    }
+
+    /* Header */
+    header {
+      padding: 10px 20px;
+      background: var(--green);
+      text-align: center;
+      color: white;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    #searchBar {
+      width: 90%;
+      padding: 10px;
+      margin: 10px auto;
       display: block;
-      width: fit-content;
-      margin: 30px auto;
-      padding: 14px 24px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    #categoryFilter {
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .category-btn {
+      margin: 5px;
+      padding: 8px 14px;
+      border: none;
+      background-color: var(--blue);
+      color: white;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    #productList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 15px;
+      padding: 10px;
+    }
+
+    .product-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .product-item img {
+      max-width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      background-color: #eee;
+    }
+
+    .product-item h3 {
+      color: #333;
+      margin: 10px 0 5px;
+    }
+
+    .product-item button {
       background-color: var(--orange);
       color: #fff;
-      font-size: 16px;
-      font-weight: bold;
       border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin-top: 5px;
+    }
+
+    #cartToggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+      padding: 10px;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+      background: var(--red);
+    }
+
+    #cartSection {
+      padding: 20px;
+      background: #f9f9f9;
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      width: 300px;
+      box-shadow: 0px 2px 10px rgba(0,0,0,0.3);
       border-radius: 8px;
+      display: none;
+      z-index: 9999;
+    }
+
+    #cartItems ul {
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .cart-item button {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
       cursor: pointer;
     }
 
-    footer {
-      background-color: #fff;
-      padding: 10px 20px;
+    .cart-item input {
+      width: 40px;
       text-align: center;
-      color: #666;
-      font-size: 14px;
-      border-top: 1px solid #ddd;
-      margin-top: 40px;
     }
 
-    footer a {
-      color: var(--blue);
-      text-decoration: none;
+    #qrisImage {
+      display: none;
+      width: 100%;
+      margin-top: 10px;
     }
 
-    footer a:hover {
-      text-decoration: underline;
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      opacity: 0;
+      transition: opacity 0.5s;
+      z-index: 9999;
     }
+
+    .toast.show { opacity: 1; }
+
   </style>
 </head>
-
 <body>
-  <!-- Splash Screen -->
-  <div id="splash-screen">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/808d35379b7e81098c4ca933164882731b44ce0c/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor" />
-    <h2>Selamat datang di LapAKABogor</h2>
+  <div id="splashScreen">
+    <h1>LapAKABogor</h1>
   </div>
 
-  <!-- Header -->
   <header>
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/808d35379b7e81098c4ca933164882731b44ce0c/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor">
     <h1>LapAKABogor</h1>
   </header>
 
-  <!-- Konten Utama -->
-  <main>
-    <!-- Slider Gambar -->
-    <div id="slider">
-      <div class="slider-images">
-        <img src="https://source.unsplash.com/800x300/?food" alt="Slide 1">
-        <img src="https://source.unsplash.com/800x300/?snack" alt="Slide 2">
-        <img src="https://source.unsplash.com/800x300/?drink" alt="Slide 3">
-      </div>
+  <!-- Slider iklan -->
+  <div id="slider">
+    <div class="slider-images">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%201.jpg" alt="Iklan 1">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%202.jpg" alt="Iklan 2">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%203.jpg" alt="Iklan 3">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%204.jpg" alt="Iklan 4">
     </div>
+    <button class="slider-control prev" onclick="moveSlider(-1)">&#10094;</button>
+    <button class="slider-control next" onclick="moveSlider(1)">&#10095;</button>
+  </div>
 
-    <!-- Tombol Checkout WhatsApp -->
-    <button id="checkoutButton">Checkout via WhatsApp</button>
-  </main>
+  <input type="text" id="searchBar" placeholder="Cari produk...">
 
-  <!-- Footer -->
-  <footer>
-    &copy; 2025 LapAKABogor | <a href="https://github.com/Lapakabogor/LapAKABogor" target="_blank">Kunjungi GitHub</a>
-  </footer>
+  <div id="categoryFilter">
+    <button class="category-btn" onclick="filterCategory('Semua')">Semua</button>
+    <button class="category-btn" onclick="filterCategory('Makanan')">Makanan</button>
+    <button class="category-btn" onclick="filterCategory('Minuman')">Minuman</button>
+    <button class="category-btn" onclick="filterCategory('Inovasi')">Inovasi</button>
+  </div>
+
+  <div id="productList"></div>
+
+  <div id="cartToggle" onclick="toggleCart()">
+    <i class="fas fa-shopping-cart"></i> <span id="cartCount">0</span>
+  </div>
+
+  <div id="cartSection">
+    <h2>Keranjang</h2>
+    <div id="cartItems"></div>
+    <p>Total: Rp<span id="totalHarga">0</span></p>
+    <label><input type="radio" name="pickup" value="Ambil Sendiri" checked> Ambil Sendiri</label>
+    <label><input type="radio" name="pickup" value="Diantar"> Diantar (+Rp1000/item)</label>
+    <br><br>
+    <label><input type="radio" name="payment" value="QRIS" checked> Bayar via QRIS</label>
+    <label><input type="radio" name="payment" value="Cash"> Bayar Tunai</label>
+    <br><br>
+    <div id="qrisImage">
+      <img src="https://via.placeholder.com/150x150.png?text=QRIS" alt="QRIS" />
+    </div>
+    <button onclick="checkoutWA()">Checkout via WhatsApp</button>
+  </div>
 
   <script>
-    window.addEventListener('load', function () {
-      setTimeout(function () {
-        const splash = document.getElementById('splash-screen');
-        splash.style.opacity = '0';
-        splash.style.transition = 'opacity 0.5s ease';
-        setTimeout(() => splash.style.display = 'none', 500);
-      }, 3000);
-    });
+    const produk = [
+      { nama: "Keripik Pedas", harga: 8000, kategori: "Makanan", gambar: "https://via.placeholder.com/240x180.png?text=Keripik+Pedas" },
+      { nama: "Kopi Susu", harga: 10000, kategori: "Minuman", gambar: "https://via.placeholder.com/240x180.png?text=Kopi+Susu" },
+      { nama: "Sabun Herbal", harga: 12000, kategori: "Inovasi", gambar: "https://via.placeholder.com/240x180.png?text=Sabun+Herbal" }
+    ];
 
-    const sliderImages = document.querySelector('.slider-images');
-    let currentIndex = 0;
+    let keranjang = [];
+    let sliderIndex = 0;
 
-    setInterval(() => {
-      currentIndex = (currentIndex + 1) % 3;
-      sliderImages.style.transform = `translateX(-${currentIndex * 100}%)`;
-    }, 3000);
+    function tampilkanProduk() {
+      const produkList = document.getElementById('productList');
+      produkList.innerHTML = '';
+      produk.forEach(item => {
+        const div = document.createElement('div');
+        div.classList.add('product-item');
+        div.innerHTML = 
+          <img src="${item.gambar}" alt="${item.nama}">
+          <h3>${item.nama}</h3>
+          <p>Rp${item.harga.toLocaleString()}</p>
+          <button onclick="tambahKeKeranjang('${item.nama}', ${item.harga})">Tambah ke Keranjang</button>
+        ;
+        produkList.appendChild(div);
+      });
+    }
 
-    document.getElementById("checkoutButton").addEventListener("click", function () {
-      const phoneNumber = "6289664363463";
-      const message = encodeURIComponent("Halo, saya ingin melakukan pemesanan produk dari LapAKABogor. Mohon informasinya.");
-      const url = `https://wa.me/${phoneNumber}?text=${message}`;
-      window.open(url, '_blank');
-    });
+    function tambahKeKeranjang(nama, harga) {
+      let found = keranjang.find(item => item.nama === nama);
+      if (found) {
+        found.jumlah += 1;
+      } else {
+        keranjang.push({ nama, harga, jumlah: 1 });
+      }
+      updateKeranjang();
+    }
+
+    function updateKeranjang() {
+      const cartItems = document.getElementById('cartItems');
+      const cartCount = document.getElementById('cartCount');
+      let total = 0;
+      cartItems.innerHTML = '';
+      keranjang.forEach(item => {
+        total += item.harga * item.jumlah;
+        cartItems.innerHTML += 
+          <div class="cart-item">
+            <span>${item.nama} x ${item.jumlah}</span>
+            <button onclick="kurangiJumlah('${item.nama}')">-</button>
+            <button onclick="tambahJumlah('${item.nama}')">+</button>
+            <button onclick="hapusItem('${item.nama}')">Hapus</button>
+          </div>
+        ;
+      });
+      cartCount.innerText = keranjang.length;
+      document.getElementById('totalHarga').innerText = total.toLocaleString();
+    }
+
+    function kurangiJumlah(nama) {
+      const item = keranjang.find(item => item.nama === nama);
+      if (item && item.jumlah > 1) {
+        item.jumlah--;
+        updateKeranjang();
+      }
+    }
+
+    function tambahJumlah(nama) {
+      const item = keranjang.find(item => item.nama === nama);
+      if (item) {
+        item.jumlah++;
+        updateKeranjang();
+      }
+    }
+
+    function hapusItem(nama) {
+      keranjang = keranjang.filter(item => item.nama !== nama);
+      updateKeranjang();
+    }
+
+    function toggleCart() {
+      const cartSection = document.getElementById('cartSection');
+      cartSection.style.display = (cartSection.style.display === 'none') ? 'block' : 'none';
+    }
+
+    function checkoutWA() {
+      let pickup = document.querySelector('input[name="pickup"]:checked').value;
+      let payment = document.querySelector('input[name="payment"]:checked').value;
+      let pesan = 'Pesanan Anda:%0A';
+      let total = 0;
+      keranjang.forEach(item => {
+        pesan += ${item.nama} x ${item.jumlah} = Rp${(item.harga * item.jumlah).toLocaleString()}%0A;
+        total += item.harga * item.jumlah;
+      });
+      pesan += Total: Rp${total.toLocaleString()}%0A${pickup}%0APembayaran: ${payment};
+      if (payment === 'QRIS') {
+        document.getElementById('qrisImage').style.display = 'block';
+      }
+      window.open(https://wa.me/6289664363463?text=${encodeURIComponent(pesan)});
+    }
+
+    function moveSlider(direction) {
+      sliderIndex += direction;
+      const slides = document.querySelectorAll('.slider-images img');
+      if (sliderIndex < 0) sliderIndex = slides.length - 1;
+      if (sliderIndex >= slides.length) sliderIndex = 0;
+      document.querySelector('.slider-images').style.transform = translateX(-${sliderIndex * 100}%);
+    }
+
+    setTimeout(() => document.getElementById('splashScreen').style.opacity = 0, 4000);
+    setTimeout(() => document.getElementById('splashScreen').style.display = 'none', 5000);
+
+    tampilkanProduk();
   </script>
 </body>
-
 </html>
