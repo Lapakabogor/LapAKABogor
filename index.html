@@ -5,6 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LapAKABogor</title>
   <style>
+    :root {
+      --orange: #FFA500;
+      --red: #e63946;
+      --blue: #0077b6;
+      --green: #2a9d8f;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+    }
+
     /* Splash Screen */
     #splash-screen {
       position: fixed;
@@ -24,68 +37,36 @@
     }
 
     #splash-screen h2 {
-      color: #333;
-      font-family: sans-serif;
-      font-size: 20px;
+      color: var(--blue);
+      font-size: 24px;
     }
 
     /* Header */
     header {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       padding: 10px 20px;
-      background-color: #f5f5f5;
-      border-bottom: 1px solid #ccc;
+      background: linear-gradient(90deg, var(--orange), var(--red), var(--green), var(--blue));
+      color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
 
     header img {
       height: 40px;
-      margin-right: 10px;
     }
 
     header h1 {
       font-size: 24px;
-      color: #333;
-      margin: 0;
+      margin-left: 10px;
     }
-  </style>
-</head>
-<body>
 
-  <!-- Splash Screen -->
-  <div id="splash-screen">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/808d35379b7e81098c4ca933164882731b44ce0c/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor" />
-    <h2>Selamat datang di LapAKABogor</h2>
-  </div>
+    main {
+      padding: 20px;
+      text-align: center;
+    }
 
-  <!-- Header Website -->
-  <header>
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/808d35379b7e81098c4ca933164882731b44ce0c/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor" />
-    <h1>LapAKABogor</h1>
-  </header>
-
-  <!-- Konten Website -->
-  <main style="padding: 20px;">
-    <p>Selamat berbelanja di LapAKABogor!</p>
-    <!-- Konten lain bisa ditambahkan di sini -->
-  </main>
-
-  <!-- Script untuk Splash Screen -->
-  <script>
-    window.addEventListener('load', function () {
-      setTimeout(function () {
-        const splash = document.getElementById('splash-screen');
-        splash.style.opacity = '0';
-        splash.style.transition = 'opacity 0.5s ease';
-        setTimeout(() => splash.style.display = 'none', 500);
-      }, 3000);
-    });
-  </script>
-
-</body>
-</html>
-
-    /* Slider iklan */
+    /* Slider */
     #slider {
       position: relative;
       width: 100%;
@@ -113,32 +94,13 @@
       font-size: 30px;
       border: none;
       cursor: pointer;
-      z-index: 1000;
-    }
-
-    .prev {
-      left: 10px;
       transform: translateY(-50%);
     }
 
-    .next {
-      right: 10px;
-      transform: translateY(-50%);
-    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
 
-    /* Header */
-    header {
-      padding: 10px 20px;
-      background: var(--green);
-      text-align: center;
-      color: white;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 2em;
-    }
-
+    /* Search & Category */
     #searchBar {
       width: 90%;
       padding: 10px;
@@ -156,28 +118,305 @@
 
     .category-btn {
       margin: 5px;
-      padding: 8px 14px;
+      padding: 10px 15px;
       border: none;
       background-color: var(--blue);
       color: white;
+      border-radius: 20px;
       cursor: pointer;
-      border-radius: 4px;
+      font-size: 14px;
     }
 
+    /* Produk */
     #productList {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 15px;
       padding: 10px;
     }
 
     .product-item {
-      border: 1px solid #ccc;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+    }
+
+    .product-item img {
+      max-width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .product-item h3 {
+      margin: 10px 0 5px;
+      color: var(--red);
+    }
+
+    .product-item button {
+      background-color: var(--orange);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+
+    /* Keranjang */
+    #cartToggle {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: var(--red);
+      color: white;
       padding: 10px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    #cartSection {
+      display: none;
+      position: fixed;
+      right: 10px;
+      bottom: 10px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      width: 300px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+      z-index: 9999;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .cart-item input {
+      width: 40px;
+      text-align: center;
+    }
+
+    .cart-item button {
+      background-color: var(--red);
+      color: white;
+      border: none;
+      padding: 5px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: var(--blue);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      opacity: 0;
+      transition: opacity 0.5s;
+      z-index: 9999;
+    }
+
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+  <!-- Splash Screen -->
+  <div id="splash-screen">
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/logo.jpg" alt="Logo LapAKABogor">
+    <h2>Selamat datang di LapAKABogor</h2>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/logo.jpg" alt="Logo">
+    <h1>LapAKABogor</h1>
+  </header>
+
+  <main>
+    <p>Selamat berbelanja di LapAKABogor!</p>
+  </main>
+
+  <!-- Script Splash Screen -->
+  <script>
+    window.addEventListener('load', function () {
+      setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        splash.style.opacity = '0';
+        splash.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => splash.style.display = 'none', 500);
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LapAKABogor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    :root {
+      --orange: #ff7f50;
+      --red: #e63946;
+      --blue: #457b9d;
+      --green: #2a9d8f;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    /* Splash Screen */
+    #splash-screen {
+      position: fixed;
+      z-index: 9999;
+      width: 100%;
+      height: 100vh;
+      background: linear-gradient(135deg, var(--orange), var(--blue), var(--green));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-align: center;
+    }
+
+    #splash-screen img {
+      max-width: 180px;
+      margin-bottom: 20px;
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    #splash-screen h2 {
+      font-size: 24px;
+    }
+
+    header {
+      background: linear-gradient(to right, var(--green), var(--blue));
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    header img {
+      height: 50px;
+      margin-right: 15px;
+      border-radius: 50%;
+    }
+
+    header h1 {
+      font-size: 26px;
+      margin: 0;
+    }
+
+    main {
+      padding: 20px;
+    }
+
+    #slider {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      margin: 20px 0;
+      border-radius: 10px;
+    }
+
+    .slider-images {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .slider-images img {
+      width: 100%;
+      height: auto;
+    }
+
+    .slider-control {
+      position: absolute;
+      top: 50%;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 24px;
+      border: none;
+      cursor: pointer;
+      z-index: 1000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .prev {
+      left: 10px;
+      transform: translateY(-50%);
+    }
+
+    .next {
+      right: 10px;
+      transform: translateY(-50%);
+    }
+
+    #searchBar {
+      width: 90%;
+      padding: 12px;
+      margin: 20px auto;
+      display: block;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    #categoryFilter {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .category-btn {
+      margin: 5px;
+      padding: 10px 16px;
+      border: none;
+      background-color: var(--orange);
+      color: white;
+      cursor: pointer;
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    #productList {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+      padding: 10px;
+    }
+
+    .product-item {
+      border: 1px solid #ccc;
+      padding: 12px;
       text-align: center;
       background-color: #fff;
       border-radius: 10px;
-      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     .product-item img {
@@ -185,7 +424,6 @@
       height: 180px;
       object-fit: cover;
       border-radius: 8px;
-      background-color: #eee;
     }
 
     .product-item h3 {
@@ -194,42 +432,45 @@
     }
 
     .product-item button {
-      background-color: var(--orange);
+      background-color: var(--green);
       color: #fff;
       border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      margin-top: 5px;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
     }
 
     #cartToggle {
       position: fixed;
-      top: 10px;
-      right: 10px;
+      top: 20px;
+      right: 20px;
       z-index: 1000;
-      padding: 10px;
-      border-radius: 5px;
-      color: #fff;
-      cursor: pointer;
+      padding: 12px;
+      border-radius: 50%;
       background: var(--red);
+      color: #fff;
+      font-size: 18px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.3);
+      cursor: pointer;
     }
 
     #cartSection {
       padding: 20px;
-      background: #f9f9f9;
+      background: #fff;
       position: fixed;
-      bottom: 10px;
-      right: 10px;
-      width: 300px;
-      box-shadow: 0px 2px 10px rgba(0,0,0,0.3);
-      border-radius: 8px;
+      bottom: 20px;
+      right: 20px;
+      width: 320px;
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+      border-radius: 10px;
       display: none;
       z-index: 9999;
     }
 
     #cartItems ul {
-      padding-left: 0;
       list-style: none;
+      padding-left: 0;
     }
 
     .cart-item {
@@ -253,12 +494,6 @@
       text-align: center;
     }
 
-    #qrisImage {
-      display: none;
-      width: 100%;
-      margin-top: 10px;
-    }
-
     .toast {
       position: fixed;
       bottom: 20px;
@@ -272,172 +507,40 @@
       z-index: 9999;
     }
 
-    .toast.show { opacity: 1; }
-
+    .toast.show {
+      opacity: 1;
+    }
   </style>
 </head>
+
 <body>
-  <div id="splashScreen">
-    <h1>LapAKABogor</h1>
+  <!-- Splash Screen -->
+  <div id="splash-screen">
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/808d35379b7e81098c4ca933164882731b44ce0c/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor" />
+    <h2>Selamat datang di LapAKABogor</h2>
   </div>
 
+  <!-- Header -->
   <header>
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/808d35379b7e81098c4ca933164882731b44ce0c/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" alt="Logo LapAKABogor">
     <h1>LapAKABogor</h1>
   </header>
 
-  <!-- Slider iklan -->
-  <div id="slider">
-    <div class="slider-images">
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%201.jpg" alt="Iklan 1">
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%202.jpg" alt="Iklan 2">
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%203.jpg" alt="Iklan 3">
-      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/61bf5e2667673b5b072ede82e79c7d2f2e6ace09/iklan%204.jpg" alt="Iklan 4">
-    </div>
-    <button class="slider-control prev" onclick="moveSlider(-1)">&#10094;</button>
-    <button class="slider-control next" onclick="moveSlider(1)">&#10095;</button>
-  </div>
-
-  <input type="text" id="searchBar" placeholder="Cari produk...">
-
-  <div id="categoryFilter">
-    <button class="category-btn" onclick="filterCategory('Semua')">Semua</button>
-    <button class="category-btn" onclick="filterCategory('Makanan')">Makanan</button>
-    <button class="category-btn" onclick="filterCategory('Minuman')">Minuman</button>
-    <button class="category-btn" onclick="filterCategory('Inovasi')">Inovasi</button>
-  </div>
-
-  <div id="productList"></div>
-
-  <div id="cartToggle" onclick="toggleCart()">
-    <i class="fas fa-shopping-cart"></i> <span id="cartCount">0</span>
-  </div>
-
-  <div id="cartSection">
-    <h2>Keranjang</h2>
-    <div id="cartItems"></div>
-    <p>Total: Rp<span id="totalHarga">0</span></p>
-    <label><input type="radio" name="pickup" value="Ambil Sendiri" checked> Ambil Sendiri</label>
-    <label><input type="radio" name="pickup" value="Diantar"> Diantar (+Rp1000/item)</label>
-    <br><br>
-    <label><input type="radio" name="payment" value="QRIS" checked> Bayar via QRIS</label>
-    <label><input type="radio" name="payment" value="Cash"> Bayar Tunai</label>
-    <br><br>
-    <div id="qrisImage">
-      <img src="https://via.placeholder.com/150x150.png?text=QRIS" alt="QRIS" />
-    </div>
-    <button onclick="checkoutWA()">Checkout via WhatsApp</button>
-  </div>
+  <!-- Konten lainnya -->
+  <main>
+    <!-- Isi akan dilanjutkan dari skrip Anda sebelumnya -->
+  </main>
 
   <script>
-    const produk = [
-      { nama: "Keripik Pedas", harga: 8000, kategori: "Makanan", gambar: "https://via.placeholder.com/240x180.png?text=Keripik+Pedas" },
-      { nama: "Kopi Susu", harga: 10000, kategori: "Minuman", gambar: "https://via.placeholder.com/240x180.png?text=Kopi+Susu" },
-      { nama: "Sabun Herbal", harga: 12000, kategori: "Inovasi", gambar: "https://via.placeholder.com/240x180.png?text=Sabun+Herbal" }
-    ];
-
-    let keranjang = [];
-    let sliderIndex = 0;
-
-    function tampilkanProduk() {
-      const produkList = document.getElementById('productList');
-      produkList.innerHTML = '';
-      produk.forEach(item => {
-        const div = document.createElement('div');
-        div.classList.add('product-item');
-        div.innerHTML = `
-          <img src="${item.gambar}" alt="${item.nama}">
-          <h3>${item.nama}</h3>
-          <p>Rp${item.harga.toLocaleString()}</p>
-          <button onclick="tambahKeKeranjang('${item.nama}', ${item.harga})">Tambah ke Keranjang</button>
-        `;
-        produkList.appendChild(div);
-      });
-    }
-
-    function tambahKeKeranjang(nama, harga) {
-      let found = keranjang.find(item => item.nama === nama);
-      if (found) {
-        found.jumlah += 1;
-      } else {
-        keranjang.push({ nama, harga, jumlah: 1 });
-      }
-      updateKeranjang();
-    }
-
-    function updateKeranjang() {
-      const cartItems = document.getElementById('cartItems');
-      const cartCount = document.getElementById('cartCount');
-      let total = 0;
-      cartItems.innerHTML = '';
-      keranjang.forEach(item => {
-        total += item.harga * item.jumlah;
-        cartItems.innerHTML += `
-          <div class="cart-item">
-            <span>${item.nama} x ${item.jumlah}</span>
-            <button onclick="kurangiJumlah('${item.nama}')">-</button>
-            <button onclick="tambahJumlah('${item.nama}')">+</button>
-            <button onclick="hapusItem('${item.nama}')">Hapus</button>
-          </div>
-        `;
-      });
-      cartCount.innerText = keranjang.length;
-      document.getElementById('totalHarga').innerText = total.toLocaleString();
-    }
-
-    function kurangiJumlah(nama) {
-      const item = keranjang.find(item => item.nama === nama);
-      if (item && item.jumlah > 1) {
-        item.jumlah--;
-        updateKeranjang();
-      }
-    }
-
-    function tambahJumlah(nama) {
-      const item = keranjang.find(item => item.nama === nama);
-      if (item) {
-        item.jumlah++;
-        updateKeranjang();
-      }
-    }
-
-    function hapusItem(nama) {
-      keranjang = keranjang.filter(item => item.nama !== nama);
-      updateKeranjang();
-    }
-
-    function toggleCart() {
-      const cartSection = document.getElementById('cartSection');
-      cartSection.style.display = (cartSection.style.display === 'none') ? 'block' : 'none';
-    }
-
-    function checkoutWA() {
-      let pickup = document.querySelector('input[name="pickup"]:checked').value;
-      let payment = document.querySelector('input[name="payment"]:checked').value;
-      let pesan = 'Pesanan Anda:%0A';
-      let total = 0;
-      keranjang.forEach(item => {
-        pesan += `${item.nama} x ${item.jumlah} = Rp${(item.harga * item.jumlah).toLocaleString()}%0A`;
-        total += item.harga * item.jumlah;
-      });
-      pesan += `Total: Rp${total.toLocaleString()}%0A${pickup}%0APembayaran: ${payment}`;
-      if (payment === 'QRIS') {
-        document.getElementById('qrisImage').style.display = 'block';
-      }
-      window.open(`https://wa.me/6289664363463?text=${encodeURIComponent(pesan)}`);
-    }
-
-    function moveSlider(direction) {
-      sliderIndex += direction;
-      const slides = document.querySelectorAll('.slider-images img');
-      if (sliderIndex < 0) sliderIndex = slides.length - 1;
-      if (sliderIndex >= slides.length) sliderIndex = 0;
-      document.querySelector('.slider-images').style.transform = `translateX(-${sliderIndex * 100}%)`;
-    }
-
-    setTimeout(() => document.getElementById('splashScreen').style.opacity = 0, 4000);
-    setTimeout(() => document.getElementById('splashScreen').style.display = 'none', 5000);
-
-    tampilkanProduk();
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        const splash = document.getElementById('splash-screen');
+        splash.style.opacity = '0';
+        splash.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => splash.style.display = 'none', 500);
+      }, 3000);
+    });
   </script>
 </body>
+
 </html>
