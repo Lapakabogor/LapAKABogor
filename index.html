@@ -360,19 +360,28 @@
       <p style="text-align:center;color:#666;">Keranjang kosong.</p>
     </div>
     <footer id="cartFooter" style="display:none;">
-      <div class="total">Total: Rp <span id="cartTotal">0</span></div>
-      <div class="delivery-method" style="margin: 10px 0;">
-  <label>
-    <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked>
-    Ambil Langsung (Politeknik AKA Bogor)
-  </label><br>
-  <label>
-    <input type="radio" name="pengantaran" value="Diantar">
-    Diantar
-  </label>
-</div>
-      <button class="checkout-btn" onclick="checkout()">Checkout</button>
-    </footer>
+  <div class="total">Total: Rp <span id="cartTotal">0</span></div>
+
+  <div class="delivery-method" style="margin: 10px 0;">
+    <label>
+      <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
+      Ambil Langsung (Politeknik AKA Bogor)
+    </label><br>
+    <label>
+      <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
+      Diantar
+    </label>
+  </div>
+
+  <!-- Input alamat muncul jika memilih "Diantar" -->
+  <div id="alamatInput" style="display:none; margin-top: 8px;">
+    <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
+    <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
+  </div>
+
+  <button class="checkout-btn" onclick="checkout()">Checkout</button>
+</footer>
+
   </aside>
    <script>
 // Splash screen
@@ -556,8 +565,7 @@
       renderCatalog(filtered);
     }
   }
-
- function checkout() {
+function checkout() {
   if (Object.keys(cart).length === 0) {
     alert('Keranjang kosong.');
     return;
@@ -572,16 +580,32 @@
   const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
   summary += `\nTotal: Rp ${total.toLocaleString()}`;
 
-  // Ambil metode pengantaran
   const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked').value;
   summary += `\nMetode Pengantaran: ${metodePengantaran}`;
+
+  if (metodePengantaran === "Diantar") {
+    const alamat = document.getElementById('alamatPengantaran').value.trim();
+    if (!alamat) {
+      alert('Silakan masukkan lokasi pengantaran.');
+      return;
+    }
+    summary += `\nAlamat Pengantaran: ${alamat}`;
+  }
 
   summary += '\n\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
   const waMessage = encodeURIComponent(summary);
   const waLink = `https://wa.me/6289664363463?text=${waMessage}`;
   window.open(waLink, '_blank');
 }
-
+function toggleAlamat() {
+  const selected = document.querySelector('input[name="pengantaran"]:checked').value;
+  const alamatInput = document.getElementById('alamatInput');
+  if (selected === "Diantar") {
+    alamatInput.style.display = 'block';
+  } else {
+    alamatInput.style.display = 'none';
+  }
+}
   // Inisialisasi awal
   renderCatalog(products);
   updateCartUI();
