@@ -106,7 +106,19 @@ nav button.active {
 .product-card button:hover {
   background-color: #239B56;
 }
+/* Search functionality */
+    .search-bar input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 20px;
+      border: none;
+      font-size: 1em;
+      margin-bottom: 20px;
+    }
 
+    .product-grid .product-card.hidden {
+      display: none;
+    }
 /* ====== KERANJANG (ICON FLOAT) ====== */
 #cart-icon {
   position: fixed;
@@ -130,7 +142,99 @@ nav button.active {
   padding: 3px 6px;
   border-radius: 50%;
 }
+</style>
+</head>
+<body>
+  
+  <!-- Header -->
+  <header>
+    <div class="logo">Lap<span>AKA</span>Bogor</div>
+    <form class="search-bar">
+      <input type="text" id="search-input" placeholder="Cari produk..." oninput="filterProducts()" />
+    </form>
+  </header>
+<!-- Menu Kategori -->
+  <nav>
+    <button onclick="filterCategory('Makanan Berat')">Makanan Berat</button>
+    <button onclick="filterCategory('Makanan Ringan')">Makanan Ringan</button>
+    <button onclick="filterCategory('Minuman')">Minuman</button>
+    <button onclick="filterCategory('Alat & Bahan Kimia')">Alat & Bahan Kimia</button>
+    <button onclick="filterCategory('Produk Inovasi Mahasiswa')">Produk Inovasi Mahasiswa</button>
+    <button onclick="filterCategory('Lain-lain')">Lain-lain</button>
+  </nav>
 
+  <!-- Katalog Produk -->
+  <div class="container">
+    <div class="product-grid" id="product-grid">
+      <!-- Contoh produk kategori -->
+      <div class="product-card" data-category="Makanan Berat">
+        <img src="https://images.pexels.com/photos/3764477/pexels-photo-3764477.jpeg" alt="Makanan Berat" />
+        <div class="info">
+          <h3>Kopi Susu Gula Aren</h3>
+          <p>Rp15.000</p>
+          <button>Tambah ke Keranjang</button>
+        </div>
+      </div>
+      <div class="product-card" data-category="Makanan Berat">
+        <img src="https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg" alt="Makanan Berat" />
+        <div class="info">
+          <h3>Nasi Goreng Spesial</h3>
+          <p>Rp20.000</p>
+          <button>Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <div class="product-card" data-category="Makanan Ringan">
+        <img src="https://images.pexels.com/photos/168009/pexels-photo-168009.jpeg" alt="Makanan Ringan" />
+        <div class="info">
+          <h3>Keripik Pedas</h3>
+          <p>Rp10.000</p>
+          <button>Tambah ke Keranjang</button>
+        </div>
+      </div>
+      <div class="product-card" data-category="Makanan Ringan">
+        <img src="https://images.pexels.com/photos/210118/pexels-photo-210118.jpeg" alt="Makanan Ringan" />
+        <div class="info">
+          <h3>Chocolatos</h3>
+          <p>Rp12.000</p>
+          <button>Tambah ke Keranjang</button>
+        </div>
+      </div>
+
+      <!-- Tambah produk untuk kategori lainnya sesuai kebutuhan -->
+    </div>
+  </div>
+
+  <script>
+    // Fitur Pencarian Produk
+    function filterProducts() {
+      let input = document.getElementById("search-input").value.toLowerCase();
+      let products = document.getElementsByClassName("product-card");
+      Array.from(products).forEach((product) => {
+        let productName = product.querySelector("h3").innerText.toLowerCase();
+        if (productName.includes(input)) {
+          product.classList.remove("hidden");
+        } else {
+          product.classList.add("hidden");
+        }
+      });
+    }
+
+    // Fitur Filter Kategori
+    function filterCategory(category) {
+      let products = document.getElementsByClassName("product-card");
+      Array.from(products).forEach((product) => {
+        let productCategory = product.getAttribute("data-category");
+        if (productCategory === category || category === "Semua") {
+          product.classList.remove("hidden");
+        } else {
+          product.classList.add("hidden");
+        }
+      });
+    }
+  </script>
+</body>
+</html>
 /* ====== MODAL / POPUP ====== */
 .modal {
   display: none;
