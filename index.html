@@ -4,8 +4,54 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LapAKABogor - Marketplace Politeknik AKA Bogor</title>
-  <head>
   <style>
+    <!-- Splash Screen -->
+  <div id="splashScreen">
+    <h1>LapAKABogor</h1>
+  </div>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      document.getElementById('splashScreen').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+    }, 3000); // 3000ms = 3 detik
+  });
+</script>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">Lap<span>AKA</span>Bogor</div>
+    <form class="search-bar">
+      <input type="text" placeholder="Cari produk..." />
+      <button type="submit">Cari</button>
+    </form>
+    <div class="icons">
+      <button class="icon-btn">🛒<span class="cart-count">0</span></button>
+    </div>
+  </header>
+  
+  <!-- Menu Kategori -->
+  <nav>
+    <button>Kategori: Makanan Berat</button>
+    <button>Kategori: Makanan Ringan</button>
+    <button>Kategori: Minuman</button>
+    <button>Kategori: Alat & Bahan Kimia</button>
+    <button>Kategori: Produk Inovasi Mahasiswa AKA</button>
+    <button>Kategori: Lain-lain</button>
+  </nav>
+
+  <!-- Slider -->
+  <div class="slider">
+    <div class="slides" id="slides">
+      <div class="slide">
+        <img src="https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Slide 1" />
+      </div>
+      <div class="slide">
+        <img src="https://images.pexels.com/photos/3764477/pexels-photo-3764477.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Slide 2" />
+      </div>
+      <div class="slide">
+        <img src="https://images.pexels.com/photos/168009/pexels-photo-168009.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Slide 3" />
+  </script>
 /* ====== STYLE UMUM ====== */
 body {
   font-family: 'Poppins', sans-serif;
@@ -662,6 +708,33 @@ nav button.active {
       nextSlide();
     }, 5000);
   </script>
+  
+<script>
+function checkoutWhatsApp() {
+  // Simulasi data keranjang, bisa diganti dengan data dari sistem Anda
+  const cartItems = [
+    { name: "Keripik Pedas", qty: 2, price: 5000 },
+    { name: "Kopi Susu", qty: 1, price: 7000 }
+  ];
 
+  let total = 0;
+  let message = "*Halo, saya ingin memesan:*\n";
+
+  cartItems.forEach(item => {
+    const subTotal = item.qty * item.price;
+    total += subTotal;
+    message += `- ${item.name} x${item.qty} = Rp${subTotal.toLocaleString()}\n`;
+  });
+
+  message += `\n*Total: Rp${total.toLocaleString()}*\n`;
+  message += "Metode pengambilan: Ambil Sendiri / Diantar (+Rp1.000/item)";
+  message = encodeURIComponent(message);
+
+  const phone = "6282125466588"; // Nomor WA tanpa tanda +
+  const waUrl = `https://wa.me/${phone}?text=${message}`;
+
+  window.open(waUrl, '_blank');
+}
+</script>
 </body>
 </html>
