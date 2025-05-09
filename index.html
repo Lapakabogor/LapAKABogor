@@ -5,6 +5,94 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>LapAKABogor - Marketplace Politeknik AKA Bogor</title>
 <style>
+        /* Slider Styles */
+        .slider {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+
+        .slide img {
+            width: 100%;
+            height: auto;
+        }
+
+        .navigation {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .nav-button {
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="slider">
+    <div class="slides" id="slides">
+        <div class="slide">
+            <img src="https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Slide 1">
+        </div>
+        <div class="slide">
+            <img src="https://images.pexels.com/photos/3764477/pexels-photo-3764477.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Slide 2">
+        </div>
+        <div class="slide">
+            <img src="https://images.pexels.com/photos/168009/pexels-photo-168009.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Slide 3">
+        </div>
+    </div>
+    <div class="navigation">
+        <button class="nav-button" onclick="prevSlide()">&#10094;</button>
+        <button class="nav-button" onclick="nextSlide()">&#10095;</button>
+    </div>
+</div>
+
+<script>
+    let currentSlide = 0;
+
+    function showSlide(index) {
+        const slides = document.getElementById('slides');
+        const totalSlides = slides.children.length;
+        if (index >= totalSlides) {
+            currentSlide = 0;
+        } else if (index < 0) {
+            currentSlide = totalSlides - 1;
+        } else {
+            currentSlide = index;
+        }
+        slides.style.transform = 'translateX(' + (-currentSlide * 100) + '%)';
+    }
+
+    function nextSlide() {
+        showSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+        showSlide(currentSlide - 1);
+    }
+</script>
+
+</body>
+</html>
+
   /* Splash Screen Styles */
         #splashScreen {
             position: fixed;
