@@ -351,6 +351,16 @@
     border-color: #007BFF;
     background-color: #fff;
   }
+    .payment-method {
+    font-size: 14px;
+    color: #333;
+  }
+
+  .payment-method label {
+    display: block;
+    margin-bottom: 6px;
+    cursor: pointer;
+  }
   </style>
 </head>
 <body>
@@ -398,24 +408,33 @@
     <footer id="cartFooter" style="display:none;">
   <div class="total">Total: Rp <span id="cartTotal">0</span></div>
 
-  <div class="delivery-method" style="margin: 10px 0;">
-    <label>
-      <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
-      Ambil Langsung (Politeknik AKA Bogor)
-    </label><br>
-    <label>
-      <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
-      Diantar
-    </label>
-  </div>
+ <div class="delivery-method" style="margin: 10px 0;">
+  <label>
+    <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
+    Ambil Langsung (Politeknik AKA Bogor)
+  </label><br>
+  <label>
+    <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
+    Diantar
+  </label>
+</div>
 
-  <!-- Input alamat muncul jika memilih "Diantar" -->
-  <div id="alamatInput" style="display:none; margin-top: 8px;">
-    <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
-    <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
-  </div>
+<!-- Input alamat muncul jika memilih "Diantar" -->
+<div id="alamatInput" style="display:none; margin-top: 8px;">
+  <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
+  <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
+</div>
 
-  <button class="checkout-btn" onclick="checkout()">Checkout</button>
+<!-- ✅ Metode Pembayaran -->
+<div class="payment-method" style="margin: 10px 0;">
+  <label style="font-weight: bold;">Metode Pembayaran:</label><br>
+  <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
+  <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
+  <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
+</div>
+
+<button class="checkout-btn" onclick="checkout()">Checkout</button>
+
 </footer>
 
   </aside>
@@ -628,6 +647,12 @@ function checkout() {
     summary += `\nAlamat Pengantaran: ${alamat}`;
   }
 
+  // ✅ Tambahkan bagian ini:
+  const metodePembayaran = document.querySelector('input[name="pembayaran"]:checked');
+  if (metodePembayaran) {
+    summary += `\nMetode Pembayaran: ${metodePembayaran.value}`;
+  }
+
   summary += '\n\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
   const waMessage = encodeURIComponent(summary);
   const waLink = `https://wa.me/6289664363463?text=${waMessage}`;
@@ -641,6 +666,7 @@ function toggleAlamat() {
   } else {
     alamatInput.style.display = 'none';
   }
+  
 }
   // Inisialisasi awal
   renderCatalog(products);
