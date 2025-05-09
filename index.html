@@ -753,7 +753,25 @@
   // Initialize page
   renderCatalog(products);
   updateCartUI();
+function checkoutWhatsApp() {
+      if (keranjang.length === 0) {
+        alert("Keranjang masih kosong!");
+        return;
+      }
 
+      let pesan = "Halo, saya ingin memesan produk dari LapAKABogor:%0A";
+      let total = 0;
+
+      keranjang.forEach((item, index) => {
+        pesan += `${index + 1}. ${item.nama} - Rp${item.harga.toLocaleString()}%0A`;
+        total += item.harga;
+      });
+
+      pesan += `%0ATotal: Rp${total.toLocaleString()}`;
+      const nomorWhatsApp = "6289664363463";
+      const url = `https://wa.me/${nomorWhatsApp}?text=${pesan}`;
+      window.open(url, '_blank');
+    }
 </script>
 </body>
 </html>
