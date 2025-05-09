@@ -132,17 +132,7 @@
       padding: 2px 6px;
       border-radius: 9999px;
     }
-header .logo {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-}
 
-header .logo img {
-  height: 40px; /* Ubah sesuai kebutuhan (30–50px umum untuk header) */
-  width: auto;
-  margin-right: 0.5rem;
-}
     main {
       padding: 1rem;
       max-width: 1200px;
@@ -336,23 +326,17 @@ header .logo img {
 </div>
   
   <header>
-  <div class="logo">
-    <img src="lapakabogor-splash.jpg" alt="Logo LapAKABogor" />
-  </div>
-  
-  <div class="search-bar">
-    <input type="text" placeholder="Cari produk..." />
-    <button>Cari</button>
-  </div>
-  
-  <div class="icons">
-    <!-- Tambahkan tombol ikon seperti keranjang, dll -->
-    <button class="icon-btn">
-      <i class="fa fa-shopping-cart"></i>
-      <span class="cart-count">3</span>
-    </button>
-  </div>
-</header>
+    <div class="logo">Lap<span>AKA</span>Bogor</div>
+    <form class="search-bar" onsubmit="event.preventDefault(); performSearch();">
+      <input type="search" id="searchInput" placeholder="Cari produk, UKM, atau kategori..." aria-label="Cari produk" />
+      <button type="submit">Cari</button>
+    </form>
+    <div class="icons">
+      <button class="icon-btn" id="cartBtn" aria-label="Keranjang Belanja (0)">
+        🛒<span class="cart-count" id="cartCount" style="display:none;">0</span>
+      </button>
+    </div>
+  </header>
 
   <main>
     <!-- Slider -->
