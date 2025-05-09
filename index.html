@@ -630,7 +630,12 @@ function checkout() {
   let summary = 'Pesanan Anda:\n\n';
 
   Object.values(cart).forEach(item => {
+    let catatan = document.getElementById(`catatan-${item.id}`).value.trim();
     summary += `- ${item.name} x ${item.qty} = Rp ${(item.price * item.qty).toLocaleString()}\n`;
+
+    if (catatan !== "") {
+      summary += `  (Catatan: ${catatan})\n`;
+    }
   });
 
   const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
@@ -647,7 +652,6 @@ function checkout() {
     }
     summary += `\nAlamat Pengantaran: ${alamat}`;
   }
-
   // ✅ Tambahkan bagian ini:
   const metodePembayaran = document.querySelector('input[name="pembayaran"]:checked');
   if (metodePembayaran) {
