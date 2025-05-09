@@ -50,311 +50,295 @@
       100% { transform: translateX(0%); }
     }
 
-  /* Header */
-  header {
-    background: var(--jingga);
-    color: white;
-    display: flex;
-    align-items: center;
-    padding: 0.5rem 1rem;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-  header .logo {
-    font-weight: 700;
-    font-size: 1.25rem;
-    letter-spacing: 1px;
-    flex-shrink: 0;
-  }
-  header .logo span {
-    color: var(--biru);
-  }
-  header .search-bar {
-    flex-grow: 1;
-    margin: 0 1rem;
-    position: relative;
-  }
-  header .search-bar input {
-    width: 100%;
-    padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-    border-radius: 9999px;
-    border: none;
-    font-size: 1rem;
-  }
-  header .search-bar button {
-    position: absolute;
-    right: 0.3rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: var(--biru);
-    color: white;
-    padding: 0.4rem 0.75rem;
-    border-radius: 9999px;
-    font-weight: 600;
-    font-size: 0.9rem;
-  }
-  header .icons {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  header .icon-btn {
-    background: none;
-    color: white;
-    font-size: 1.5rem;
-    position: relative;
-  }
-  header .icon-btn .cart-count {
-    position: absolute;
-    top: -6px;
-    right: -8px;
-    background: var(--merah);
-    color: white;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 9999px;
-  }
-
-  /* Main Layout */
-  main {
-    padding: 1rem;
-    max-width: 1200px;
-    margin: auto;
-  }
-
-  /* Catalog Grid */
-  .catalog {
-    display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
-    gap: 1rem;
-  }
-  .product-card {
-    border: 1px solid var(--gray-light);
-    border-radius: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
-    transition: box-shadow 0.2s ease;
-  }
-  .product-card:hover {
-    box-shadow: 0 4px 8px rgb(0 0 0 / 0.15);
-  }
-  .product-image {
-    width: 100%;
-    padding-top: 100%; /* Square aspect ratio */
-    background-position: center;
-    background-size: cover;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
-  }
-  .product-info {
-    padding: 0.5rem 0.75rem 0.75rem;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .product-name {
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--gray-dark);
-    margin: 0 0 0.25rem;
-    height: 2.5em; /* limit lines */
-    overflow: hidden;
-  }
-  .product-price {
-    color: var(--merah);
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-  }
-  .add-cart-btn {
-    background: var(--hijau);
-    color: white;
-    border-radius: 9999px;
-    padding: 0.4rem 0;
-    font-weight: 700;
-    font-size: 0.9rem;
-    transition: background-color 0.2s ease;
-  }
-  .add-cart-btn:hover {
-    background: #138c35;
-  }
-
-  /* Cart Modal */
-  #cartModal {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 320px;
-    max-width: 100vw;
-    height: 100vh;
-    background: white;
-    box-shadow: -3px 0 10px rgba(0,0,0,0.2);
-    transition: right 0.3s ease;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-  }
-  #cartModal.open {
-    right: 0;
-  }
-  #cartModal header {
-    background: var(--biru);
-    color: white;
-    padding: 1rem;
-    font-weight: 700;
-    font-size: 1.25rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  #cartModal header button.close-cart {
-    background: none;
-    color: white;
-    font-size: 1.5rem;
-    border: none;
-    cursor: pointer;
-  }
-  #cartContent {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 1rem;
-  }
-  .cart-item {
-    display: flex;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    align-items: center;
-  }
-  .cart-item-image {
-    width: 60px;
-    height: 60px;
-    background-position: center;
-    background-size: cover;
-    border-radius: 0.25rem;
-    flex-shrink: 0;
-  }
-  .cart-item-info {
-    flex-grow: 1;
-    font-size: 0.9rem;
-  }
-  .cart-item-name {
-    font-weight: 700;
-    margin-bottom: 0.25rem;
-  }
-  .cart-item-qty {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-  .cart-item-qty button {
-    background: var(--biru);
-    color: white;
-    width: 22px;
-    height: 22px;
-    font-weight: 700;
-    border-radius: 4px;
-    line-height: 1;
-    padding: 0;
-  }
-  .cart-item-qty span {
-    min-width: 20px;
-    text-align: center;
-    display: inline-block;
-  }
-  .cart-item-price {
-    font-weight: 700;
-    color: var(--merah);
-    min-width: 60px;
-    text-align: right;
-  }
-
-  #cartFooter {
-    padding: 1rem;
-    border-top: 1px solid var(--gray-light);
-  }
-  #cartFooter .total {
-    font-weight: 700;
-    font-size: 1.15rem;
-    margin-bottom: 0.75rem;
-    color: var(--merah);
-  }
-  #cartFooter button.checkout-btn {
-    width: 100%;
-    background: var(--jingga);
-    color: white;
-    font-weight: 700;
-    padding: 0.75rem;
-    border-radius: 9999px;
-    font-size: 1rem;
-    transition: background-color 0.2s ease;
-  }
-  #cartFooter button.checkout-btn:hover {
-    background: #db6e17;
-  }
-
-  /* Responsive & Mobile friendly adjustments */
-  @media (max-width: 600px) {
     header {
-      padding: 0.5rem 0.75rem;
+      background: var(--jingga);
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0.5rem 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
+    header .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      letter-spacing: 1px;
+      flex-shrink: 0;
+    }
+    header .logo span { color: var(--biru); }
+    header .search-bar {
+      flex-grow: 1;
+      margin: 0 1rem;
+      position: relative;
+    }
+    header .search-bar input {
+      width: 100%;
+      padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+      border-radius: 9999px;
+      border: none;
+      font-size: 1rem;
+    }
+    header .search-bar button {
+      position: absolute;
+      right: 0.3rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--biru);
+      color: white;
+      padding: 0.4rem 0.75rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    header .icons {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    header .icon-btn {
+      background: none;
+      color: white;
+      font-size: 1.5rem;
+      position: relative;
+    }
+    header .icon-btn .cart-count {
+      position: absolute;
+      top: -6px;
+      right: -8px;
+      background: var(--merah);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 9999px;
+    }
+
     main {
-      padding: 0.75rem;
+      padding: 1rem;
+      max-width: 1200px;
+      margin: auto;
     }
-    #cartModal {
-      width: 100vw;
-      max-width: none;
+
+    .catalog {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
+      gap: 1rem;
     }
     .product-card {
-      font-size: 14px;
+      border: 1px solid var(--gray-light);
+      border-radius: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      background: white;
+      box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
+      transition: box-shadow 0.2s ease;
+    }
+    .product-card:hover {
+      box-shadow: 0 4px 8px rgb(0 0 0 / 0.15);
+    }
+    .product-image {
+      width: 100%;
+      padding-top: 100%;
+      background-position: center;
+      background-size: cover;
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
     }
     .product-info {
-      padding: 0.5rem 0.5rem 0.75rem;
+      padding: 0.5rem 0.75rem 0.75rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
-  }
-</style>
+    .product-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--gray-dark);
+      margin: 0 0 0.25rem;
+      height: 2.5em;
+      overflow: hidden;
+    }
+    .product-price {
+      color: var(--merah);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    .add-cart-btn {
+      background: var(--hijau);
+      color: white;
+      border-radius: 9999px;
+      padding: 0.4rem 0;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: background-color 0.2s ease;
+    }
+    .add-cart-btn:hover {
+      background: #138c35;
+    }
+
+    #cartModal {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 320px;
+      max-width: 100vw;
+      height: 100vh;
+      background: white;
+      box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+      transition: right 0.3s ease;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+    }
+    #cartModal.open { right: 0; }
+    #cartModal header {
+      background: var(--biru);
+      color: white;
+      padding: 1rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    #cartModal header button.close-cart {
+      background: none;
+      color: white;
+      font-size: 1.5rem;
+      border: none;
+      cursor: pointer;
+    }
+    #cartContent {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+    .cart-item {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      background-position: center;
+      background-size: cover;
+      border-radius: 0.25rem;
+      flex-shrink: 0;
+    }
+    .cart-item-info {
+      flex-grow: 1;
+      font-size: 0.9rem;
+    }
+    .cart-item-name {
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .cart-item-qty button {
+      background: var(--biru);
+      color: white;
+      width: 22px;
+      height: 22px;
+      font-weight: 700;
+      border-radius: 4px;
+      line-height: 1;
+      padding: 0;
+    }
+    .cart-item-qty span {
+      min-width: 20px;
+      text-align: center;
+      display: inline-block;
+    }
+    .cart-item-price {
+      font-weight: 700;
+      color: var(--merah);
+      min-width: 60px;
+      text-align: right;
+    }
+
+    #cartFooter {
+      padding: 1rem;
+      border-top: 1px solid var(--gray-light);
+    }
+    #cartFooter .total {
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-bottom: 0.75rem;
+      color: var(--merah);
+    }
+    #cartFooter button.checkout-btn {
+      width: 100%;
+      background: var(--jingga);
+      color: white;
+      font-weight: 700;
+      padding: 0.75rem;
+      border-radius: 9999px;
+      font-size: 1rem;
+      transition: background-color 0.2s ease;
+    }
+    #cartFooter button.checkout-btn:hover {
+      background: #db6e17;
+    }
+
+    @media (max-width: 600px) {
+      header { padding: 0.5rem 0.75rem; }
+      main { padding: 0.75rem; }
+      #cartModal { width: 100vw; max-width: none; }
+      .product-card { font-size: 14px; }
+      .product-info { padding: 0.5rem 0.5rem 0.75rem; }
+    }
+  </style>
 </head>
 <body>
-<header>
-  <div class="logo">Lap<span>AKA</span>Bogor</div>
-  <form class="search-bar" onsubmit="event.preventDefault(); performSearch();">
-    <input type="search" id="searchInput" placeholder="Cari produk, UKM, atau kategori..." aria-label="Cari produk" />
-    <button type="submit" aria-label="Cari">Cari</button>
-  </form>
-  <div class="icons">
-    <button class="icon-btn" id="cartBtn" aria-label="Keranjang Belanja (0)">
-      🛒<span class="cart-count" id="cartCount" style="display:none;">0</span>
-    </button>
-  </div>
-</header>
-
-<main>
-  <section class="catalog" id="catalog">
-    <!-- Product cards inserted by JavaScript -->
-  </section>
-</main>
-
-<!-- Cart Modal -->
-<aside id="cartModal" aria-label="Keranjang Belanja">
   <header>
-    Keranjang Anda
-    <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
+    <div class="logo">Lap<span>AKA</span>Bogor</div>
+    <form class="search-bar" onsubmit="event.preventDefault(); performSearch();">
+      <input type="search" id="searchInput" placeholder="Cari produk, UKM, atau kategori..." aria-label="Cari produk" />
+      <button type="submit">Cari</button>
+    </form>
+    <div class="icons">
+      <button class="icon-btn" id="cartBtn" aria-label="Keranjang Belanja (0)">
+        🛒<span class="cart-count" id="cartCount" style="display:none;">0</span>
+      </button>
+    </div>
   </header>
-  <div id="cartContent">
-    <p style="text-align:center;color:#666;">Keranjang kosong.</p>
-  </div>
-  <footer id="cartFooter" style="display:none;">
-    <div class="total">Total: Rp <span id="cartTotal">0</span></div>
-    <button class="checkout-btn" onclick="checkout()">Checkout</button>
-  </footer>
-</aside>
 
-<script>
-  // Sample product data for catalog
+  <main>
+    <!-- Slider -->
+    <div class="slider">
+      <div class="slides">
+        <img src="https://images.pexels.com/photos/1809644/pexels-photo-1809644.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Promo 1">
+        <img src="https://images.pexels.com/photos/3952232/pexels-photo-3952232.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Promo 2">
+        <img src="https://images.pexels.com/photos/3184192/pexels-photo-3184192.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Promo 3">
+      </div>
+    </div>
+
+    <section class="catalog" id="catalog"></section>
+  </main>
+
+  <aside id="cartModal" aria-label="Keranjang Belanja">
+    <header>
+      Keranjang Anda
+      <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
+    </header>
+    <div id="cartContent">
+      <p style="text-align:center;color:#666;">Keranjang kosong.</p>
+    </div>
+    <footer id="cartFooter" style="display:none;">
+      <div class="total">Total: Rp <span id="cartTotal">0</span></div>
+      <button class="checkout-btn" onclick="checkout()">Checkout</button>
+    </footer>
+  </aside>
+  <script>
   const products = [
     {
       id: 'p1',
@@ -404,15 +388,13 @@
   const cartTotalEl = document.getElementById('cartTotal');
   let cart = {};
 
-  // Format number to Indonesian Rupiah string
   function formatPrice(num) {
     return num.toLocaleString('id-ID');
   }
 
-  // Render catalog products
   function renderCatalog(productsToRender) {
     catalogEl.innerHTML = '';
-    if(productsToRender.length === 0) {
+    if (productsToRender.length === 0) {
       catalogEl.innerHTML = '<p style="font-style:italic;color:#666;text-align:center;">Tidak ada produk ditemukan.</p>';
       return;
     }
@@ -431,9 +413,8 @@
     });
   }
 
-  // Add product to cart
   function addToCart(productId) {
-    if(cart[productId]) {
+    if (cart[productId]) {
       cart[productId].qty++;
     } else {
       const product = products.find(p => p.id === productId);
@@ -446,34 +427,31 @@
     openCart();
   }
 
-  // Remove product from cart
   function removeFromCart(productId) {
     delete cart[productId];
     updateCartUI();
   }
 
-  // Change quantity in cart
   function changeQty(productId, delta) {
-    if(!cart[productId]) return;
+    if (!cart[productId]) return;
     cart[productId].qty += delta;
-    if(cart[productId].qty <= 0) {
+    if (cart[productId].qty <= 0) {
       removeFromCart(productId);
     } else {
       updateCartUI();
     }
   }
 
-  // Update cart count and cart UI
   function updateCartUI() {
     const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
-    if(totalItems > 0) {
+    if (totalItems > 0) {
       cartCountEl.style.display = 'inline-block';
       cartCountEl.textContent = totalItems;
     } else {
       cartCountEl.style.display = 'none';
     }
 
-    if(totalItems === 0) {
+    if (totalItems === 0) {
       cartContent.innerHTML = '<p style="text-align:center;color:#666;">Keranjang kosong.</p>';
       cartFooter.style.display = 'none';
     } else {
@@ -482,11 +460,10 @@
     }
   }
 
-  // Render cart items
   function renderCartItems() {
     cartContent.innerHTML = '';
     let totalPrice = 0;
-    for(const key in cart) {
+    for (const key in cart) {
       const item = cart[key];
       totalPrice += item.price * item.qty;
       const div = document.createElement('div');
@@ -508,12 +485,10 @@
     cartTotalEl.textContent = formatPrice(totalPrice);
   }
 
-  // Open cart modal
   function openCart() {
     cartModal.classList.add('open');
   }
 
-  // Close cart modal
   function closeCart() {
     cartModal.classList.remove('open');
   }
@@ -527,7 +502,6 @@
   });
   closeCartBtn.addEventListener('click', closeCart);
 
-  // Perform search (simple filter by product name)
   function performSearch() {
     const query = document.getElementById('searchInput').value.trim().toLowerCase();
     if (query === '') {
@@ -538,19 +512,26 @@
     }
   }
 
-  // Placeholder for checkout
   function checkout() {
-    if(Object.keys(cart).length === 0){
+    if (Object.keys(cart).length === 0) {
       alert('Keranjang kosong.');
       return;
     }
-    alert('Terima kasih telah berbelanja di LapAKABogor! Fitur checkout belum tersedia.');
+    let summary = 'Pesanan Anda:\n\n';
+    Object.values(cart).forEach(item => {
+      summary += `- ${item.name} x ${item.qty} = Rp ${(item.price * item.qty).toLocaleString()}\n`;
+    });
+    const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
+    summary += `\nTotal: Rp ${total.toLocaleString()}\n`;
+    summary += '\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
+    const waMessage = encodeURIComponent(summary);
+    const waLink = `https://wa.me/6289664363463?text=${waMessage}`;
+    window.open(waLink, '_blank');
   }
 
-  // Initialize page
+  // Inisialisasi awal
   renderCatalog(products);
   updateCartUI();
-
 </script>
 </body>
 </html>
