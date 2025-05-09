@@ -1,39 +1,54 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>LapAKABogor - Marketplace Politeknik AKA Bogor</title>
-<style>
-  /* Reset and base */
-  * {
-    box-sizing: border-box;
-  }
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #fff;
-    color: #333;
-  }
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-  button {
-    cursor: pointer;
-    border: none;
-    font-family: inherit;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LapAKABogor - Marketplace Politeknik AKA Bogor</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fff;
+      color: #333;
+    }
+    a { color: inherit; text-decoration: none; }
+    button {
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+    :root {
+      --jingga: #f97316;
+      --biru: #2563eb;
+      --merah: #dc2626;
+      --hijau: #16a34a;
+      --gray-light: #f3f4f6;
+      --gray-dark: #4b5563;
+    }
 
-  /* Colors */
-  :root {
-    --jingga: #f97316; /* orange */
-    --biru: #2563eb; /* blue */
-    --merah: #dc2626; /* red */
-    --hijau: #16a34a; /* green */
-    --gray-light: #f3f4f6;
-    --gray-dark: #4b5563;
-  }
+    /* === SLIDER === */
+    .slider {
+      overflow: hidden;
+      width: 100%;
+      border-radius: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .slides {
+      display: flex;
+      width: 300%;
+      animation: slide 12s infinite;
+    }
+    .slides img {
+      width: 100%;
+      object-fit: cover;
+    }
+    @keyframes slide {
+      0%   { transform: translateX(0%); }
+      33%  { transform: translateX(-100%); }
+      66%  { transform: translateX(-200%); }
+      100% { transform: translateX(0%); }
+    }
 
   /* Header */
   header {
