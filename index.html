@@ -465,6 +465,14 @@ nav button.active {
   <div id="splashScreen">
     <h1>LapAKABogor</h1>
   </div>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      document.getElementById('splashScreen').style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+    }, 3000); // 3000ms = 3 detik
+  });
+</script>
 
   <!-- Header -->
   <header>
