@@ -481,6 +481,17 @@ let cart = {};
 function formatPrice(num) {
   return num.toLocaleString('id-ID');
 }
+<script>
+function toggleAlamat() {
+  const metode = document.querySelector('input[name="pengantaran"]:checked')?.value;
+  const alamatInput = document.getElementById('alamatInput');
+  if (metode === "Diantar") {
+    alamatInput.style.display = "block";
+  } else {
+    alamatInput.style.display = "none";
+  }
+}
+</script>
 
 // Render catalog of products
 function renderCatalog(productsToRender) {
@@ -562,17 +573,22 @@ function renderCartItems() {
     const div = document.createElement('div');
     div.className = 'cart-item';
     div.innerHTML = `
-      <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-qty" aria-label="Jumlah produk">
-          <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
-          <span>${item.qty}</span>
-          <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
-        </div>
-      </div>
-      <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
-    `;
+      div.innerHTML = `
+  <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
+  <div class="cart-item-info">
+    <div class="cart-item-name">${item.name}</div>
+    <div class="cart-item-qty" aria-label="Jumlah produk">
+      <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
+      <span>${item.qty}</span>
+      <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
+    </div>
+    <div class="cart-item-note">
+      <input type="text" id="catatan-${item.id}" placeholder="Catatan (opsional)" style="width: 100%; margin-top: 4px;">
+    </div>
+  </div>
+  <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
+`;
+
     cartContent.appendChild(div);
   }
   cartTotalEl.textContent = formatPrice(totalPrice);
