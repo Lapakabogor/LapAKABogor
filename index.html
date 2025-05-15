@@ -398,236 +398,229 @@
     <section class="catalog" id="catalog"></section>
   </main>
 
-  <aside id="cartModal" aria-label="Keranjang Belanja" class="cart-modal">
-  <header class="cart-header">
-    <h2>Keranjang Anda</h2>
-    <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang" onclick="closeCart()">&times;</button>
-  </header>
-
-  <div id="cartContent" class="cart-content">
-    <p class="empty-cart-text">Keranjang kosong.</p>
-  </div>
-
-  <footer id="cartFooter" class="cart-footer" style="display:none;">
-    <!-- Total Harga -->
-    <div class="total">Total: Rp <span id="cartTotal">0</span></div>
-
-    <!-- Metode Pengantaran -->
-    <div class="delivery-method">
-      <p><strong>Metode Pengantaran:</strong></p>
-      <label>
-        <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
-        Ambil Langsung (Politeknik AKA Bogor)
-      </label><br>
-      <label>
-        <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
-        Diantar
-      </label>
+  <aside id="cartModal" aria-label="Keranjang Belanja">
+    <header>
+      Keranjang Anda
+      <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
+    </header>
+    <div id="cartContent">
+      <p style="text-align:center;color:#666;">Keranjang kosong.</p>
     </div>
+    <footer id="cartFooter" style="display:none;">
+  <div class="total">Total: Rp <span id="cartTotal">0</span></div>
 
-    <!-- Input Alamat jika Diantar -->
-    <div id="alamatInput" class="alamat-input" style="display:none;">
-      <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
-      <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
-    </div>
+ <div class="delivery-method" style="margin: 10px 0;">
+  <label>
+    <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
+    Ambil Langsung (Politeknik AKA Bogor)
+  </label><br>
+  <label>
+    <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
+    Diantar
+  </label>
+</div>
 
-    <!-- Metode Pembayaran -->
-    <div class="payment-method">
-      <p><strong>Metode Pembayaran:</strong></p>
-      <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
-      <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
-      <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
-    </div>
+<!-- Input alamat muncul jika memilih "Diantar" -->
+<div id="alamatInput" style="display:none; margin-top: 8px;">
+  <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
+  <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
+</div>
 
-    <!-- Tombol Checkout -->
-    <button class="checkout-btn" onclick="checkout()">Checkout</button>
-  </footer>
-</aside>
+<!-- ✅ Metode Pembayaran -->
+<div class="payment-method" style="margin: 10px 0;">
+  <label style="font-weight: bold;">Metode Pembayaran:</label><br>
+  <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
+  <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
+  <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
+</div>
 
-<script>
-// Splash screen functionality
-window.addEventListener('DOMContentLoaded', () => {
-  const splash = document.getElementById('splashScreen');
-  setTimeout(() => {
-    splash.classList.add('fade-out');
-    setTimeout(() => splash.remove(), 500);
-  }, 3000);
-});
+<button class="checkout-btn" onclick="checkout()">Checkout</button>
 
-// Product data
-const products = [
-  { id: 'p1', name: 'Kerajinan Tangan Anyaman Lokal', price: 55000, img: 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=300' },
-  { id: 'p2', name: 'Pakaian Batik Modern', price: 120000, img: 'https://images.pexels.com/photos/3764477/pexels-photo-3764477.jpeg?auto=compress&cs=tinysrgb&w=300' },
-  { id: 'p3', name: 'Aksesori Kulit Mahasiswa', price: 75000, img: 'https://images.pexels.com/photos/168009/pexels-photo-168009.jpeg?auto=compress&cs=tinysrgb&w=300' },
-  { id: 'p4', name: 'Makanan Ringan Khas Bogor', price: 30000, img: 'https://images.pexels.com/photos/2553658/pexels-photo-2553658.jpeg?auto=compress&cs=tinysrgb&w=300' },
-  { id: 'p5', name: 'Tas Ransel Kulit Sintetis', price: 200000, img: 'https://images.pexels.com/photos/267202/pexels-photo-267202.jpeg?auto=compress&cs=tinysrgb&w=300' },
-  { id: 'p6', name: 'Jaket Hoodie Unik', price: 135000, img: 'https://images.pexels.com/photos/2540696/pexels-photo-2540696.jpeg?auto=compress&cs=tinysrgb&w=300' }
-];
+</footer>
 
-// DOM elements
-const catalogEl = document.getElementById('catalog');
-const cartBtn = document.getElementById('cartBtn');
-const cartModal = document.getElementById('cartModal');
-const closeCartBtn = document.getElementById('closeCartBtn');
-const cartCountEl = document.getElementById('cartCount');
-const cartContent = document.getElementById('cartContent');
-const cartFooter = document.getElementById('cartFooter');
-const cartTotalEl = document.getElementById('cartTotal');
+  </aside>
+   <script>
+// Splash screen
+    window.addEventListener('DOMContentLoaded', () => {
+      const splash = document.getElementById('splashScreen');
+      setTimeout(() => {
+        splash.classList.add('fade-out');
+        setTimeout(() => splash.remove(), 500);
+      }, 3000);
+    });
+     
+  const products = [
+    {
+      id: 'p1',
+      name: 'Kerajinan Tangan Anyaman Lokal',
+      price: 55000,
+      img: 'https://images.pexels.com/photos/230544/pexels-photo-230544.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p2',
+      name: 'Pakaian Batik Modern',
+      price: 120000,
+      img: 'https://images.pexels.com/photos/3764477/pexels-photo-3764477.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p3',
+      name: 'Aksesori Kulit Mahasiswa',
+      price: 75000,
+      img: 'https://images.pexels.com/photos/168009/pexels-photo-168009.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p4',
+      name: 'Makanan Ringan Khas Bogor',
+      price: 30000,
+      img: 'https://images.pexels.com/photos/2553658/pexels-photo-2553658.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p5',
+      name: 'Tas Ransel Kulit Sintetis',
+      price: 200000,
+      img: 'https://images.pexels.com/photos/267202/pexels-photo-267202.jpeg?auto=compress&cs=tinysrgb&w=300',
+    },
+    {
+      id: 'p6',
+      name: 'Jaket Hoodie Unik',
+      price: 135000,
+      img: 'https://images.pexels.com/photos/2540696/pexels-photo-2540696.jpeg?auto=compress&cs=tinysrgb&w=300',
+    }
+  ];
 
-// Cart object
-let cart = {};
+  const catalogEl = document.getElementById('catalog');
+  const cartBtn = document.getElementById('cartBtn');
+  const cartModal = document.getElementById('cartModal');
+  const closeCartBtn = document.getElementById('closeCartBtn');
+  const cartCountEl = document.getElementById('cartCount');
+  const cartContent = document.getElementById('cartContent');
+  const cartFooter = document.getElementById('cartFooter');
+  const cartTotalEl = document.getElementById('cartTotal');
+  let cart = {};
 
-// Format price as currency
-function formatPrice(num) {
-  return num.toLocaleString('id-ID');
-}
-<script>
-function toggleAlamat() {
-  const metode = document.querySelector('input[name="pengantaran"]:checked')?.value;
-  const alamatInput = document.getElementById('alamatInput');
-  if (metode === "Diantar") {
-    alamatInput.style.display = "block";
-  } else {
-    alamatInput.style.display = "none";
+  function formatPrice(num) {
+    return num.toLocaleString('id-ID');
   }
-}
-</script>
 
-// Render catalog of products
-function renderCatalog(productsToRender) {
-  catalogEl.innerHTML = '';
-  if (productsToRender.length === 0) {
-    catalogEl.innerHTML = '<p style="font-style:italic;color:#666;text-align:center;">Tidak ada produk ditemukan.</p>';
-    return;
+  function renderCatalog(productsToRender) {
+    catalogEl.innerHTML = '';
+    if (productsToRender.length === 0) {
+      catalogEl.innerHTML = '<p style="font-style:italic;color:#666;text-align:center;">Tidak ada produk ditemukan.</p>';
+      return;
+    }
+    productsToRender.forEach(product => {
+      const card = document.createElement('article');
+      card.className = 'product-card';
+      card.innerHTML = `
+        <div class="product-image" style="background-image:url('${product.img}');" aria-label="Gambar produk ${product.name}"></div>
+        <div class="product-info">
+          <h3 class="product-name">${product.name}</h3>
+          <div class="product-price">Rp ${formatPrice(product.price)}</div>
+          <button class="add-cart-btn" aria-label="Tambah ${product.name} ke keranjang" onclick="addToCart('${product.id}')">Tambah ke Keranjang</button>
+        </div>
+      `;
+      catalogEl.appendChild(card);
+    });
   }
-  productsToRender.forEach(product => {
-    const card = document.createElement('article');
-    card.className = 'product-card';
-    card.innerHTML = `
-      <div class="product-image" style="background-image:url('${product.img}');" aria-label="Gambar produk ${product.name}"></div>
-      <div class="product-info">
-        <h3 class="product-name">${product.name}</h3>
-        <div class="product-price">Rp ${formatPrice(product.price)}</div>
-        <button class="add-cart-btn" aria-label="Tambah ${product.name} ke keranjang" onclick="addToCart('${product.id}')">Tambah ke Keranjang</button>
-      </div>
-    `;
-    catalogEl.appendChild(card);
-  });
-}
 
-// Add product to cart
-function addToCart(productId) {
-  if (cart[productId]) {
-    cart[productId].qty++;
-  } else {
-    const product = products.find(p => p.id === productId);
-    cart[productId] = { ...product, qty: 1 };
-  }
-  updateCartUI();
-  openCart();
-}
-
-// Remove product from cart
-function removeFromCart(productId) {
-  delete cart[productId];
-  updateCartUI();
-}
-
-// Change quantity of a product in the cart
-function changeQty(productId, delta) {
-  if (!cart[productId]) return;
-  cart[productId].qty += delta;
-  if (cart[productId].qty < 0) {
-    removeFromCart(productId);
-  } else {
+  function addToCart(productId) {
+    if (cart[productId]) {
+      cart[productId].qty++;
+    } else {
+      const product = products.find(p => p.id === productId);
+      cart[productId] = {
+        ...product,
+        qty: 1
+      };
+    }
     updateCartUI();
-  }
-}
-
-// Update the cart UI
-function updateCartUI() {
-  const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
-  if (totalItems > 0) {
-    cartCountEl.style.display = 'inline-block';
-    cartCountEl.textContent = totalItems;
-  } else {
-    cartCountEl.style.display = 'none';
-  }
-
-  if (totalItems === 0) {
-    cartContent.innerHTML = '<p style="text-align:center;color:#666;">Keranjang kosong.</p>';
-    cartFooter.style.display = 'none';
-  } else {
-    cartFooter.style.display = 'block';
-    renderCartItems();
-  }
-}
-
-// Render cart items
-function renderCartItems() {
-  cartContent.innerHTML = '';
-  let totalPrice = 0;
-  for (const key in cart) {
-    const item = cart[key];
-    totalPrice += item.price * item.qty;
-    const div = document.createElement('div');
-    div.className = 'cart-item';
-    div.innerHTML = `
-      div.innerHTML = `
-  <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
-  <div class="cart-item-info">
-    <div class="cart-item-name">${item.name}</div>
-    <div class="cart-item-qty" aria-label="Jumlah produk">
-      <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
-      <span>${item.qty}</span>
-      <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
-    </div>
-    <div class="cart-item-note">
-      <input type="text" id="catatan-${item.id}" placeholder="Catatan (opsional)" style="width: 100%; margin-top: 4px;">
-    </div>
-  </div>
-  <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
-`;
-
-    cartContent.appendChild(div);
-  }
-  cartTotalEl.textContent = formatPrice(totalPrice);
-}
-
-// Open the cart modal
-function openCart() {
-  cartModal.classList.add('open');
-}
-
-// Close the cart modal
-function closeCart() {
-  cartModal.classList.remove('open');
-}
-
-// Toggle cart modal visibility
-cartBtn.addEventListener('click', () => {
-  if (cartModal.classList.contains('open')) {
-    closeCart();
-  } else {
     openCart();
   }
-});
 
-closeCartBtn.addEventListener('click', closeCart);
-
-// Perform product search
-function performSearch() {
-  const query = document.getElementById('searchInput').value.trim().toLowerCase();
-  if (query === '') {
-    renderCatalog(products);
-  } else {
-    const filtered = products.filter(p => p.name.toLowerCase().includes(query));
-    renderCatalog(filtered);
+  function removeFromCart(productId) {
+    delete cart[productId];
+    updateCartUI();
   }
-}
 
-<script>
-// Fungsi Checkout ke WhatsApp
+  function changeQty(productId, delta) {
+    if (!cart[productId]) return;
+    cart[productId].qty += delta;
+    if (cart[productId].qty <= 0) {
+      removeFromCart(productId);
+    } else {
+      updateCartUI();
+    }
+  }
+
+  function updateCartUI() {
+    const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+    if (totalItems > 0) {
+      cartCountEl.style.display = 'inline-block';
+      cartCountEl.textContent = totalItems;
+    } else {
+      cartCountEl.style.display = 'none';
+    }
+
+    if (totalItems === 0) {
+      cartContent.innerHTML = '<p style="text-align:center;color:#666;">Keranjang kosong.</p>';
+      cartFooter.style.display = 'none';
+    } else {
+      cartFooter.style.display = 'block';
+      renderCartItems();
+    }
+  }
+
+  function renderCartItems() {
+    cartContent.innerHTML = '';
+    let totalPrice = 0;
+    for (const key in cart) {
+      const item = cart[key];
+      totalPrice += item.price * item.qty;
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-qty" aria-label="Jumlah produk">
+            <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
+            <span>${item.qty}</span>
+            <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
+          </div>
+        </div>
+        <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
+      `;
+      cartContent.appendChild(div);
+    }
+    cartTotalEl.textContent = formatPrice(totalPrice);
+  }
+
+  function openCart() {
+    cartModal.classList.add('open');
+  }
+
+  function closeCart() {
+    cartModal.classList.remove('open');
+  }
+
+  cartBtn.addEventListener('click', () => {
+    if (cartModal.classList.contains('open')) {
+      closeCart();
+    } else {
+      openCart();
+    }
+  });
+  closeCartBtn.addEventListener('click', closeCart);
+
+  function performSearch() {
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+    if (query === '') {
+      renderCatalog(products);
+    } else {
+      const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+      renderCatalog(filtered);
+    }
+  }
 function checkout() {
   if (Object.keys(cart).length === 0) {
     alert('Keranjang kosong.');
@@ -635,23 +628,15 @@ function checkout() {
   }
 
   let summary = 'Pesanan Anda:\n\n';
+
   Object.values(cart).forEach(item => {
-    let catatan = document.getElementById(`catatan-${item.id}`)?.value.trim() || "";
     summary += `- ${item.name} x ${item.qty} = Rp ${(item.price * item.qty).toLocaleString()}\n`;
-    if (catatan !== "") {
-      summary += `  (Catatan: ${catatan})\n`;
-    }
   });
 
   const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
   summary += `\nTotal: Rp ${total.toLocaleString()}`;
 
-  const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked')?.value;
-  if (!metodePengantaran) {
-    alert('Silakan pilih metode pengantaran.');
-    return;
-  }
-
+  const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked').value;
   summary += `\nMetode Pengantaran: ${metodePengantaran}`;
 
   if (metodePengantaran === "Diantar") {
@@ -663,16 +648,30 @@ function checkout() {
     summary += `\nAlamat Pengantaran: ${alamat}`;
   }
 
+  // ✅ Tambahkan bagian ini:
+  const metodePembayaran = document.querySelector('input[name="pembayaran"]:checked');
+  if (metodePembayaran) {
+    summary += `\nMetode Pembayaran: ${metodePembayaran.value}`;
+  }
+
   summary += '\n\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
   const waMessage = encodeURIComponent(summary);
   const waLink = `https://wa.me/6289664363463?text=${waMessage}`;
   window.open(waLink, '_blank');
 }
-
-// Pastikan fungsi lain seperti renderCatalog() dan updateCartUI() dipanggil setelah semua elemen dan data tersedia.
-renderCatalog(products);
-updateCartUI();
+function toggleAlamat() {
+  const selected = document.querySelector('input[name="pengantaran"]:checked').value;
+  const alamatInput = document.getElementById('alamatInput');
+  if (selected === "Diantar") {
+    alamatInput.style.display = 'block';
+  } else {
+    alamatInput.style.display = 'none';
+  }
+  
+}
+  // Inisialisasi awal
+  renderCatalog(products);
+  updateCartUI();
 </script>
-
 </body>
 </html>
