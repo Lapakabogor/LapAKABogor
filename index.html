@@ -398,45 +398,52 @@
     <section class="catalog" id="catalog"></section>
   </main>
 
-  <aside id="cartModal" aria-label="Keranjang Belanja">
-    <header>
-        Keranjang Anda
-        <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang" onclick="closeCart()">&times;</button>
-    </header>
-    <div id="cartContent">
-        <p style="text-align:center;color:#666;">Keranjang kosong.</p>
+  <aside id="cartModal" aria-label="Keranjang Belanja" class="cart-modal">
+  <header class="cart-header">
+    <h2>Keranjang Anda</h2>
+    <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang" onclick="closeCart()">&times;</button>
+  </header>
+
+  <div id="cartContent" class="cart-content">
+    <p class="empty-cart-text">Keranjang kosong.</p>
+  </div>
+
+  <footer id="cartFooter" class="cart-footer" style="display:none;">
+    <!-- Total Harga -->
+    <div class="total">Total: Rp <span id="cartTotal">0</span></div>
+
+    <!-- Metode Pengantaran -->
+    <div class="delivery-method">
+      <p><strong>Metode Pengantaran:</strong></p>
+      <label>
+        <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
+        Ambil Langsung (Politeknik AKA Bogor)
+      </label><br>
+      <label>
+        <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
+        Diantar
+      </label>
     </div>
-    <footer id="cartFooter" style="display:none;">
-        <div class="total">Total: Rp <span id="cartTotal">0</span></div>
 
-        <div class="delivery-method" style="margin: 10px 0;">
-            <label>
-                <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
-                Ambil Langsung (Politeknik AKA Bogor)
-            </label><br>
-            <label>
-                <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
-                Diantar
-            </label>
-        </div>
+    <!-- Input Alamat jika Diantar -->
+    <div id="alamatInput" class="alamat-input" style="display:none;">
+      <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
+      <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
+    </div>
 
-        <!-- Input alamat muncul jika memilih "Diantar" -->
-        <div id="alamatInput" style="display:none; margin-top: 8px;">
-            <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
-            <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
-        </div>
+    <!-- Metode Pembayaran -->
+    <div class="payment-method">
+      <p><strong>Metode Pembayaran:</strong></p>
+      <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
+      <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
+      <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
+    </div>
 
-        <!-- ✅ Metode Pembayaran -->
-        <div class="payment-method" style="margin: 10px 0;">
-            <label style="font-weight: bold;">Metode Pembayaran:</label><br>
-            <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
-            <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
-            <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
-        </div>
+    <!-- Tombol Checkout -->
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+  </footer>
+</aside>
 
-        <button class="checkout-btn" onclick="checkout()">Checkout</button>
-    </footer>
-  </aside>
 <script>
 // Splash screen functionality
 window.addEventListener('DOMContentLoaded', () => {
@@ -603,7 +610,8 @@ function performSearch() {
   }
 }
 
-// Checkout functionality
+<script>
+// Fungsi Checkout ke WhatsApp
 function checkout() {
   if (Object.keys(cart).length === 0) {
     alert('Keranjang kosong.');
@@ -612,7 +620,7 @@ function checkout() {
 
   let summary = 'Pesanan Anda:\n\n';
   Object.values(cart).forEach(item => {
-    let catatan = document.getElementById(`catatan-${item.id}`).value.trim();
+    let catatan = document.getElementById(`catatan-${item.id}`)?.value.trim() || "";
     summary += `- ${item.name} x ${item.qty} = Rp ${(item.price * item.qty).toLocaleString()}\n`;
     if (catatan !== "") {
       summary += `  (Catatan: ${catatan})\n`;
@@ -622,7 +630,12 @@ function checkout() {
   const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
   summary += `\nTotal: Rp ${total.toLocaleString()}`;
 
-  const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked').value;
+  const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked')?.value;
+  if (!metodePengantaran) {
+    alert('Silakan pilih metode pengantaran.');
+    return;
+  }
+
   summary += `\nMetode Pengantaran: ${metodePengantaran}`;
 
   if (metodePengantaran === "Diantar") {
@@ -634,37 +647,15 @@ function checkout() {
     summary += `\nAlamat Pengantaran: ${alamat}`;
   }
 
-  // Redirect to WhatsApp with the summary
   summary += '\n\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
   const waMessage = encodeURIComponent(summary);
   const waLink = `https://wa.me/6289664363463?text=${waMessage}`;
   window.open(waLink, '_blank');
 }
 
-// Ambil data dari DOM (misalnya dari keranjang)
-const cartItems = [
-  { name: "Keripik Pedas", quantity: 2 },
-  { name: "Kopi Susu", quantity: 1 }
-  // ...data lainnya
-];
-
-// Buat ringkasan pesanan
-let summary = "Halo, saya ingin memesan:\n\n";
-summary += cartItems.map(item => `- ${item.name} (${item.quantity})`).join('\n');
-
-// Tambahkan instruksi pengiriman
-summary += '\n\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
-
-// Encode untuk URL WhatsApp
-const waMessage = encodeURIComponent(summary);
-const waLink = `https://wa.me/6289664363463?text=${waMessage}`;
-window.open(waLink, '_blank');
-}
-
-// Initialize the catalog and cart UI
+// Pastikan fungsi lain seperti renderCatalog() dan updateCartUI() dipanggil setelah semua elemen dan data tersedia.
 renderCatalog(products);
 updateCartUI();
-
 </script>
 
 </body>
