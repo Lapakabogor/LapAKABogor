@@ -641,15 +641,24 @@ function checkout() {
   window.open(waLink, '_blank');
 }
 
-// Toggle alamat input visibility
-function toggleAlamat() {
-  const selected = document.querySelector('input[name="pengantaran"]:checked').value;
-  const alamatInput = document.getElementById('alamatInput');
-  if (selected === "Diantar") {
-    alamatInput.style.display = 'block';
-  } else {
-    alamatInput.style.display = 'none';
-  }
+// Ambil data dari DOM (misalnya dari keranjang)
+const cartItems = [
+  { name: "Keripik Pedas", quantity: 2 },
+  { name: "Kopi Susu", quantity: 1 }
+  // ...data lainnya
+];
+
+// Buat ringkasan pesanan
+let summary = "Halo, saya ingin memesan:\n\n";
+summary += cartItems.map(item => `- ${item.name} (${item.quantity})`).join('\n');
+
+// Tambahkan instruksi pengiriman
+summary += '\n\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
+
+// Encode untuk URL WhatsApp
+const waMessage = encodeURIComponent(summary);
+const waLink = `https://wa.me/6289664363463?text=${waMessage}`;
+window.open(waLink, '_blank');
 }
 
 // Initialize the catalog and cart UI
