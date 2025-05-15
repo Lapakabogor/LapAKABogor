@@ -537,7 +537,7 @@ function removeFromCart(productId) {
 function changeQty(productId, delta) {
   if (!cart[productId]) return;
   cart[productId].qty += delta;
-  if (cart[productId].qty <= 0) {
+  if (cart[productId].qty < 0) {
     removeFromCart(productId);
   } else {
     updateCartUI();
