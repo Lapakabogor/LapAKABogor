@@ -406,59 +406,61 @@
     <section class="catalog" id="catalog"></section>
   </main>
 
-  <aside id="cartModal" aria-label="Keranjang Belanja">
-    <header>
-      Keranjang Anda
-      <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
-    </header>
-    <div id="cartContent">
-      <p style="text-align:center;color:#666;">Keranjang kosong.</p>
+ <aside id="cartModal" aria-label="Keranjang Belanja">
+  <header>
+    Keranjang Anda
+    <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
+  </header>
+
+  <div id="cartContent">
+    <p style="text-align:center;color:#666;">Keranjang kosong.</p>
+
+    <!-- Metode Pengantaran -->
+    <div class="delivery-method" style="margin: 10px 0;">
+      <label>
+        <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
+        Ambil Langsung (Politeknik AKA Bogor)
+      </label><br>
+      <label>
+        <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
+        Diantar
+      </label>
     </div>
-    <footer id="cartFooter" style="display:none;">
-  <div class="total">Total: Rp <span id="cartTotal">0</span></div>
 
- <div class="delivery-method" style="margin: 10px 0;">
-  <label>
-    <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
-    Ambil Langsung (Politeknik AKA Bogor)
-  </label><br>
-  <label>
-    <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
-    Diantar
-  </label>
-</div>
+    <!-- Input alamat jika memilih Diantar -->
+    <div id="alamatInput" style="display:none; margin-top: 8px;">
+      <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
+      <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
+    </div>
 
-<!-- Input alamat muncul jika memilih "Diantar" -->
-<div id="alamatInput" style="display:none; margin-top: 8px;">
-  <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
-  <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
-</div>
-      
-<!-- ✅ Identitas Konsumen -->
-<div class="customer-info" style="margin: 10px 0;">
-  <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
-  <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
+    <!-- Identitas Konsumen -->
+    <div class="customer-info" style="margin: 10px 0;">
+      <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
+      <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
 
-  <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
-  <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
+      <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
+      <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
 
-  <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
-  <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
-</div>
-      
-<!-- ✅ Metode Pembayaran -->
-<div class="payment-method" style="margin: 10px 0;">
-  <label style="font-weight: bold;">Metode Pembayaran:</label><br>
-  <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
-  <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
-  <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
-</div>
+      <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
+      <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
+    </div>
 
-<button class="checkout-btn" onclick="checkout()">Checkout</button>
+    <!-- Metode Pembayaran -->
+    <div class="payment-method" style="margin: 10px 0;">
+      <label style="font-weight: bold;">Metode Pembayaran:</label><br>
+      <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
+      <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
+      <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
+    </div>
+  </div>
 
-</footer>
+  <!-- Footer selalu di bawah -->
+  <footer id="cartFooter">
+    <div class="total">Total: Rp <span id="cartTotal">0</span></div>
+    <button class="checkout-btn" onclick="checkout()">Checkout</button>
+  </footer>
+</aside>
 
-  </aside>
    <script>
 // Splash screen
     window.addEventListener('DOMContentLoaded', () => {
