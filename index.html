@@ -406,64 +406,60 @@
     <section class="catalog" id="catalog"></section>
   </main>
 
-<aside id="cartModal" aria-label="Keranjang Belanja">
-  <header>
-    Keranjang Anda
-    <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
-  </header>
-
-  <div id="cartContent">
-    <!-- ✅ 1. Daftar Produk -->
-    <div id="cartItems">
+  <aside id="cartModal" aria-label="Keranjang Belanja">
+    <header>
+      Keranjang Anda
+      <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
+    </header>
+    <div id="cartContent">
       <p style="text-align:center;color:#666;">Keranjang kosong.</p>
-      <!-- Produk akan ditambahkan di sini secara dinamis -->
     </div>
+    <footer id="cartFooter" style="display:none;">
+  <div class="total">Total: Rp <span id="cartTotal">0</span></div>
 
-    <!-- ✅ 2. Identitas Konsumen -->
-    <div class="customer-info" style="margin: 10px 0;">
-      <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
-      <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
+ <div class="delivery-method" style="margin: 10px 0;">
+  <label>
+    <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
+    Ambil Langsung (Politeknik AKA Bogor)
+  </label><br>
+  <label>
+    <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
+    Diantar
+  </label>
+</div>
 
-      <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
-      <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
+<!-- Input alamat muncul jika memilih "Diantar" -->
+<div id="alamatInput" style="display:none; margin-top: 8px;">
+  <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
+  <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
+</div>
+      
+<!-- ✅ Identitas Konsumen -->
+<div class="customer-info" style="margin: 10px 0;">
+  <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
+  <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
 
-      <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
-      <textarea id="catatan" placeholder="Misalnya: tanpa sambal" style="width: 100%; padding: 6px;"></textarea><br><br>
-    </div>
+  <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
+  <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
 
-    <!-- ✅ 3. Metode Pengiriman -->
-    <div class="pengiriman-info" style="margin-bottom: 10px;">
-      <strong>Metode Pengantaran:</strong><br>
-      <label><input type="radio" name="pengantaran" value="Ambil Sendiri" onclick="toggleAlamat()" checked> Ambil Sendiri</label><br>
-      <label><input type="radio" name="pengantaran" value="Diantar" onclick="toggleAlamat()"> Diantar (Rp 1000/item)</label><br><br>
+  <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
+  <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
+</div>
+      
+<!-- ✅ Metode Pembayaran -->
+<div class="payment-method" style="margin: 10px 0;">
+  <label style="font-weight: bold;">Metode Pembayaran:</label><br>
+  <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
+  <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
+  <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
+</div>
 
-      <div id="alamatInput" style="display: none;">
-        <label for="alamatPengantaran"><strong>Alamat Pengantaran:</strong></label><br>
-        <textarea id="alamatPengantaran" placeholder="Masukkan alamat lengkap" style="width: 100%; padding: 6px;"></textarea><br><br>
-      </div>
-    </div>
+<button class="checkout-btn" onclick="checkout()">Checkout</button>
 
-    <!-- ✅ 4. Metode Pembayaran -->
-    <div class="pembayaran-info" style="margin-bottom: 10px;">
-      <strong>Metode Pembayaran:</strong><br>
-      <label><input type="radio" name="pembayaran" value="QRIS" checked> QRIS</label><br>
-      <label><input type="radio" name="pembayaran" value="Cash"> Tunai (Cash)</label><br><br>
-    </div>
+</footer>
 
-    <!-- ✅ 5. Total dan Tombol Checkout -->
-    <div class="checkout-section">
-      <div style="margin: 10px 0;">
-        <strong>Total: Rp <span id="cartTotal">0</span></strong>
-      </div>
-      <button onclick="checkout()" style="width: 100%; padding: 10px; background-color: #28a745; color: white; border: none; font-weight: bold;">
-        Checkout via WhatsApp
-      </button>
-    </div>
-  </div>
-</aside>
-
+  </aside>
    <script>
-     
 // Splash screen
     window.addEventListener('DOMContentLoaded', () => {
       const splash = document.getElementById('splashScreen');
@@ -594,36 +590,30 @@
     }
   }
 
-function renderCartItems() {
-  const cartItemsContainer = document.getElementById('cartItems');
-  cartItemsContainer.innerHTML = ''; // Hanya kosongkan bagian produk
-
-  let totalPrice = 0;
-
-  for (const key in cart) {
-    const item = cart[key];
-    totalPrice += item.price * item.qty;
-
-    const div = document.createElement('div');
-    div.className = 'cart-item';
-    div.innerHTML = `
-      <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-qty" aria-label="Jumlah produk">
-          <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
-          <span>${item.qty}</span>
-          <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
+  function renderCartItems() {
+    cartContent.innerHTML = '';
+    let totalPrice = 0;
+    for (const key in cart) {
+      const item = cart[key];
+      totalPrice += item.price * item.qty;
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-qty" aria-label="Jumlah produk">
+            <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
+            <span>${item.qty}</span>
+            <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
+          </div>
         </div>
-      </div>
-      <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
-    `;
-
-    cartItemsContainer.appendChild(div);
+        <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
+      `;
+      cartContent.appendChild(div);
+    }
+    cartTotalEl.textContent = formatPrice(totalPrice);
   }
-
-  cartTotalEl.textContent = formatPrice(totalPrice);
-}
 
   function openCart() {
     cartModal.classList.add('open');
@@ -651,68 +641,65 @@ function renderCartItems() {
       renderCatalog(filtered);
     }
   }
-// Fungsi checkout dan kirim ke WhatsApp
-  function checkout() {
-    if (Object.keys(cart).length === 0) {
-      alert('Keranjang kosong.');
+function checkout() {
+  if (Object.keys(cart).length === 0) {
+    alert('Keranjang kosong.');
+    return;
+  }
+
+  let summary = 'Pesanan Anda:\n\n';
+
+  Object.values(cart).forEach(item => {
+    summary += `- ${item.name} x ${item.qty} = Rp ${(item.price * item.qty).toLocaleString()}\n`;
+  });
+
+  const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
+  summary += `\nTotal: Rp ${total.toLocaleString()}`;
+
+  const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked').value;
+  summary += `\nMetode Pengantaran: ${metodePengantaran}`;
+
+  if (metodePengantaran === "Diantar") {
+    const alamat = document.getElementById('alamatPengantaran').value.trim();
+    if (!alamat) {
+      alert('Silakan masukkan lokasi pengantaran.');
       return;
     }
-
-    let summary = 'Pesanan Anda:\n\n';
-
-    Object.values(cart).forEach(item => {
-      summary += `- ${item.name} x ${item.qty} = Rp ${(item.price * item.qty).toLocaleString()}\n`;
-    });
-
-    const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
-    summary += `\nTotal: Rp ${total.toLocaleString()}`;
-
-    // ✅ Ambil identitas konsumen
-    const nama = document.getElementById("namaKonsumen").value.trim();
-    const whatsapp = document.getElementById("noWhatsapp").value.trim();
-    const catatan = document.getElementById("catatan").value.trim();
-
-    summary += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
-    if (catatan !== "") {
-      summary += `\n*Catatan:* ${catatan}`;
-    }
-
-    const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked').value;
-    summary += `\nMetode Pengantaran: ${metodePengantaran}`;
-
-    if (metodePengantaran === "Diantar") {
-      const alamat = document.getElementById('alamatPengantaran').value.trim();
-      if (!alamat) {
-        alert('Silakan masukkan lokasi pengantaran.');
-        return;
-      }
-      summary += `\nAlamat Pengantaran: ${alamat}`;
-    }
-
-    // ✅ Tambahkan metode pembayaran
-    const metodePembayaran = document.querySelector('input[name="pembayaran"]:checked');
-    if (metodePembayaran) {
-      summary += `\nMetode Pembayaran: ${metodePembayaran.value}`;
-    }
-
-    summary += '\n\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
-    const waMessage = encodeURIComponent(summary);
-    const waLink = `https://wa.me/6282125466588?text=${waMessage}`;
-    window.open(waLink, '_blank');
+    summary += `\nAlamat Pengantaran: ${alamat}`;
   }
 
-  // Fungsi untuk menampilkan input alamat jika dipilih 'Diantar'
-  function toggleAlamat() {
-    const selected = document.querySelector('input[name="pengantaran"]:checked').value;
-    const alamatInput = document.getElementById('alamatInput');
-    if (selected === "Diantar") {
-      alamatInput.style.display = 'block';
-    } else {
-      alamatInput.style.display = 'none';
-    }
+  // ✅ Tambahkan bagian ini:
+  const metodePembayaran = document.querySelector('input[name="pembayaran"]:checked');
+  if (metodePembayaran) {
+    summary += `\nMetode Pembayaran: ${metodePembayaran.value}`;
   }
-
-  // ✅ Inisialisasi awal
+  
+  // ✅ Ambil identitas konsumen
+  const nama = document.getElementById("namaKonsumen").value.trim();
+  const whatsapp = document.getElementById("noWhatsapp").value.trim();
+  const catatan = document.getElementById("catatan").value.trim();
+   
+  pesan += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
+  if (catatan !== "") {
+    pesan += `\n*Catatan:* ${catatan}`;
+  }
+     
+  summary += '\n\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
+  const waMessage = encodeURIComponent(summary);
+  const waLink = `https://wa.me/6289664363463?text=${waMessage}`;
+  window.open(waLink, '_blank');
+}
+function toggleAlamat() {
+  const selected = document.querySelector('input[name="pengantaran"]:checked').value;
+  const alamatInput = document.getElementById('alamatInput');
+  if (selected === "Diantar") {
+    alamatInput.style.display = 'block';
+  } else {
+    alamatInput.style.display = 'none';
+  }
+  
+}
+  // Inisialisasi awal
   renderCatalog(products);
   updateCartUI();
 </script>
