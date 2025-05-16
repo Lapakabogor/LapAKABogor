@@ -132,12 +132,43 @@
       padding: 2px 6px;
       border-radius: 9999px;
     }
-
     main {
       padding: 1rem;
       max-width: 1200px;
       margin: auto;
     }
+    
+.kategori-produk {
+  padding: 1rem;
+  background-color: var(--gray-light);
+  border-radius: 0.75rem;
+  margin: 1rem;
+}
+.kategori-produk h2 {
+  margin-bottom: 0.5rem;
+  color: var(--biru);
+}
+.kategori-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.kategori-item {
+  flex: 1 1 45%;
+  background: white;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--gray-dark);
+  border-radius: 0.5rem;
+  text-align: center;
+  font-weight: bold;
+  color: var(--gray-dark);
+  transition: 0.3s ease;
+}
+.kategori-item:hover {
+  background: var(--biru);
+  color: white;
+  border-color: var(--biru);
+}
 
     .catalog {
       display: grid;
@@ -434,6 +465,20 @@
   </div>
 </div>
     
+  <main>
+  <!-- Kategori Produk -->
+  <section class="kategori-produk">
+    <h2>Kategori Produk</h2>
+    <div class="kategori-container">
+      <div class="kategori-item" data-kategori="makanan-berat">🍛 Makanan Berat</div>
+      <div class="kategori-item" data-kategori="makanan-ringan">🍪 Makanan Ringan</div>
+      <div class="kategori-item" data-kategori="minuman">🥤 Minuman</div>
+      <div class="kategori-item" data-kategori="perawatan-kosmetik">🧴 Perawatan & Kosmetik</div>
+      <div class="kategori-item" data-kategori="rumah-tangga">🏠 Rumah Tangga</div>
+      <div class="kategori-item" data-kategori="fashion-bekas">👕 Fashion & Bekas</div>
+    </div>
+  </section>
+    
     <div id="productModal" class="modal" style="display: none;">
   <div class="modal-content">
     <span class="close-modal" onclick="closeModal()">&times;</span>
@@ -442,7 +487,6 @@
     <p id="modalDesc" style="color: #555;"></p>
   </div>
 </div>
-
 
     <section class="catalog" id="catalog"></section>
   </main>
