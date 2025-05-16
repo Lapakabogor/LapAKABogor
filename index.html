@@ -198,17 +198,42 @@
       background: #138c35;
     }
     
- #modalOverlay {
+/* Overlay umum untuk semua modal */
+#modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.3); /* efek gelap */
+  background: rgba(0, 0, 0, 0.3); /* Efek gelap */
   z-index: 9998;
-  display: none; /* muncul hanya saat modal dibuka */
+  display: none; /* Tampil hanya saat modal aktif */
 }
 
+/* Modal produk */
+.modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 90%;
+  width: 400px;
+  position: relative;
+  z-index: 10000; /* Lebih tinggi dari overlay */
+}
+
+/* Cart modal */
 #cartModal {
   position: fixed;
   top: 0;
@@ -230,7 +255,7 @@
 }
 
 #cartModal header {
-  background: var(--biru); /* atau ganti dengan warna yang kamu pakai */
+  background: var(--biru); /* Ganti sesuai variabel kamu */
   color: white;
   padding: 1rem;
   font-weight: 700;
@@ -239,6 +264,7 @@
   justify-content: space-between;
   align-items: center;
 }
+
 #cartContent {
   flex-grow: 1;
   overflow-y: auto;
@@ -406,7 +432,9 @@
   </div>
 </div>
     
-   <div id="productModal" class="modal" style="display: none;">
+ <div id="modalOverlay"></div>
+
+<div id="productModal" class="modal">
   <div class="modal-content">
     <img id="modalImg" src="" alt="" style="width: 100%; border-radius: 6px; margin-bottom: 10px;">
     <h2 id="modalTitle"></h2>
@@ -592,21 +620,26 @@ card.innerHTML = `
       catalogEl.appendChild(card);
     });
   }
+const cartModal = document.getElementById('cartModal');
+const modalOverlay = document.getElementById('modalOverlay');
+const productModal = document.getElementById('productModal');
+
+// Produk
 function openModal(productId) {
   const product = products.find(p => p.id === productId);
   document.getElementById('modalImg').src = product.img;
   document.getElementById('modalTitle').textContent = product.name;
   document.getElementById('modalDesc').textContent = product.description;
-  document.getElementById('productModal').style.display = 'flex';
+  productModal.style.display = 'flex';
+  modalOverlay.style.display = 'block';
 }
 
 function closeModal() {
-  document.getElementById('productModal').style.display = 'none';
+  productModal.style.display = 'none';
+  modalOverlay.style.display = 'none';
 }
 
-const cartModal = document.getElementById('cartModal');
-const modalOverlay = document.getElementById('modalOverlay');
-
+// Cart
 function openCartModal() {
   cartModal.classList.add('open');
   modalOverlay.style.display = 'block';
@@ -617,10 +650,13 @@ function closeCartModal() {
   modalOverlay.style.display = 'none';
 }
 
-// Tutup jika klik overlay
-modalOverlay.addEventListener('click', closeCartModal);
+// Klik overlay = tutup semua modal
+modalOverlay.addEventListener('click', () => {
+  closeModal();
+  closeCartModal();
+});
 
-// Buka modal cart saat tombol diklik
+// Buka cart saat tombol diklik
 const cartBtn = document.getElementById('cartBtn');
 if (cartBtn) {
   cartBtn.addEventListener('click', openCartModal);
