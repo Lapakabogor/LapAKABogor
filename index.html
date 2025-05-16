@@ -383,7 +383,9 @@
       #cartModal { width: 100vw; max-width: none; }
       .product-card { font-size: 14px; }
       .product-info { padding: 0.5rem 0.5rem 0.75rem; }
-    }.delivery-method {
+    }
+    
+    .delivery-method {
     font-size: 14px;
     color: #333;
   }
@@ -495,59 +497,56 @@
 </section>
   </main>
 
-  <aside id="cartModal" aria-label="Keranjang Belanja">
-    <header>
-      Keranjang Anda
-      <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
-    </header>
-    <div id="cartContent">
-      <p style="text-align:center;color:#666;">Keranjang kosong.</p>
+ <aside id="cartModal" aria-label="Keranjang Belanja">
+  <header>
+    Keranjang Anda
+    <button type="button" class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
+  </header>
+  <div id="cartContent" aria-live="polite" aria-atomic="true">
+    <p style="text-align:center;color:#666;">Keranjang kosong.</p>
+  </div>
+  <footer id="cartFooter" style="display:none;">
+    <div class="total">Total: Rp <span id="cartTotal">0</span></div>
+
+    <fieldset class="delivery-method" style="margin: 10px 0;">
+      <legend>Metode Pengantaran</legend>
+      <label>
+        <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
+        Ambil Langsung (Politeknik AKA Bogor)
+      </label><br>
+      <label>
+        <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
+        Diantar
+      </label>
+    </fieldset>
+
+    <div id="alamatInput" style="display:none; margin-top: 8px;">
+      <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
+      <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
     </div>
-    <footer id="cartFooter" style="display:none;">
-  <div class="total">Total: Rp <span id="cartTotal">0</span></div>
 
- <div class="delivery-method" style="margin: 10px 0;">
-  <label>
-    <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
-    Ambil Langsung (Politeknik AKA Bogor)
-  </label><br>
-  <label>
-    <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
-    Diantar
-  </label>
-</div>
+    <div class="customer-info" style="margin: 10px 0;">
+      <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
+      <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
 
-<!-- Input alamat muncul jika memilih "Diantar" -->
-<div id="alamatInput" style="display:none; margin-top: 8px;">
-  <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
-  <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
-</div>
-      
-<!-- ✅ Identitas Konsumen -->
-<div class="customer-info" style="margin: 10px 0;">
-  <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
-  <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
+      <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
+      <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
 
-  <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
-  <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
+      <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
+      <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
+    </div>
 
-  <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
-  <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
-</div>
-      
-<!-- ✅ Metode Pembayaran -->
-<div class="payment-method" style="margin: 10px 0;">
-  <label style="font-weight: bold;">Metode Pembayaran:</label><br>
-  <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
-  <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
-  <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
-</div>
+    <fieldset class="payment-method" style="margin: 10px 0;">
+      <legend>Metode Pembayaran</legend>
+      <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
+      <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
+      <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
+    </fieldset>
 
-<button class="checkout-btn" onclick="checkout()">Checkout</button>
-
-</footer>
-
-  </aside>
+    <button type="button" class="checkout-btn" onclick="checkout()">Checkout</button>
+  </footer>
+</aside>
+  
    <script>
 // Splash screen
     window.addEventListener('DOMContentLoaded', () => {
@@ -652,47 +651,59 @@ Dari alam🍃, dibuat untuk seseorang yang benar-benar istimewa.`,
 }
 ];
 
-  const catalogEl = document.getElementById('catalog');
-  const cartBtn = document.getElementById('cartBtn');
-  const cartModal = document.getElementById('cartModal');
-  const closeCartBtn = document.getElementById('closeCartBtn');
-  const cartCountEl = document.getElementById('cartCount');
-  const cartContent = document.getElementById('cartContent');
-  const cartFooter = document.getElementById('cartFooter');
-  const cartTotalEl = document.getElementById('cartTotal');
-  let cart = {};
+ const catalogEl = document.getElementById('catalog');
+const cartBtn = document.getElementById('cartBtn');
+const cartModal = document.getElementById('cartModal');
+const closeCartBtn = document.getElementById('closeCartBtn');
+const cartCountEl = document.getElementById('cartCount');
+const cartContent = document.getElementById('cartContent');
+const cartFooter = document.getElementById('cartFooter');
+const cartTotalEl = document.getElementById('cartTotal');
 
-  function formatPrice(num) {
-    return num.toLocaleString('id-ID');
+let cart = {};
+
+function formatPrice(num) {
+  return num.toLocaleString('id-ID');
+}
+
+function renderCatalog(productsToRender) {
+  catalogEl.innerHTML = '';
+  if (productsToRender.length === 0) {
+    catalogEl.innerHTML = '<p style="font-style:italic;color:#666;text-align:center;">Tidak ada produk ditemukan.</p>';
+    return;
   }
 
-  function renderCatalog(productsToRender) {
-    catalogEl.innerHTML = '';
-    if (productsToRender.length === 0) {
-      catalogEl.innerHTML = '<p style="font-style:italic;color:#666;text-align:center;">Tidak ada produk ditemukan.</p>';
-      return;
-    }
-    productsToRender.forEach(product => {
-     const card = document.createElement('article');
-card.className = 'product-card';
-card.onclick = () => openModal(product.id); // Tambahkan ini
-card.innerHTML = `
-  <div class="product-image" style="background-image:url('${product.img}');"></div>
-  <div class="product-info">
-    <h3 class="product-name">${product.name}</h3>
-    <div class="product-price">Rp ${formatPrice(product.price)}</div>
-    <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('${product.id}')">Tambah ke Keranjang</button>
-  </div>
-`;
-      catalogEl.appendChild(card);
-    });
-  }
+  productsToRender.forEach(product => {
+    const card = document.createElement('article');
+    card.className = 'product-card';
+
+    // Klik pada card akan membuka modal detail produk
+    card.onclick = () => openModal(product.id);
+
+    card.innerHTML = `
+      <div class="product-image" style="background-image:url('${product.img}');"></div>
+      <div class="product-info">
+        <h3 class="product-name">${product.name}</h3>
+        <div class="product-price">Rp ${formatPrice(product.price)}</div>
+        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('${product.id}')">Tambah ke Keranjang</button>
+      </div>
+    `;
+
+    catalogEl.appendChild(card);
+  });
+}
+
 function openModal(productId) {
   const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  // Isi konten modal dengan data produk
+  const modal = document.getElementById('productModal');
   document.getElementById('modalImg').src = product.img;
   document.getElementById('modalTitle').textContent = product.name;
   document.getElementById('modalDesc').textContent = product.description;
-  document.getElementById('productModal').style.display = 'flex';
+
+  modal.style.display = 'flex'; // Tampilkan modal
 }
 
 function closeModal() {
