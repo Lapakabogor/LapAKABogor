@@ -406,16 +406,20 @@
     <section class="catalog" id="catalog"></section>
   </main>
 
- <aside id="cartModal" aria-label="Keranjang Belanja">
+<aside id="cartModal" aria-label="Keranjang Belanja">
   <header>
     Keranjang Anda
     <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
   </header>
 
   <div id="cartContent">
-    <p style="text-align:center;color:#666;">Keranjang kosong.</p>
-    
-<!-- Identitas Konsumen -->
+    <!-- ✅ 1. Daftar Produk -->
+    <div id="cartItems">
+      <p style="text-align:center;color:#666;">Keranjang kosong.</p>
+      <!-- Produk akan ditambahkan di sini secara dinamis -->
+    </div>
+
+    <!-- ✅ 2. Identitas Konsumen -->
     <div class="customer-info" style="margin: 10px 0;">
       <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
       <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
@@ -427,8 +431,9 @@
       <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
     </div>
 
-    <!-- Metode Pengantaran -->
+    <!-- ✅ 3. Metode Pengantaran -->
     <div class="delivery-method" style="margin: 10px 0;">
+      <label style="font-weight: bold;">Metode Pengantaran:</label><br>
       <label>
         <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
         Ambil Langsung (Politeknik AKA Bogor)
@@ -437,15 +442,15 @@
         <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
         Diantar
       </label>
+
+      <!-- Input alamat jika memilih Diantar -->
+      <div id="alamatInput" style="display:none; margin-top: 8px;">
+        <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
+        <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
+      </div>
     </div>
 
-    <!-- Input alamat jika memilih Diantar -->
-    <div id="alamatInput" style="display:none; margin-top: 8px;">
-      <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
-      <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
-    </div>
-
-    <!-- Metode Pembayaran -->
+    <!-- ✅ 4. Metode Pembayaran -->
     <div class="payment-method" style="margin: 10px 0;">
       <label style="font-weight: bold;">Metode Pembayaran:</label><br>
       <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
@@ -454,14 +459,14 @@
     </div>
   </div>
 
-  <!-- Footer selalu di bawah -->
+  <!-- ✅ 5. Checkout -->
   <footer id="cartFooter">
     <div class="total">Total: Rp <span id="cartTotal">0</span></div>
     <button class="checkout-btn" onclick="checkout()">Checkout</button>
   </footer>
 </aside>
-
    <script>
+     
 // Splash screen
     window.addEventListener('DOMContentLoaded', () => {
       const splash = document.getElementById('splashScreen');
@@ -592,30 +597,36 @@
     }
   }
 
-  function renderCartItems() {
-    cartContent.innerHTML = '';
-    let totalPrice = 0;
-    for (const key in cart) {
-      const item = cart[key];
-      totalPrice += item.price * item.qty;
-      const div = document.createElement('div');
-      div.className = 'cart-item';
-      div.innerHTML = `
-        <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
-        <div class="cart-item-info">
-          <div class="cart-item-name">${item.name}</div>
-          <div class="cart-item-qty" aria-label="Jumlah produk">
-            <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
-            <span>${item.qty}</span>
-            <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
-          </div>
+function renderCartItems() {
+  const cartItemsContainer = document.getElementById('cartItems');
+  cartItemsContainer.innerHTML = ''; // Hanya kosongkan bagian produk
+
+  let totalPrice = 0;
+
+  for (const key in cart) {
+    const item = cart[key];
+    totalPrice += item.price * item.qty;
+
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `
+      <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-qty" aria-label="Jumlah produk">
+          <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
+          <span>${item.qty}</span>
+          <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
         </div>
-        <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
-      `;
-      cartContent.appendChild(div);
-    }
-    cartTotalEl.textContent = formatPrice(totalPrice);
+      </div>
+      <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
+    `;
+
+    cartItemsContainer.appendChild(div);
   }
+
+  cartTotalEl.textContent = formatPrice(totalPrice);
+}
 
   function openCart() {
     cartModal.classList.add('open');
