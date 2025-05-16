@@ -425,7 +425,19 @@
   <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
   <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
 </div>
+      
+<!-- ✅ Identitas Konsumen -->
+<div class="customer-info" style="margin: 10px 0;">
+  <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
+  <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
 
+  <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
+  <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
+
+  <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
+  <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
+</div>
+      
 <!-- ✅ Metode Pembayaran -->
 <div class="payment-method" style="margin: 10px 0;">
   <label style="font-weight: bold;">Metode Pembayaran:</label><br>
@@ -653,7 +665,13 @@ function checkout() {
   if (metodePembayaran) {
     summary += `\nMetode Pembayaran: ${metodePembayaran.value}`;
   }
-
+  
+  // ✅ Ambil identitas konsumen
+  const nama = document.getElementById("namaKonsumen").value.trim();
+  const whatsapp = document.getElementById("noWhatsapp").value.trim();
+  const catatan = document.getElementById("catatan").value.trim();
+    }
+     
   summary += '\n\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
   const waMessage = encodeURIComponent(summary);
   const waLink = `https://wa.me/6289664363463?text=${waMessage}`;
