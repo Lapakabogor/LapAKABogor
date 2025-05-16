@@ -648,7 +648,6 @@ Dari alam🍃, dibuat untuk seseorang yang benar-benar istimewa.`,
 }
 ];
 
-
   const catalogEl = document.getElementById('catalog');
   const cartBtn = document.getElementById('cartBtn');
   const cartModal = document.getElementById('cartModal');
@@ -786,33 +785,11 @@ function closeModal() {
   closeCartBtn.addEventListener('click', closeCart);
 let kategoriAktif = 'semua';
 
-function renderCatalog(filteredProducts) {
-  const catalog = document.getElementById('catalog');
-  catalog.innerHTML = ''; // kosongkan katalog sebelum diisi
-
-  if (filteredProducts.length === 0) {
-    catalog.innerHTML = '<p>Produk tidak ditemukan.</p>';
-    return;
-  }
-
-  filteredProducts.forEach(product => {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = `
-      <img src="${product.img}" alt="${product.name}">
-      <h3>${product.name}</h3>
-      <p>${product.description}</p>
-      <strong>Rp${product.price.toLocaleString()}</strong>
-    `;
-    catalog.appendChild(card);
-  });
-}
-
 function filterByCategory(kategori) {
   kategoriAktif = kategori;
 
   document.querySelectorAll('.kategori-item').forEach(item => {
-    item.classList.remove('active'); // opsional: tambahkan efek highlight
+    item.classList.remove('active');
   });
   document.querySelector(`[data-kategori="${kategori}"]`)?.classList.add('active');
 
@@ -820,7 +797,7 @@ function filterByCategory(kategori) {
     ? products
     : products.filter(p => p.category === kategori);
 
-  renderCatalog(filtered);
+  renderCatalog(filtered); // <– PENTING: jangan lupa render hasil filter!
 }
 
 // Inisialisasi kategori klik
@@ -830,9 +807,6 @@ document.querySelectorAll('.kategori-item').forEach(item => {
     filterByCategory(kategori);
   });
 });
-
-// Tampilkan semua produk saat pertama kali
-filterByCategory('semua');
 
   function performSearch() {
     const query = document.getElementById('searchInput').value.trim().toLowerCase();
@@ -845,6 +819,9 @@ filterByCategory('semua');
   }
      document.getElementById('searchInput').addEventListener('input', performSearch);
 
+     // Tampilkan semua produk saat pertama kali load
+filterByCategory('semua');
+     
 function checkout() {
   if (Object.keys(cart).length === 0) {
     alert('Keranjang kosong.');
