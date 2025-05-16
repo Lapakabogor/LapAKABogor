@@ -670,7 +670,11 @@ function checkout() {
   const nama = document.getElementById("namaKonsumen").value.trim();
   const whatsapp = document.getElementById("noWhatsapp").value.trim();
   const catatan = document.getElementById("catatan").value.trim();
-    }
+   
+  pesan += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
+  if (catatan !== "") {
+    pesan += `\n*Catatan:* ${catatan}`;
+  }
      
   summary += '\n\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
   const waMessage = encodeURIComponent(summary);
