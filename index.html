@@ -18,7 +18,6 @@
       border: none;
       font-family: inherit;
     }
-
     :root {
       --jingga: #f97316;
       --biru: #2563eb;
@@ -27,8 +26,7 @@
       --gray-light: #f3f4f6;
       --gray-dark: #4b5563;
     }
-
-    /* SPLASH SCREEN */
+/* === SPLASH SCREEN === */
     #splashScreen {
       position: fixed;
       inset: 0;
@@ -48,7 +46,7 @@
       pointer-events: none;
     }
 
-    /* SLIDER */
+    /* === SLIDER === */
     .slider {
       overflow: hidden;
       width: 100%;
@@ -199,77 +197,82 @@
     .add-cart-btn:hover {
       background: #138c35;
     }
+.modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    #modalOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.3);
-      z-index: 9998;
-      display: none;
-    }
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 90%;
+  width: 400px;
+  position: relative;
+}
 
-    .modal {
-      position: fixed;
-      z-index: 9999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
+.close-modal {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
-    .modal-content {
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      max-width: 90%;
-      width: 400px;
-      position: relative;
-      z-index: 10000;
-    }
+ #cartModal {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 320px;
+  max-width: 100vw;
+  height: 100vh;
+  background: white;
+  box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+  transition: right 0.3s ease;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+}
 
-    #cartModal {
-      position: fixed;
-      top: 0;
-      right: -100%;
-      width: 320px;
-      max-width: 100vw;
-      height: 100vh;
-      background: white;
-      box-shadow: -3px 0 10px rgba(0, 0, 0, 0.2);
-      transition: right 0.3s ease;
-      z-index: 9999;
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    }
+#cartModal.open {
+  right: 0;
+}
 
-    #cartModal.open {
-      right: 0;
-    }
+#cartModal header {
+  background: var(--biru);
+  color: white;
+  padding: 1rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    #cartModal header {
-      background: var(--biru);
-      color: white;
-      padding: 1rem;
-      font-weight: 700;
-      font-size: 1.25rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+#cartModal header button.close-cart {
+  background: none;
+  color: white;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+}
 
-    #cartContent {
-      flex-grow: 1;
-      overflow-y: auto;
-      padding: 1rem;
-      padding-right: 8px;
-    }
+#cartContent {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  padding-right: 8px; /* agar scrollbar tidak menimpa konten */
+}
 
     .cart-item {
       display: flex;
@@ -350,39 +353,38 @@
       #cartModal { width: 100vw; max-width: none; }
       .product-card { font-size: 14px; }
       .product-info { padding: 0.5rem 0.5rem 0.75rem; }
-    }
+    }.delivery-method {
+    font-size: 14px;
+    color: #333;
+  }
 
-    .delivery-method {
-      font-size: 14px;
-      color: #333;
-    }
+  .delivery-method label {
+    display: block;
+    margin-bottom: 6px;
+    cursor: pointer;
+  }
 
-    .delivery-method label {
-      display: block;
-      margin-bottom: 6px;
-      cursor: pointer;
-    }
+  #alamatInput {
+    margin-top: 10px;
+  }
 
-    #alamatInput {
-      margin-top: 10px;
-    }
+  #alamatInput label {
+    font-size: 13px;
+    display: block;
+    margin-bottom: 4px;
+    color: #555;
+  }
 
-    #alamatInput label {
-      font-size: 13px;
-      display: block;
-      margin-bottom: 4px;
-      color: #555;
-    }
+  #alamatPengantaran {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+  }
 
-    #alamatPengantaran {
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 14px;
-      width: 100%;
-      box-sizing: border-box;
-      background-color: #f9f9f9;
-    }
   #alamatPengantaran:focus {
     outline: none;
     border-color: #007BFF;
@@ -432,15 +434,15 @@
   </div>
 </div>
     
- <div id="modalOverlay"></div>
-
-<div id="productModal" class="modal">
+    <div id="productModal" class="modal" style="display: none;">
   <div class="modal-content">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
     <img id="modalImg" src="" alt="" style="width: 100%; border-radius: 6px; margin-bottom: 10px;">
     <h2 id="modalTitle"></h2>
     <p id="modalDesc" style="color: #555;"></p>
   </div>
 </div>
+
 
     <section class="catalog" id="catalog"></section>
   </main>
@@ -526,22 +528,13 @@ const products = [
                  '40 gram (Rp7.000).'
   },
   {
-  id: 'p2',
-  name: 'Spaghetti Brulee',
-  price: 15000,
-  img: 'https://github.com/Lapakabogor/LapAKABogor/blob/15b6d484a0b4913b798152858abaf3db5266b6fd/spageti.jpg?raw=true',
-  description: `SPAGHETTI BRULEE – Creamy, Cheesy, Meaty!
-
-Spaghetti dengan saus bolognese gurih, disiram saus keju creamy, dan dipanggang hingga saus di atasnya brulee keemasan yang menggoda.
-
-🔥 Tekstur lembut, rasa mewah ala resto  
-🧀 Keju lumer, topping daging melimpah  
-❄ Bisa frozen, tinggal panaskan & nikmati!
-
-Cocok untuk bekal makan siang, teman nugas, atau reward untuk teman!
-
-Harga: Rp15.000`
-},
+    id: 'p2',
+    name: 'Pakaian Batik Modern',
+    price: 120000,
+    img: 'https://images.pexels.com/photos/3764477/pexels-photo-3764477.jpeg?auto=compress&cs=tinysrgb&w=300',
+    description: 'Batik bergaya modern yang elegan, cocok digunakan untuk acara formal maupun santai. ' +
+                 'Tersedia dalam berbagai ukuran dan motif eksklusif.'
+  },
   {
   id: 'p3',
   name: 'Mochi Gendut',
@@ -620,62 +613,32 @@ card.innerHTML = `
       catalogEl.appendChild(card);
     });
   }
-const cartModal = document.getElementById('cartModal');
-const modalOverlay = document.getElementById('modalOverlay');
-const productModal = document.getElementById('productModal');
-
-// Produk
 function openModal(productId) {
   const product = products.find(p => p.id === productId);
   document.getElementById('modalImg').src = product.img;
   document.getElementById('modalTitle').textContent = product.name;
   document.getElementById('modalDesc').textContent = product.description;
-  productModal.style.display = 'flex';
-  modalOverlay.style.display = 'block';
+  document.getElementById('productModal').style.display = 'flex';
 }
 
 function closeModal() {
-  productModal.style.display = 'none';
-  modalOverlay.style.display = 'none';
+  document.getElementById('productModal').style.display = 'none';
 }
 
-// Cart
-function openCartModal() {
-  cartModal.classList.add('open');
-  modalOverlay.style.display = 'block';
-}
-
-function closeCartModal() {
-  cartModal.classList.remove('open');
-  modalOverlay.style.display = 'none';
-}
-
-// Klik overlay = tutup semua modal
-modalOverlay.addEventListener('click', () => {
-  closeModal();
-  closeCartModal();
-});
-
-// Buka cart saat tombol diklik
-const cartBtn = document.getElementById('cartBtn');
-if (cartBtn) {
-  cartBtn.addEventListener('click', openCartModal);
-}
-
-function addToCart(productId) {
-  if (cart[productId]) {
-    cart[productId].qty++;
-  } else {
-    const product = products.find(p => p.id === productId);
-    cart[productId] = {
-      ...product,
-      qty: 1
-    };
+  function addToCart(productId) {
+    if (cart[productId]) {
+      cart[productId].qty++;
+    } else {
+      const product = products.find(p => p.id === productId);
+      cart[productId] = {
+        ...product,
+        qty: 1
+      };
+    }
+    updateCartUI();
+    openCart();
   }
-  updateCartUI();
-  openCartModal(); 
-   }
-    
+
   function removeFromCart(productId) {
     delete cart[productId];
     updateCartUI();
