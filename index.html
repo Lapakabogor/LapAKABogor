@@ -414,6 +414,7 @@
 
   <div id="cartContent">
     <p style="text-align:center;color:#666;">Keranjang kosong.</p>
+    
 <!-- Identitas Konsumen -->
     <div class="customer-info" style="margin: 10px 0;">
       <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
@@ -656,7 +657,17 @@ function checkout() {
 
   const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
   summary += `\nTotal: Rp ${total.toLocaleString()}`;
-
+  
+ // ✅ Ambil identitas konsumen
+  const nama = document.getElementById("namaKonsumen").value.trim();
+  const whatsapp = document.getElementById("noWhatsapp").value.trim();
+  const catatan = document.getElementById("catatan").value.trim();
+   
+  pesan += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
+  if (catatan !== "") {
+    pesan += `\n*Catatan:* ${catatan}`;
+  }
+     
   const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked').value;
   summary += `\nMetode Pengantaran: ${metodePengantaran}`;
 
@@ -674,17 +685,7 @@ function checkout() {
   if (metodePembayaran) {
     summary += `\nMetode Pembayaran: ${metodePembayaran.value}`;
   }
-  
-  // ✅ Ambil identitas konsumen
-  const nama = document.getElementById("namaKonsumen").value.trim();
-  const whatsapp = document.getElementById("noWhatsapp").value.trim();
-  const catatan = document.getElementById("catatan").value.trim();
-   
-  pesan += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
-  if (catatan !== "") {
-    pesan += `\n*Catatan:* ${catatan}`;
-  }
-     
+ 
   summary += '\n\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
   const waMessage = encodeURIComponent(summary);
   const waLink = `https://wa.me/6282125466588?text=${waMessage}`;
