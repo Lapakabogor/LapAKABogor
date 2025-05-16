@@ -464,7 +464,8 @@
     <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/d154fe91b6ba94e78a69525c55372586323832c4/IKLAN%20SATU.jpg" alt="Iklan 4">
   </div>
 </div>
-    
+ </main>. 
+  
   <main>
   <!-- Kategori Produk -->
   <section class="kategori-produk">
@@ -479,16 +480,20 @@
     </div>
   </section>
     
-    <div id="productModal" class="modal" style="display: none;">
+<!-- Modal Produk -->
+<div id="productModal" class="modal" hidden>
   <div class="modal-content">
-    <span class="close-modal" onclick="closeModal()">&times;</span>
-    <img id="modalImg" src="" alt="" style="width: 100%; border-radius: 6px; margin-bottom: 10px;">
-    <h2 id="modalTitle"></h2>
+    <button class="close-modal" onclick="closeModal()" aria-label="Tutup Modal">&times;</button>
+   <img id="modalImg" src="placeholder.jpg" alt="Gambar Produk" style="width: 100%; border-radius: 6px; margin-bottom: 10px; display: none;">
+    <h2 id="modalTitle">Judul Produk</h2> <!-- Placeholder bisa diganti dinamis -->
     <p id="modalDesc" style="color: #555;"></p>
   </div>
 </div>
 
-    <section class="catalog" id="catalog"></section>
+ <section class="catalog" id="catalog">
+  <h2>Daftar Produk</h2>
+  <!-- katalog produk -->
+</section>
   </main>
 
   <aside id="cartModal" aria-label="Keranjang Belanja">
