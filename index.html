@@ -800,63 +800,66 @@ function closeModal() {
     }
   }
 function checkout() {
-  if (Object.keys(cart).length === 0) {
-    alert('Keranjang kosong.');
-    return;
-  }
-
-  let summary = 'Pesanan Anda:\n\n';
-
-  Object.values(cart).forEach(item => {
-    summary += `- ${item.name} x ${item.qty} = Rp ${(item.price * item.qty).toLocaleString()}\n`;
-  });
-
+  // Hitung total belanja
   const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
-  summary += `\nTotal: Rp ${total.toLocaleString()}`;
 
-  const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked').value;
-  summary += `\nMetode Pengantaran: ${metodePengantaran}`;
-
-  if (metodePengantaran === "Diantar") {
-    const alamat = document.getElementById('alamatPengantaran').value.trim();
-    if (!alamat) {
-      alert('Silakan masukkan lokasi pengantaran.');
-      return;
-    }
-    summary += `\nAlamat Pengantaran: ${alamat}`;
-  }
-
-  // ✅ Tambahkan bagian ini:
-  const metodePembayaran = document.querySelector('input[name="pembayaran"]:checked');
-  if (metodePembayaran) {
-    summary += `\nMetode Pembayaran: ${metodePembayaran.value}`;
-  }
-  
-  // ✅ Ambil identitas konsumen
+  // Ambil identitas konsumen
   const nama = document.getElementById("namaKonsumen").value.trim();
   const whatsapp = document.getElementById("noWhatsapp").value.trim();
   const catatan = document.getElementById("catatan").value.trim();
-   
-  pesan += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
-  if (catatan !== "") {
-    pesan += `\n*Catatan:* ${catatan}`;
+
+  if (!nama || !whatsapp) {
+    alert("Silakan isi nama dan nomor WhatsApp terlebih dahulu.");
+    return;
   }
-     
+
+  // Mulai menyusun isi pesan
+  let summary = "*Pesanan LapAKABogor Anda:*\n";
+  for (const [id, item] of Object.entries(cart)) {
+    summary += `- ${item.name} (${item.qty} x Rp ${item.price.toLocaleString()})\n`;
+  }
+  summary += `\n*Total:* Rp ${total.toLocaleString()}`;
+
+  // Metode pengantaran
+  const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked').value;
+  summary += `\n*Pengantaran:* ${metodePengantaran}`;
+
+  // Jika memilih "Diantar", minta alamat
+  if (metodePengantaran === "Diantar") {
+    const alamat = document.getElementById("alamatPengantaran").value.trim();
+    if (!alamat) {
+      alert("Silakan masukkan alamat pengantaran.");
+      return;
+    }
+    summary += `\n*Alamat:* ${alamat}`;
+  }
+
+  // Metode pembayaran
+  const metodePembayaran = document.querySelector('input[name="pembayaran"]:checked');
+  if (metodePembayaran) {
+    summary += `\n*Pembayaran:* ${metodePembayaran.value}`;
+  }
+
+  // Tambahkan identitas konsumen
+  summary += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
+  if (catatan !== "") {
+    summary += `\n*Catatan:* ${catatan}`;
+  }
+
+  // Arahkan ke WhatsApp
   summary += '\n\nSilakan kirim pesanan ini ke WhatsApp kami untuk diproses.';
   const waMessage = encodeURIComponent(summary);
   const waLink = `https://wa.me/6282125466588?text=${waMessage}`;
   window.open(waLink, '_blank');
 }
+
+// Fungsi untuk menampilkan input alamat jika pilih "Diantar"
 function toggleAlamat() {
   const selected = document.querySelector('input[name="pengantaran"]:checked').value;
   const alamatInput = document.getElementById('alamatInput');
-  if (selected === "Diantar") {
-    alamatInput.style.display = 'block';
-  } else {
-    alamatInput.style.display = 'none';
-  }
-  
+  alamatInput.style.display = (selected === "Diantar") ? 'block' : 'none';
 }
+
   // Inisialisasi awal
   renderCatalog(products);
   updateCartUI();
