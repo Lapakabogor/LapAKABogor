@@ -514,29 +514,27 @@ header .icon-btn .cart-count {
   </main>
 
   <aside id="cartModal" aria-label="Keranjang Belanja">
-   <div class="cart-panel" id="cartModal">
-  <header>
-    Keranjang Anda
-    <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
-  </header>
-
-  <div class="cart-items" id="cartContent">
-    <p style="text-align:center;color:#666;">Keranjang kosong.</p>
-  </div>
-
-  <footer id="cartFooter" style="display:none;">
-    <div class="total">Total: Rp <span id="cartTotal">0</span></div>
-
-    <div class="delivery-method" style="margin: 10px 0;">
-      <label>
-        <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
-        Ambil Langsung (Politeknik AKA Bogor)
-      </label>
-      <label>
-        <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
-        Diantar
-      </label>
+      <header>
+      Keranjang Anda
+      <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
+    </header>
+    <div id="cartContent">
+      <p style="text-align:center;color:#666;">Keranjang kosong.</p>
     </div>
+    <footer id="cartFooter" style="display:none;">
+  <div class="total">Total: Rp <span id="cartTotal">0</span></div>
+
+ <div class="delivery-method" style="margin: 10px 0;">
+  <label>
+    <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
+    Ambil Langsung (Politeknik AKA Bogor)
+  </label><br>
+  <label>
+    <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
+    Diantar
+  </label>
+</div>
+
 
     <div id="alamatInput" style="display:none;">
       <label for="alamatPengantaran">Alamat Pengantaran:</label>
