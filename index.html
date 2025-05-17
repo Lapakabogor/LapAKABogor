@@ -89,53 +89,53 @@
   }
 }
 
-sesuaikan kode css nya: /\* === SLIDER === \*/
+/* === SLIDER === */
 .slider {
-overflow: hidden;
-width: 100%;
-aspect-ratio: 16 / 9;
-border-radius: 0.75rem;
-margin-bottom: 1rem;
-position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  position: relative;
 
-/\* Animated border gradient \*/
-border: 3px solid transparent;
-background:
-linear-gradient(#fff, #fff) padding-box,
-linear-gradient(270deg, #ef4444, #2563eb, #10b981, #f97316, #ef4444) border-box;
-background-size: 800% 800%;
-animation: borderAnimation 15s ease infinite;
+  /* Animated border gradient */
+  border: 3px solid transparent;
+  background:
+    linear-gradient(#fff, #fff) padding-box,
+    linear-gradient(270deg, #ef4444, #2563eb, #10b981, #f97316, #ef4444) border-box;
+  background-size: 800% 800%;
+  animation: borderAnimation 15s ease infinite;
 
-/\* Glow effect \*/
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1),
-0 0 12px rgba(249, 115, 22, 0.2);
+  /* Glow effect */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1),
+              0 0 12px rgba(249, 115, 22, 0.2);
 }
 
 @keyframes borderAnimation {
-0% { background-position: 0% 50%; }
-50% { background-position: 100% 50%; }
-100% { background-position: 0% 50%; }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 .slides {
-display: flex;
-width: 300%;
-height: 100%;
-animation: slide 12s infinite;
+  display: flex;
+  width: 300%;
+  height: 100%;
+  animation: slide 12s infinite;
 }
 
 .slides img {
-width: 100%;
-height: 100%;
-object-fit: contain;
-flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 @keyframes slide {
-0%   { transform: translateX(0%); }
-33%  { transform: translateX(-100%); }
-66%  { transform: translateX(-200%); }
-100% { transform: translateX(0%); }
+  0%   { transform: translateX(0%); }
+  33%  { transform: translateX(-100%); }
+  66%  { transform: translateX(-200%); }
+  100% { transform: translateX(0%); }
 }
 
 
