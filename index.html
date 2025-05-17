@@ -289,7 +289,16 @@ header .icon-btn .cart-count {
   }
 }
 
- .product-card {
+#catalogEl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem; /* jarak antar kartu */
+  justify-content: space-between;
+}
+
+.product-card {
+  flex: 0 1 calc(33.333% - 1rem); /* 3 per baris dengan margin gap */
+  max-width: calc(33.333% - 1rem);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -298,6 +307,7 @@ header .icon-btn .cart-count {
   border-radius: 1.25rem;
   box-shadow: 0 4px 8px rgba(0,0,0,0.04);
   transition: transform 0.2s ease;
+  box-sizing: border-box;
 }
 
 .product-card:hover {
@@ -329,6 +339,7 @@ main {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   position: relative;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
 }
 
 main:hover {
@@ -339,10 +350,6 @@ main:hover {
 .product-name {
   font-weight: 600;
   font-size: 0.95rem;
-  color: var(--gray-dark);
-  margin: 0 0 0.25rem;
-  height: 2.5em;
-  overflow: hidden;
   text-align: center;
 }
 
