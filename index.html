@@ -69,69 +69,125 @@
       100% { transform: translateX(0%); }
     }
 
-    header {
-      background: var(--jingga);
-      color: white;
-      display: flex;
-      align-items: center;
-      padding: 0.5rem 1rem;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
-    header .logo {
-      font-weight: 700;
-      font-size: 1.25rem;
-      letter-spacing: 1px;
-      flex-shrink: 0;
-    }
-    header .logo span { color: var(--biru); }
-    header .search-bar {
-      flex-grow: 1;
-      margin: 0 1rem;
-      position: relative;
-    }
-    header .search-bar input {
-      width: 100%;
-      padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-      border-radius: 9999px;
-      border: none;
-      font-size: 1rem;
-    }
-    header .search-bar button {
-      position: absolute;
-      right: 0.3rem;
-      top: 50%;
-      transform: translateY(-50%);
-      background: var(--biru);
-      color: white;
-      padding: 0.4rem 0.75rem;
-      border-radius: 9999px;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    header .icons {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    header .icon-btn {
-      background: none;
-      color: white;
-      font-size: 1.5rem;
-      position: relative;
-    }
-    header .icon-btn .cart-count {
-      position: absolute;
-      top: -6px;
-      right: -8px;
-      background: var(--merah);
-      color: white;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 9999px;
-    }
+header {
+  background: var(--jingga);
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  flex-wrap: wrap;
+}
+
+/* Judul teks */
+header .logo {
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 1px;
+  flex-shrink: 0;
+}
+
+header .logo span {
+  color: var(--biru);
+}
+
+/* Logo gambar */
+header .logo-img {
+  height: 40px;
+  width: 40px;
+  border-radius: 9999px;
+  object-fit: cover;
+  margin: 0 1rem;
+  flex-shrink: 0;
+}
+
+/* Kolom pencarian */
+header .search-bar {
+  flex-grow: 1;
+  margin: 0 1rem;
+  position: relative;
+}
+
+header .search-bar input {
+  width: 100%;
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+  border-radius: 9999px;
+  border: none;
+  font-size: 1rem;
+}
+
+header .search-bar button {
+  position: absolute;
+  right: 0.3rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--biru);
+  color: white;
+  padding: 0.4rem 0.75rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+/* Ikon keranjang */
+header .icons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+header .icon-btn {
+  background: none;
+  color: white;
+  font-size: 1.5rem;
+  position: relative;
+}
+
+header .icon-btn .cart-count {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: var(--merah);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 9999px;
+}
+
+/* Responsif */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  header .search-bar {
+    order: 2;
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  header .logo {
+    order: 1;
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  header .logo-img {
+    order: 3;
+    margin: 0.25rem 0;
+  }
+
+  header .icons {
+    order: 4;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+}
 
     main {
       padding: 1rem;
@@ -410,18 +466,26 @@
   </div>
 </div>
   
-  <header>
-    <div class="logo">Lap<span>AKA</span>Bogor</div>
-    <form class="search-bar" onsubmit="event.preventDefault(); performSearch();">
-      <input type="search" id="searchInput" placeholder="Cari produk, UKM, atau kategori..." aria-label="Cari produk" />
-      <button type="submit">Cari</button>
-    </form>
-    <div class="icons">
-      <button class="icon-btn" id="cartBtn" aria-label="Keranjang Belanja (0)">
-        🛒<span class="cart-count" id="cartCount" style="display:none;">0</span>
-      </button>
-    </div>
-  </header>
+<header>
+  <div class="logo">Lap<span>AKA</span>Bogor</div>
+  
+  <!-- Tambahkan logo gambar di sini -->
+  <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/70fe764ad7c8a3f220d41572d96e9fba7e910ec2/WhatsApp%20Image%202025-05-01%20at%2018.04.48_78f2ec38.jpg" 
+       alt="Logo LapAKABogor" 
+       class="logo-img" />
+
+  <form class="search-bar" onsubmit="event.preventDefault(); performSearch();">
+    <input type="search" id="searchInput" placeholder="Cari produk, UKM, atau kategori..." aria-label="Cari produk" />
+    <button type="submit">Cari</button>
+  </form>
+
+  <div class="icons">
+    <button class="icon-btn" id="cartBtn" aria-label="Keranjang Belanja (0)">
+      🛒<span class="cart-count" id="cartCount" style="display:none;">0</span>
+    </button>
+  </div>
+</header>
+
 
   <main>
   <!-- Slider -->
