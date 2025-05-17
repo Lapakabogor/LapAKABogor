@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LapAKABogor - Marketplace Politeknik AKA Bogor</title>
   <style>
     * { box-sizing: border-box; }
@@ -18,7 +18,7 @@
       border: none;
       font-family: inherit;
     }
-     :root {
+    :root {
       --jingga: #f97316;
       --biru: #2563eb;
       --merah: #dc2626;
@@ -26,7 +26,7 @@
       --gray-light: #f3f4f6;
       --gray-dark: #4b5563;
     }
-  /* === SPLASH SCREEN === */
+/* === SPLASH SCREEN === */
     #splashScreen {
       position: fixed;
       inset: 0;
@@ -45,6 +45,7 @@
       opacity: 0;
       pointer-events: none;
     }
+
     /* === SLIDER === */
     .slider {
       overflow: hidden;
@@ -131,43 +132,12 @@
       padding: 2px 6px;
       border-radius: 9999px;
     }
+
     main {
       padding: 1rem;
       max-width: 1200px;
       margin: auto;
     }
-    
-.kategori-produk {
-  padding: 1rem;
-  background-color: var(--gray-light);
-  border-radius: 0.75rem;
-  margin: 1rem;
-}
-.kategori-produk h2 {
-  margin-bottom: 0.5rem;
-  color: var(--biru);
-}
-.kategori-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.kategori-item {
-  flex: 1 1 45%;
-  background: white;
-  padding: 0.75rem 1rem;
-  border: 2px solid var(--gray-dark);
-  border-radius: 0.5rem;
-  text-align: center;
-  font-weight: bold;
-  color: var(--gray-dark);
-  transition: 0.3s ease;
-}
-.kategori-item:hover {
-  background: var(--biru);
-  color: white;
-  border-color: var(--biru);
-}
 
     .catalog {
       display: grid;
@@ -383,9 +353,7 @@
       #cartModal { width: 100vw; max-width: none; }
       .product-card { font-size: 14px; }
       .product-info { padding: 0.5rem 0.5rem 0.75rem; }
-    }
-    
-    .delivery-method {
+    }.delivery-method {
     font-size: 14px;
     color: #333;
   }
@@ -465,88 +433,73 @@
     <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/d154fe91b6ba94e78a69525c55372586323832c4/IKLAN%20SATU.jpg" alt="Iklan 4">
   </div>
 </div>
-  </main>
- 
-  <main>
-  <!-- Kategori Produk -->
-  <section class="kategori-produk">
-    <h2>Kategori Produk</h2>
-    <div class="kategori-container">
-      <div class="kategori-item" data-kategori="makanan-berat">🍛 Makanan Berat</div>
-      <div class="kategori-item" data-kategori="makanan-ringan">🍪 Makanan Ringan</div>
-      <div class="kategori-item" data-kategori="minuman">🥤 Minuman</div>
-      <div class="kategori-item" data-kategori="perawatan-kosmetik">🧴 Perawatan & Kosmetik</div>
-      <div class="kategori-item" data-kategori="rumah-tangga">🏠 Rumah Tangga</div>
-      <div class="kategori-item" data-kategori="fashion-bekas">👕 Fashion & Bekas</div>
-    </div>
-  </section>
     
-<!-- Modal Produk (initially hidden) -->
-  <div id="productModal" class="modal" hidden>
-    <div class="modal-content">
-      <button class="close-modal" onclick="closeModal()" aria-label="Tutup Modal">&times;</button>
-      <img id="modalImg" src="placeholder.jpg" alt="Gambar Produk" style="width: 100%; border-radius: 6px; margin-bottom: 10px; display: none;">
-      <h2 id="modalTitle">Judul Produk</h2>
-      <p id="modalDesc" style="color: #555;"></p>
-    </div>
+    <div id="productModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    <img id="modalImg" src="" alt="" style="width: 100%; border-radius: 6px; margin-bottom: 10px;">
+    <h2 id="modalTitle"></h2>
+    <p id="modalDesc" style="color: #555;"></p>
   </div>
+</div>
 
- <section class="catalog" id="catalog">
-  <h2>Daftar Produk</h2>
-  <!-- katalog produk -->
-</section>
+
+    <section class="catalog" id="catalog"></section>
   </main>
 
- <aside id="cartModal" aria-label="Keranjang Belanja">
-  <header>
-    Keranjang Anda
-    <button type="button" class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
-  </header>
-  <div id="cartContent" aria-live="polite" aria-atomic="true">
-    <p style="text-align:center;color:#666;">Keranjang kosong.</p>
-  </div>
-  <footer id="cartFooter" style="display:none;">
-    <div class="total">Total: Rp <span id="cartTotal">0</span></div>
-
-    <fieldset class="delivery-method" style="margin: 10px 0;">
-      <legend>Metode Pengantaran</legend>
-      <label>
-        <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
-        Ambil Langsung (Politeknik AKA Bogor)
-      </label><br>
-      <label>
-        <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
-        Diantar
-      </label>
-    </fieldset>
-
-    <div id="alamatInput" style="display:none; margin-top: 8px;">
-      <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
-      <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
+  <aside id="cartModal" aria-label="Keranjang Belanja">
+    <header>
+      Keranjang Anda
+      <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
+    </header>
+    <div id="cartContent">
+      <p style="text-align:center;color:#666;">Keranjang kosong.</p>
     </div>
+    <footer id="cartFooter" style="display:none;">
+  <div class="total">Total: Rp <span id="cartTotal">0</span></div>
 
-    <div class="customer-info" style="margin: 10px 0;">
-      <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
-      <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
+ <div class="delivery-method" style="margin: 10px 0;">
+  <label>
+    <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
+    Ambil Langsung (Politeknik AKA Bogor)
+  </label><br>
+  <label>
+    <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
+    Diantar
+  </label>
+</div>
 
-      <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
-      <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
+<!-- Input alamat muncul jika memilih "Diantar" -->
+<div id="alamatInput" style="display:none; margin-top: 8px;">
+  <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
+  <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
+</div>
+      
+<!-- ✅ Identitas Konsumen -->
+<div class="customer-info" style="margin: 10px 0;">
+  <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
+  <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
 
-      <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
-      <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
-    </div>
+  <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
+  <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
 
-    <fieldset class="payment-method" style="margin: 10px 0;">
-      <legend>Metode Pembayaran</legend>
-      <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
-      <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
-      <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
-    </fieldset>
+  <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
+  <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
+</div>
+      
+<!-- ✅ Metode Pembayaran -->
+<div class="payment-method" style="margin: 10px 0;">
+  <label style="font-weight: bold;">Metode Pembayaran:</label><br>
+  <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
+  <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
+  <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
+</div>
 
-    <button type="button" class="checkout-btn" onclick="checkout()">Checkout</button>
-  </footer>
-</aside>
-  
+<button class="checkout-btn" onclick="checkout()">Checkout</button>
+
+</footer>
+
+  </aside>
    <script>
 // Splash screen
     window.addEventListener('DOMContentLoaded', () => {
@@ -564,62 +517,31 @@ const products = [
     price: 10000, // Harga default 75 gram
     img: 'https://github.com/Lapakabogor/LapAKABogor/blob/b829aa7ec3b23db0f6145105a9dcd4439e75f1d0/NOWWBI.jpg?raw=true',
     description: 'Stick ubi ungu dengan nanoflavour daun kelor yang menyehatkan sekaligus membuat harimu menyenangkan. ' +
-                 'Pilihan rasa: ' + 
-                 '1. Karameloor (karamel + kelor), ' +
-                 '2. Green Zeen (green tea + kelor), ' +
-                 '3. Chocokick (dark choco + kelor), ' +
-                 '4. Seayo Green (seaweed + kelor), ' +
-                 '5. Bali Breeze (sambal matah + kelor). ' +
-                 'Tersedia dua ukuran: ' +
-                 '75 gram (Rp10.000) ' +
-                 '40 gram (Rp7.000).'
-    category: 'makanan-ringan'
+                 'Pilihan rasa: Karameloor (karamel + kelor), Green Zeen (green tea + kelor), Chocokick (dark choco + kelor), ' +
+                 'Seayo Green (seaweed + kelor), dan Bali Breeze (sambal matah + kelor). ' +
+                 'Tersedia dua ukuran: 75 gram (Rp10.000) dan 40 gram (Rp7.000).'
   },
   {
-  id: 'p2',
-  name: 'Spaghetti Brulee',
-  price: 15000,
-  img: 'https://github.com/Lapakabogor/LapAKABogor/blob/15b6d484a0b4913b798152858abaf3db5266b6fd/spageti.jpg?raw=true',
-  description: `SPAGHETTI BRULEE – Creamy, Cheesy, Meaty!
-
-Spaghetti dengan saus bolognese gurih, disiram saus keju creamy, dan dipanggang hingga saus di atasnya brulee keemasan yang menggoda.
-
-🔥 Tekstur lembut, rasa mewah ala resto  
-🧀 Keju lumer, topping daging melimpah  
-❄ Bisa frozen, tinggal panaskan & nikmati!
-
-Cocok untuk bekal makan siang, teman nugas, atau reward untuk teman!
-
-Harga: Rp15.000`
-    category: 'makanan-berat'
-},
+    id: 'p2',
+    name: 'Pakaian Batik Modern',
+    price: 120000,
+    img: 'https://images.pexels.com/photos/3764477/pexels-photo-3764477.jpeg?auto=compress&cs=tinysrgb&w=300',
+    description: 'Batik bergaya modern yang elegan, cocok digunakan untuk acara formal maupun santai. ' +
+                 'Tersedia dalam berbagai ukuran dan motif eksklusif.'
+  },
   {
-  id: 'p3',
-  name: 'Mochi Gendut',
-  price: 8000, // Harga per buah
-  img: 'https://github.com/Lapakabogor/LapAKABogor/blob/03ad4983570688d7442353ccee499c4b541123e2/mochi.jpg?raw=true',
-  description: `MOCHI GENDUT – Lembut, Lumer, dan Bikin Nagih! 🍡
-Mochi lembut berisi krim lumer dan buah segar.
-
-✨ Varian Rasa:
-🍓 Strawberry Cheesecake – manis-asam segar
-🥭 Mango Cheesecake – tropis creamy
-🍫 Milky Choco – coklat susu lumer
-🍪 Cookies n Cream – crunchy & creamy
-
-❄ Nikmat disajikan dingin.
-🎁 Cocok untuk hadiah, camilan, atau self-reward!
-
-Harga: Rp8.000/buah`
-    category: 'makanan-ringan'
-},
+    id: 'p3',
+    name: 'Aksesori Kulit Mahasiswa',
+    price: 75000,
+    img: 'https://images.pexels.com/photos/168009/pexels-photo-168009.jpeg?auto=compress&cs=tinysrgb&w=300',
+    description: 'Aksesori berbahan kulit sintetis yang praktis dan stylish untuk mahasiswa aktif dan dinamis.'
+  },
   {
     id: 'p4',
     name: 'Makanan Ringan Khas Bogor',
     price: 30000,
     img: 'https://images.pexels.com/photos/2553658/pexels-photo-2553658.jpeg?auto=compress&cs=tinysrgb&w=300',
     description: 'Camilan tradisional khas Bogor dengan cita rasa otentik, cocok untuk teman minum teh atau oleh-oleh.'
-    category: 'makanan-ringan'
   },
   {
     id: 'p5',
@@ -627,7 +549,6 @@ Harga: Rp8.000/buah`
     price: 200000,
     img: 'https://images.pexels.com/photos/267202/pexels-photo-267202.jpeg?auto=compress&cs=tinysrgb&w=300',
     description: 'Tas ransel dengan desain modern dan material kulit sintetis yang tahan lama, cocok untuk kerja atau kuliah.'
-    category: 'fashion-bekas'
   },
   {
     id: 'p6',
@@ -635,75 +556,51 @@ Harga: Rp8.000/buah`
     price: 135000,
     img: 'https://images.pexels.com/photos/2540696/pexels-photo-2540696.jpeg?auto=compress&cs=tinysrgb&w=300',
     description: 'Jaket hoodie dengan desain unik dan bahan nyaman, ideal untuk gaya santai sehari-hari.'
-   category: 'fashion-bekas'
-  },
-  {
-  id: 'p7',
-  name: 'Kopi Kingkong',
-  price: 10000,
-  img: 'https://github.com/Lapakabogor/LapAKABogor/blob/c3ad81079aa8ad479a69b1998c9aa03d0884f3fa/kingkong.jpg?raw=true',
-  description: `Kopi Gula Singkong kami merupakan perpaduan rasa dan kualitas yang sempurna. 
-Dibuat dari biji kopi bermutu tinggi dan gula singkong murni berkualitas tinggi, setiap teguk menawarkan rasa yang lembut namun khas. 
-
-Kami hanya menggunakan bahan-bahan alami terbaik—asli, tanpa kompromi, dan dipilih dengan saksama—untuk menghadirkan pengalaman minum kopi yang benar-benar elegan.  
-Dari alam🍃, dibuat untuk seseorang yang benar-benar istimewa.`,
-  category: 'minuman'
-}
+  }
 ];
 
- const catalogEl = document.getElementById('catalog');
-const cartBtn = document.getElementById('cartBtn');
-const cartModal = document.getElementById('cartModal');
-const closeCartBtn = document.getElementById('closeCartBtn');
-const cartCountEl = document.getElementById('cartCount');
-const cartContent = document.getElementById('cartContent');
-const cartFooter = document.getElementById('cartFooter');
-const cartTotalEl = document.getElementById('cartTotal');
 
-let cart = {};
+  const catalogEl = document.getElementById('catalog');
+  const cartBtn = document.getElementById('cartBtn');
+  const cartModal = document.getElementById('cartModal');
+  const closeCartBtn = document.getElementById('closeCartBtn');
+  const cartCountEl = document.getElementById('cartCount');
+  const cartContent = document.getElementById('cartContent');
+  const cartFooter = document.getElementById('cartFooter');
+  const cartTotalEl = document.getElementById('cartTotal');
+  let cart = {};
 
-function formatPrice(num) {
-  return num.toLocaleString('id-ID');
-}
-
-function renderCatalog(productsToRender) {
-  catalogEl.innerHTML = '';
-  if (productsToRender.length === 0) {
-    catalogEl.innerHTML = '<p style="font-style:italic;color:#666;text-align:center;">Tidak ada produk ditemukan.</p>';
-    return;
+  function formatPrice(num) {
+    return num.toLocaleString('id-ID');
   }
 
-  productsToRender.forEach(product => {
-    const card = document.createElement('article');
-    card.className = 'product-card';
-
-    // Klik pada card akan membuka modal detail produk
-    card.onclick = () => openModal(product.id);
-
-    card.innerHTML = `
-      <div class="product-image" style="background-image:url('${product.img}');"></div>
-      <div class="product-info">
-        <h3 class="product-name">${product.name}</h3>
-        <div class="product-price">Rp ${formatPrice(product.price)}</div>
-        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('${product.id}')">Tambah ke Keranjang</button>
-      </div>
-    `;
-
-    catalogEl.appendChild(card);
-  });
-}
-
+  function renderCatalog(productsToRender) {
+    catalogEl.innerHTML = '';
+    if (productsToRender.length === 0) {
+      catalogEl.innerHTML = '<p style="font-style:italic;color:#666;text-align:center;">Tidak ada produk ditemukan.</p>';
+      return;
+    }
+    productsToRender.forEach(product => {
+     const card = document.createElement('article');
+card.className = 'product-card';
+card.onclick = () => openModal(product.id); // Tambahkan ini
+card.innerHTML = `
+  <div class="product-image" style="background-image:url('${product.img}');"></div>
+  <div class="product-info">
+    <h3 class="product-name">${product.name}</h3>
+    <div class="product-price">Rp ${formatPrice(product.price)}</div>
+    <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('${product.id}')">Tambah ke Keranjang</button>
+  </div>
+`;
+      catalogEl.appendChild(card);
+    });
+  }
 function openModal(productId) {
   const product = products.find(p => p.id === productId);
-  if (!product) return;
-
-  // Isi konten modal dengan data produk
-  const modal = document.getElementById('productModal');
   document.getElementById('modalImg').src = product.img;
   document.getElementById('modalTitle').textContent = product.name;
   document.getElementById('modalDesc').textContent = product.description;
-
-  modal.style.display = 'flex'; // Tampilkan modal
+  document.getElementById('productModal').style.display = 'flex';
 }
 
 function closeModal() {
@@ -798,30 +695,6 @@ function closeModal() {
     }
   });
   closeCartBtn.addEventListener('click', closeCart);
-let kategoriAktif = 'semua';
-
-function filterByCategory(kategori) {
-  kategoriAktif = kategori;
-
-  document.querySelectorAll('.kategori-item').forEach(item => {
-    item.classList.remove('active');
-  });
-  document.querySelector(`[data-kategori="${kategori}"]`)?.classList.add('active');
-
-  const filtered = kategori === 'semua'
-    ? products
-    : products.filter(p => p.category === kategori);
-
-  renderCatalog(filtered); // <– PENTING: jangan lupa render hasil filter!
-}
-
-// Inisialisasi kategori klik
-document.querySelectorAll('.kategori-item').forEach(item => {
-  item.addEventListener('click', () => {
-    const kategori = item.getAttribute('data-kategori');
-    filterByCategory(kategori);
-  });
-});
 
   function performSearch() {
     const query = document.getElementById('searchInput').value.trim().toLowerCase();
@@ -832,11 +705,6 @@ document.querySelectorAll('.kategori-item').forEach(item => {
       renderCatalog(filtered);
     }
   }
-     document.getElementById('searchInput').addEventListener('input', performSearch);
-
-     // Tampilkan semua produk saat pertama kali load
-filterByCategory('semua');
-     
 function checkout() {
   if (Object.keys(cart).length === 0) {
     alert('Keranjang kosong.');
