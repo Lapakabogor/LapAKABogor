@@ -89,7 +89,7 @@
   }
 }
 
- /* === SLIDER === */
+/* === SLIDER === */
 .slider {
   overflow: hidden;
   width: 100%;
@@ -136,6 +136,35 @@
   33%  { transform: translateX(-100%); }
   66%  { transform: translateX(-200%); }
   100% { transform: translateX(0%); }
+}
+
+/* === CAPTIONS === */
+.slider-caption {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.75);
+  color: #111;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 2s ease-in-out;
+  z-index: 2;
+}
+
+.slider-caption.left {
+  left: 1rem;
+}
+
+.slider-caption.right {
+  right: 1rem;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(-60%) scale(0.95); }
+  100% { opacity: 1; transform: translateY(-50%) scale(1); }
 }
 
 
@@ -594,6 +623,8 @@ header .icon-btn .cart-count {
   <main>
   <!-- Slider -->
 <div class="slider">
+  <div class="slider-caption left">🛍️ Produk unik & harga bersahabat! Jangan sampai kehabisan!</div>
+  <div class="slider-caption right">🎉 Belanja praktis & hemat di sini!</div>
   <div class="slides">
     <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/9027de4f6153d7192f1efe62f0133479faaab001/nowbi%20iklan.png " alt="Iklan 1">
     <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/d7eb09944ff7a2b5706f3d5272b1d9542a1d6b6f/iklan%202.jpg" alt="Iklan 2">
