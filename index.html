@@ -289,70 +289,87 @@ header .icon-btn .cart-count {
   }
 }
 
-    main {
-      padding: 1rem;
-      max-width: 1200px;
-      margin: auto;
-    }
+ .product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: #f9fafb;
+  padding: 1rem;
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+  transition: transform 0.2s ease;
+}
 
-    .catalog {
-      display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(150px,1fr));
-      gap: 1rem;
-    }
-    .product-card {
-      border: 1px solid var(--gray-light);
-      border-radius: 0.5rem;
-      display: flex;
-      flex-direction: column;
-      background: white;
-      box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
-      transition: box-shadow 0.2s ease;
-    }
-    .product-card:hover {
-      box-shadow: 0 4px 8px rgb(0 0 0 / 0.15);
-    }
-    .product-image {
-      width: 100%;
-      padding-top: 100%;
-      background-position: center;
-      background-size: cover;
-      border-top-left-radius: 0.5rem;
-      border-top-right-radius: 0.5rem;
-    }
-    .product-info {
-      padding: 0.5rem 0.75rem 0.75rem;
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .product-name {
-      font-weight: 600;
-      font-size: 0.95rem;
-      color: var(--gray-dark);
-      margin: 0 0 0.25rem;
-      height: 2.5em;
-      overflow: hidden;
-    }
-    .product-price {
-      color: var(--merah);
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      font-size: 1rem;
-    }
-    .add-cart-btn {
-      background: var(--hijau);
-      color: white;
-      border-radius: 9999px;
-      padding: 0.4rem 0;
-      font-weight: 700;
-      font-size: 0.9rem;
-      transition: background-color 0.2s ease;
-    }
-    .add-cart-btn:hover {
-      background: #138c35;
-    }
+.product-card:hover {
+  transform: translateY(-2px);
+}
+
+.product-image {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.product-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.75rem;
+}
+
+main {
+  padding: 0.5rem 0.75rem 0.75rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background: #fff;
+  border: 3px solid #ccc;
+  border-radius: 1.25rem 1.25rem 2rem 2rem; /* bentuk seperti keranjang */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+main:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.product-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--gray-dark);
+  margin: 0 0 0.25rem;
+  height: 2.5em;
+  overflow: hidden;
+  text-align: center;
+}
+
+.product-price {
+  color: var(--merah);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.add-cart-btn {
+  background: var(--hijau);
+  color: white;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+  margin-top: auto;
+  align-self: center;
+}
+
+.add-cart-btn:hover {
+  background: #138c35;
+}
+
 .modal {
   position: fixed;
   z-index: 9999;
@@ -781,27 +798,30 @@ const products = [
     return num.toLocaleString('id-ID');
   }
 
-  function renderCatalog(productsToRender) {
-    catalogEl.innerHTML = '';
-    if (productsToRender.length === 0) {
-      catalogEl.innerHTML = '<p style="font-style:italic;color:#666;text-align:center;">Tidak ada produk ditemukan.</p>';
-      return;
-    }
-    productsToRender.forEach(product => {
-     const card = document.createElement('article');
-card.className = 'product-card';
-card.onclick = () => openModal(product.id); // Tambahkan ini
-card.innerHTML = `
-  <div class="product-image" style="background-image:url('${product.img}');"></div>
-  <div class="product-info">
-    <h3 class="product-name">${product.name}</h3>
-    <div class="product-price">Rp ${formatPrice(product.price)}</div>
-    <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('${product.id}')">Tambah ke Keranjang</button>
-  </div>
-`;
-      catalogEl.appendChild(card);
-    });
+function renderCatalog(productsToRender) {
+  catalogEl.innerHTML = '';
+  if (productsToRender.length === 0) {
+    catalogEl.innerHTML = '<p style="font-style:italic;color:#666;text-align:center;">Tidak ada produk ditemukan.</p>';
+    return;
   }
+
+  productsToRender.forEach(product => {
+    const card = document.createElement('article');
+    card.className = 'product-card';
+    card.onclick = () => openModal(product.id);
+
+    card.innerHTML = `
+      <div class="product-image" style="background-image:url('${product.img}'); background-size: cover; background-position: center; height: 180px; border-radius: 1.25rem 1.25rem 0 0;"></div>
+      <main>
+        <div class="product-name">${product.name}</div>
+        <div class="product-price">Rp ${formatPrice(product.price)}</div>
+        <button class="add-cart-btn" onclick="event.stopPropagation(); addToCart('${product.id}')">Tambah ke Keranjang</button>
+      </main>
+    `;
+
+    catalogEl.appendChild(card);
+  });
+}
 function openModal(productId) {
   const product = products.find(p => p.id === productId);
   document.getElementById('modalImg').src = product.img;
