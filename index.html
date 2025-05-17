@@ -27,24 +27,67 @@
       --gray-dark: #4b5563;
     }
 /* === SPLASH SCREEN === */
-    #splashScreen {
-      position: fixed;
-      inset: 0;
-      background: white;
-      z-index: 99999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: opacity 0.5s ease;
-    }
-    #splashScreen .splash-content {
-      text-align: center;
-      color: var(--biru);
-    }
-    #splashScreen.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
+#splashScreen {
+  position: fixed;
+  inset: 0;
+  background: white;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  animation: splashFadeIn 0.8s ease;
+}
+
+#splashScreen.fade-out {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+#splashScreen .splash-content {
+  text-align: center;
+  animation: splashContentUp 0.8s ease;
+}
+
+#splashScreen .splash-logo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%; /* membuat logo bulat */
+  object-fit: cover;
+  margin-bottom: 16px;
+  border: 3px solid #f97316; /* opsional: bingkai oranye */
+}
+
+#splashScreen .splash-title {
+  font-size: 2rem;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  color: #000;
+}
+
+#splashScreen .splash-title .aka-highlight {
+  color: #f97316; /* bagian 'AKA' warna oranye */
+}
+
+/* Transisi Muncul */
+@keyframes splashFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Transisi Konten Naik */
+@keyframes splashContentUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
     /* === SLIDER === */
     .slider {
@@ -492,10 +535,13 @@ header .icon-btn .cart-count {
 <body>
 <div id="splashScreen">
   <div class="splash-content">
-    <img src="lapakabogor-splash.jpg" alt="Logo LapAKABogor" style="width: 140px; margin-bottom: 1rem;" />
-    <h2>Selamat Datang di <span style="color:#f97316;">Lap</span><span style="color:#2563eb;">AKA</span>Bogor</h2>
+    <img src="lapakabogor-splash.jpg" alt="Logo LapAKABogor" class="splash-logo" />
+    <h2 class="splash-title">
+      Selamat Datang di <span>Lap</span><span class="aka-highlight">AKA</span>Bogor
+    </h2>
   </div>
 </div>
+
   
 <header>
   <div class="logo">Lap<span>AKA</span>Bogor</div>
@@ -596,13 +642,23 @@ header .icon-btn .cart-count {
   </aside>
    <script>
 // Splash screen
-    window.addEventListener('DOMContentLoaded', () => {
-      const splash = document.getElementById('splashScreen');
-      setTimeout(() => {
-        splash.classList.add('fade-out');
-        setTimeout(() => splash.remove(), 500);
-      }, 3000);
-    });
+window.addEventListener('DOMContentLoaded', () => {
+  const splash = document.getElementById('splashScreen');
+  
+  // Tunda 3 detik sebelum mulai menghilang
+  setTimeout(() => {
+    splash.classList.add('fade-out');
+
+    // Hapus elemen dari DOM setelah transisi selesai (0.5 detik sesuai CSS)
+    setTimeout(() => {
+      if (splash && splash.parentNode) {
+        splash.parentNode.removeChild(splash);
+      }
+    }, 500);
+    
+  }, 3000); // Durasi splash muncul (3 detik)
+});
+
      
 const products = [
   {
