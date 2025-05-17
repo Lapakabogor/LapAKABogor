@@ -377,49 +377,41 @@ main:hover {
   background: #138c35;
 }
 
-/* Modal utama dengan overlay gelap */
+/* Panel modal deskripsi produk di samping katalog */
 .modal {
   position: fixed;
-  z-index: 9999;
-  left: 0;
   top: 0;
-  width: 100vw;
+  right: -100%;
+  width: 400px;
   height: 100vh;
+  background-color: #fff;
+  z-index: 9999;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
-  background-color: rgba(0, 0, 0, 0.6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-
+  transition: right 0.3s ease, opacity 0.3s ease;
   opacity: 0;
   pointer-events: none;
-  transform: scale(0.98);
-  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* Saat modal dibuka */
 .modal.show {
+  right: 0;
   opacity: 1;
   pointer-events: auto;
-  transform: scale(1);
 }
 
-
-/* Konten modal */
+/* Konten dalam modal */
 .modal-content {
-  background-color: #fff;
   padding: 20px 25px;
-  border-radius: 10px;
-  max-width: 400px;
-  width: 100%;
-  position: relative;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   box-sizing: border-box;
-  max-height: 90vh;
-  overflow-y: auto;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
 }
 
-/* Tombol tutup modal */
+/* Tombol tutup di pojok kanan atas */
 .close-modal {
   position: absolute;
   top: 12px;
@@ -429,13 +421,26 @@ main:hover {
   cursor: pointer;
   background: none;
   border: none;
-  color: #444;
-  transition: color 0.2s ease;
+  color: #333;
 }
 
-.close-modal:hover {
-  color: #000;
+/* Responsif untuk layar kecil: modal tampil dari bawah */
+@media (max-width: 600px) {
+  .modal {
+    width: 100vw;
+    height: 80vh;
+    right: 0;
+    bottom: -100%;
+    top: auto;
+    transition: bottom 0.3s ease, opacity 0.3s ease;
+  }
+
+  .modal.show {
+    bottom: 0;
+    opacity: 1;
+  }
 }
+
 
 /* Style khusus untuk cart modal */
 #cartModal {
@@ -874,27 +879,7 @@ function renderCatalog(productsToRender) {
   });
 }
 
-function openModal(productId) {
-  const product = products.find(p => p.id === productId);
-  if (!product) return;
-
-  const modal = document.getElementById('productModal');
-  document.getElementById('modalImg').src = product.img;
-  document.getElementById('modalTitle').textContent = product.name;
-  document.getElementById('modalDesc').textContent = product.description;
-
-  modal.style.display = 'flex';
-  setTimeout(() => modal.classList.add('show'), 10); // untuk efek animasi
-}
-
-function closeModal() {
-  const modal = document.getElementById('productModal');
-  modal.classList.remove('show');
-  setTimeout(() => {
-    modal.style.display = 'none';
-  }, 200); // tunggu animasi selesai
-}
-
+<article class="product-card" data-id="${product.id}" onclick="openModal('${product.id}')">
 
   function addToCart(productId) {
     if (cart[productId]) {
