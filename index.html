@@ -378,84 +378,115 @@ header .icon-btn .cart-count {
       min-width: 60px;
       text-align: right;
     }
-    #cartFooter {
-      padding: 1rem;
-      border-top: 1px solid var(--gray-light);
-    }
-    #cartFooter .total {
-      font-weight: 700;
-      font-size: 1.15rem;
-      margin-bottom: 0.75rem;
-      color: var(--merah);
-    }
-    #cartFooter button.checkout-btn {
-      width: 100%;
-      background: var(--jingga);
-      color: white;
-      font-weight: 700;
-      padding: 0.75rem;
-      border-radius: 9999px;
-      font-size: 1rem;
-      transition: background-color 0.2s ease;
-    }
-    #cartFooter button.checkout-btn:hover {
-      background: #db6e17;
-    }
+    
+#cartFooter {
+  padding: 1rem;
+  border-top: 1px solid var(--gray-light);
+  background-color: white;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
 
+#cartFooter .total {
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+  color: var(--merah);
+}
 
-    @media (max-width: 600px) {
-      header { padding: 0.5rem 0.75rem; }
-      main { padding: 0.75rem; }
-      #cartModal { width: 100vw; max-width: none; }
-      .product-card { font-size: 14px; }
-      .product-info { padding: 0.5rem 0.5rem 0.75rem; }
-    }.delivery-method {
+#cartFooter .checkout-btn {
+  width: 100%;
+  background: var(--jingga);
+  color: white;
+  font-weight: 700;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+#cartFooter .checkout-btn:hover {
+  background: #db6e17;
+}
+
+/* Metode Pengantaran */
+.delivery-method {
+  font-size: 14px;
+  color: #333;
+  margin: 10px 0;
+}
+
+.delivery-method label {
+  display: block;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+/* Input Alamat */
+#alamatInput {
+  margin-top: 10px;
+}
+
+#alamatInput label {
+  font-size: 13px;
+  display: block;
+  margin-bottom: 4px;
+  color: #555;
+}
+
+#alamatPengantaran {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #f9f9f9;
+}
+
+#alamatPengantaran:focus {
+  outline: none;
+  border-color: #007BFF;
+  background-color: #fff;
+}
+
+/* Metode Pembayaran */
+.payment-method {
+  font-size: 14px;
+  color: #333;
+  margin-top: 10px;
+}
+
+.payment-method label {
+  display: block;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+/* Responsif Mobile */
+@media (max-width: 600px) {
+  header {
+    padding: 0.5rem 0.75rem;
+  }
+  main {
+    padding: 0.75rem;
+  }
+  #cartModal {
+    width: 100vw;
+    max-width: none;
+  }
+  .product-card {
     font-size: 14px;
-    color: #333;
   }
-
-  .delivery-method label {
-    display: block;
-    margin-bottom: 6px;
-    cursor: pointer;
+  .product-info {
+    padding: 0.5rem 0.5rem 0.75rem;
   }
-
-  #alamatInput {
-    margin-top: 10px;
-  }
-
-  #alamatInput label {
-    font-size: 13px;
-    display: block;
-    margin-bottom: 4px;
-    color: #555;
-  }
-
-  #alamatPengantaran {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #f9f9f9;
-  }
-
-  #alamatPengantaran:focus {
-    outline: none;
-    border-color: #007BFF;
-    background-color: #fff;
-  }
-    .payment-method {
-    font-size: 14px;
-    color: #333;
-  }
-
-  .payment-method label {
-    display: block;
-    margin-bottom: 6px;
-    cursor: pointer;
-  }
+}
   </style>
 </head>
 <body>
@@ -519,58 +550,47 @@ header .icon-btn .cart-count {
       <p style="text-align:center;color:#666;">Keranjang kosong.</p>
     </div>
     <footer id="cartFooter" style="display:none;">
+  <!-- Ringkasan Total -->
   <div class="total">Total: Rp <span id="cartTotal">0</span></div>
 
- <div class="delivery-method" style="margin: 10px 0;">
-  <label>
-    <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
-    Ambil Langsung (Politeknik AKA Bogor)
-  </label><br>
-  <label>
-    <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
-    Diantar
-  </label>
-</div>
+  <!-- 1. Identitas Konsumen -->
+  <div class="customer-info" style="margin: 10px 0;">
+    <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
+    <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
 
+    <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
+    <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
 
-    <div id="alamatInput" style="display:none;">
-      <label for="alamatPengantaran">Alamat Pengantaran:</label>
-      <input type="text" id="alamatPengantaran" placeholder="Masukkan alamat lengkap...">
-    </div>
+    <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
+    <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
+  </div>
 
-    <button class="checkout-btn" onclick="checkout()">Checkout</button>
-  </footer>
-</div>
+  <!-- 2. Metode Pengantaran -->
+  <div class="delivery-method" style="margin: 10px 0;">
+    <label>
+      <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
+      Ambil Langsung (Politeknik AKA Bogor)
+    </label><br>
+    <label>
+      <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
+      Diantar
+    </label>
+  </div>
 
+  <!-- 3. Input Alamat jika Diantar -->
+  <div id="alamatInput" style="display:none;">
+    <label for="alamatPengantaran">Alamat Pengantaran:</label>
+    <input type="text" id="alamatPengantaran" placeholder="Masukkan alamat lengkap..." style="width: 100%; padding: 6px;">
+  </div>
 
-<!-- Input alamat muncul jika memilih "Diantar" -->
-<div id="alamatInput" style="display:none; margin-top: 8px;">
-  <label for="alamatPengantaran">Masukkan lokasi pengantaran:</label><br>
-  <input type="text" id="alamatPengantaran" placeholder="Contoh: Gedung A, Lantai 2" style="width: 100%; padding: 6px;">
-</div>
-      
-<!-- ✅ Identitas Konsumen -->
-<div class="customer-info" style="margin: 10px 0;">
-  <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
-  <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
+  <!-- 4. Metode Pembayaran -->
+  <div class="payment-method" style="margin: 10px 0;">
+    <label><input type="radio" name="pembayaran" value="QRIS" checked> QRIS</label><br>
+    <label><input type="radio" name="pembayaran" value="Cash"> Cash</label>
+  </div>
 
-  <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
-  <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
-
-  <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
-  <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
-</div>
-      
-<!-- ✅ Metode Pembayaran -->
-<div class="payment-method" style="margin: 10px 0;">
-  <label style="font-weight: bold;">Metode Pembayaran:</label><br>
-  <label><input type="radio" name="pembayaran" value="Cash" checked> Cash</label><br>
-  <label><input type="radio" name="pembayaran" value="Transfer"> Transfer</label><br>
-  <label><input type="radio" name="pembayaran" value="QRIS"> QRIS</label>
-</div>
-
-<button class="checkout-btn" onclick="checkout()">Checkout</button>
-
+  <!-- 5. Tombol Checkout -->
+  <button class="checkout-btn" onclick="checkout()">Checkout via WhatsApp</button>
 </footer>
 
   </aside>
