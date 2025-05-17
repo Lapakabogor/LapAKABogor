@@ -89,22 +89,30 @@
   }
 }
 
-    /* === SLIDER === */
-    .slider {
-      overflow: hidden;
-      width: 100%;
-      border-radius: 0.75rem;
-      margin-bottom: 1rem;
-    }
-    .slides {
-      display: flex;
-      width: 300%;
-      animation: slide 12s infinite;
-    }
-    .slides img {
-      width: 100%;
-      object-fit: cover;
-    }
+  /* === SLIDER === */
+.slider {
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* Rasio fleksibel yang cocok untuk PC & HP */
+  border-radius: 0.75rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.slides {
+  display: flex;
+  width: 300%;
+  height: 100%;
+  animation: slide 12s infinite;
+}
+
+.slides img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Gambar tampil penuh tanpa crop */
+  flex-shrink: 0;
+}
+
     @keyframes slide {
       0%   { transform: translateX(0%); }
       33%  { transform: translateX(-100%); }
