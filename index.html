@@ -288,7 +288,38 @@ header .icon-btn .cart-count {
     margin-top: 0.5rem;
   }
 }
+/* Filter Kategori */
+#category-filter {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  padding: 0 1rem;
+}
 
+.category-btn {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.category-btn:hover {
+  background-color: #43a047;
+  color: white;
+}
+
+.category-btn.active {
+  background-color: #43a047;
+  color: white;
+  box-shadow: 0 4px 12px rgba(67, 160, 71, 0.4);
+}
 #catalogEl {
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 5 kolom tetap */
@@ -729,6 +760,18 @@ main:hover {
   </main>
 
   <aside id="cartModal" aria-label="Keranjang Belanja">
+    
+    <!-- Filter Kategori -->
+<div id="category-filter">
+  <button class="category-btn active" data-category="all">Semua</button>
+  <button class="category-btn" data-category="makanan-berat">Makanan Berat</button>
+  <button class="category-btn" data-category="makanan-ringan">Makanan Ringan</button>
+  <button class="category-btn" data-category="minuman">Minuman</button>
+  <button class="category-btn" data-category="alat-bahan-kimia">Alat & Bahan Kimia</button>
+  <button class="category-btn" data-category="barang-bekas">Barang Bekas</button>
+  <button class="category-btn" data-category="kosmetik">Kosmetik & Perawatan Diri</button>
+  <button class="category-btn" data-category="lain-lain">Lain-lainnya</button>
+</div>
       <header>
       Keranjang Anda
       <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
@@ -863,9 +906,33 @@ const products = [
     description: 'Jaket hoodie dengan desain unik dan bahan nyaman, ideal untuk gaya santai sehari-hari.'
   }
 ];
+document.addEventListener('DOMContentLoaded', () => {
+  // --- FILTER KATEGORI PRODUK ---
+  const categoryButtons = document.querySelectorAll('#category-filter .category-btn');
+  const products = document.querySelectorAll('#catalogEl .product-card');
 
+  categoryButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Hapus semua class "active"
+      categoryButtons.forEach(btn => btn.classList.remove('active'));
+      // Tambahkan class "active" ke tombol yang diklik
+      button.classList.add('active');
 
-  const catalogEl = document.getElementById('catalog');
+      const selectedCategory = button.getAttribute('data-category');
+
+      products.forEach(product => {
+        const productCategory = product.getAttribute('data-category');
+        if (selectedCategory === 'all' || productCategory === selectedCategory) {
+          product.style.display = 'flex';
+        } else {
+          product.style.display = 'none';
+        }
+      });
+    });
+  });
+
+  // --- KERANJANG BELANJA ---
+  const catalogEl = document.getElementById('catalogEl');
   const cartBtn = document.getElementById('cartBtn');
   const cartModal = document.getElementById('cartModal');
   const closeCartBtn = document.getElementById('closeCartBtn');
@@ -873,8 +940,8 @@ const products = [
   const cartContent = document.getElementById('cartContent');
   const cartFooter = document.getElementById('cartFooter');
   const cartTotalEl = document.getElementById('cartTotal');
-  let cart = {};
 
+  let cart = {};
   function formatPrice(num) {
     return num.toLocaleString('id-ID');
   }
