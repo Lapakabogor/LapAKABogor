@@ -296,24 +296,28 @@ header .icon-btn .cart-count {
   padding: 1rem;
   box-sizing: border-box;
 }
-/* Responsif: HP & Tablet */
+
+/* Responsif: Tablet */
 @media (max-width: 1024px) {
   #catalogEl {
     grid-template-columns: repeat(3, 1fr); /* tablet: 3 per baris */
   }
 }
 
+/* Responsif: HP sedang */
 @media (max-width: 768px) {
   #catalogEl {
     grid-template-columns: repeat(2, 1fr); /* HP sedang: 2 per baris */
   }
 }
 
+/* Responsif: HP kecil */
 @media (max-width: 480px) {
   #catalogEl {
     grid-template-columns: 1fr; /* HP kecil: 1 per baris */
   }
 }
+
 .product-card {
   display: flex;
   flex-direction: column;
@@ -341,6 +345,7 @@ header .icon-btn .cart-count {
   height: auto;
   border-radius: 0.75rem;
 }
+
 .product-info {
   text-align: center;
   margin-top: 0.5rem;
