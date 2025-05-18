@@ -290,15 +290,14 @@ header .icon-btn .cart-count {
 }
 
 #catalogEl {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem; /* jarak antar kartu */
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .product-card {
-  flex: 0 1 calc(33.333% - 1rem); /* 3 per baris dengan margin gap */
-  max-width: calc(33.333% - 1rem);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -325,6 +324,11 @@ header .icon-btn .cart-count {
   height: auto;
   border-radius: 0.75rem;
 }
+.product-info {
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
 
 main {
   padding: 0.5rem 0.75rem 0.75rem;
@@ -348,33 +352,31 @@ main:hover {
 }
 
 .product-name {
+  font-size: 1rem;
   font-weight: 600;
-  font-size: 0.95rem;
-  text-align: center;
+  color: #333;
+  margin-bottom: 0.25rem;
 }
 
 .product-price {
-  color: var(--merah);
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
-  text-align: center;
+  font-size: 0.95rem;
+  color: #1e88e5;
+  margin-bottom: 0.5rem;
 }
 
-.add-cart-btn {
-  background: var(--hijau);
-  color: white;
-  border-radius: 9999px;
+
+.add-to-cart-btn {
+  background-color: #43a047;
+  color: #fff;
+  border: none;
   padding: 0.5rem 1rem;
-  font-weight: 700;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease;
-  margin-top: auto;
-  align-self: center;
+  border-radius: 0.75rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
-
-.add-cart-btn:hover {
-  background: #138c35;
+.add-to-cart-btn:hover {
+  background-color: #2e7d32;
 }
 
 /* Modal utama dengan overlay gelap */
