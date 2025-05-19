@@ -89,7 +89,6 @@
   }
 }
 
-/* === SLIDER === */
 .slider {
   overflow: hidden;
   width: 100%;
@@ -119,21 +118,21 @@
 
 .slides {
   display: flex;
-  width: 400%;
+  width: 400%; /* karena ada 4 gambar */
   height: 100%;
   animation: slide 48s infinite;
 }
 
 .slides img {
-  width: 100%;
+  flex: 0 0 100%;       /* Setiap gambar mengambil 100% lebar slider */
   height: 100%;
-  object-fit: contain; /* gambar utuh, tidak terpotong */
-  flex-shrink: 0;
+  object-fit: contain;  /* Gambar ditampilkan utuh tanpa terpotong */
   margin: 0;
   padding: 0;
   border: none;
-  background-color: #fff; /* opsional, untuk latar belakang putih */
+  display: block;
 }
+
 
 @keyframes slide {
   0%   { transform: translateX(0%); }
