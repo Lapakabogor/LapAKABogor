@@ -1121,11 +1121,11 @@ function renderCartItems() {
     cartContent.appendChild(div);
   }
 
-  // Update total harga di elemen total
-  if (cartTotalEl) {
-    cartTotalEl.textContent = formatPrice(totalPrice);
-  }
+ // Update total harga di elemen total
+if (cartTotalEl) {
+  cartTotalEl.innerHTML = `Total: <strong>Rp ${formatPrice(totalPrice)}</strong>`;
 }
+
 
   function openCart() {
     cartModal.classList.add('open');
