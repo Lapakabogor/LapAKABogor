@@ -483,7 +483,16 @@ main:hover {
   color: white;
   cursor: pointer;
 }
-
+    
+/* Wrapper scrollable */
+#cartScrollWrapper {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  padding-bottom: 6rem; /* supaya footer tidak menimpa konten */
+}
 #cartContent {
   flex-grow: 1;
   overflow-y: auto;
@@ -732,59 +741,66 @@ main:hover {
     <section class="catalog" id="catalog"></section>
   </main>
 
-  <aside id="cartModal" aria-label="Keranjang Belanja">
-      <header>
-      Keranjang Anda
-      <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
-    </header>
+ <aside id="cartModal" aria-label="Keranjang Belanja">
+  <header>
+    Keranjang Anda
+    <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
+  </header>
+
+  <!-- Wrapper agar bagian tengah bisa discroll -->
+  <div id="cartScrollWrapper">
+    <!-- Konten Keranjang -->
     <div id="cartContent">
       <p style="text-align:center;color:#666;">Keranjang kosong.</p>
     </div>
+
+    <!-- Footer yang ikut scroll -->
     <footer id="cartFooter" style="display:none;">
-  <!-- Ringkasan Total -->
-  <div class="total">Total: Rp <span id="cartTotal">0</span></div>
+      <!-- Ringkasan Total -->
+      <div class="total">Total: Rp <span id="cartTotal">0</span></div>
 
-  <!-- 1. Identitas Konsumen -->
-  <div class="customer-info" style="margin: 10px 0;">
-    <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
-    <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
+      <!-- 1. Identitas Konsumen -->
+      <div class="customer-info" style="margin: 10px 0;">
+        <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
+        <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
 
-    <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
-    <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
+        <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
+        <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
 
-    <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
-    <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
+        <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
+        <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
+      </div>
+
+      <!-- 2. Metode Pengantaran -->
+      <div class="delivery-method" style="margin: 10px 0;">
+        <label>
+          <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
+          Ambil Langsung (Politeknik AKA Bogor)
+        </label><br>
+        <label>
+          <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
+          Diantar
+        </label>
+      </div>
+
+      <!-- 3. Input Alamat jika Diantar -->
+      <div id="alamatInput" style="display:none;">
+        <label for="alamatPengantaran">Alamat Pengantaran:</label>
+        <input type="text" id="alamatPengantaran" placeholder="Masukkan alamat lengkap..." style="width: 100%; padding: 6px;">
+      </div>
+
+      <!-- 4. Metode Pembayaran -->
+      <div class="payment-method" style="margin: 10px 0;">
+        <label><input type="radio" name="pembayaran" value="QRIS" checked> QRIS</label><br>
+        <label><input type="radio" name="pembayaran" value="Cash"> Cash</label>
+      </div>
+
+      <!-- 5. Tombol Checkout -->
+      <button class="checkout-btn" onclick="checkout()">Checkout via WhatsApp</button>
+    </footer>
   </div>
+</aside>
 
-  <!-- 2. Metode Pengantaran -->
-  <div class="delivery-method" style="margin: 10px 0;">
-    <label>
-      <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
-      Ambil Langsung (Politeknik AKA Bogor)
-    </label><br>
-    <label>
-      <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
-      Diantar
-    </label>
-  </div>
-
-  <!-- 3. Input Alamat jika Diantar -->
-  <div id="alamatInput" style="display:none;">
-    <label for="alamatPengantaran">Alamat Pengantaran:</label>
-    <input type="text" id="alamatPengantaran" placeholder="Masukkan alamat lengkap..." style="width: 100%; padding: 6px;">
-  </div>
-
-  <!-- 4. Metode Pembayaran -->
-  <div class="payment-method" style="margin: 10px 0;">
-    <label><input type="radio" name="pembayaran" value="QRIS" checked> QRIS</label><br>
-    <label><input type="radio" name="pembayaran" value="Cash"> Cash</label>
-  </div>
-
-  <!-- 5. Tombol Checkout -->
-  <button class="checkout-btn" onclick="checkout()">Checkout via WhatsApp</button>
-</footer>
-
-  </aside>
    <script>
 // Splash screen
 window.addEventListener('DOMContentLoaded', () => {
