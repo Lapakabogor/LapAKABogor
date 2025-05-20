@@ -500,15 +500,17 @@ main:hover {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 1rem; /* beri jarak antar elemen */
+  gap: 1rem;
   padding: 1rem 1.25rem;
-  padding-bottom: 7rem; /* beri ruang ekstra agar tidak tertutup footer */
-  background-color: #fafafa; /* latar lembut agar beda dari footer/header */
+  padding-bottom: 10rem; /* tambahkan ruang lebih besar agar aman dari footer */
+  background-color: #fafafa;
   scrollbar-width: thin;
   scrollbar-color: var(--biru) #e0e0e0;
   border-bottom: 1px solid #ddd;
   border-top: 1px solid #eee;
   border-radius: 0 0 12px 12px;
+  max-height: calc(100vh - 220px); /* tinggi maksimum disesuaikan dengan tinggi footer */
+  box-sizing: border-box;
 }
 
 /* Untuk browser berbasis WebKit (Chrome, Safari) */
@@ -525,6 +527,7 @@ main:hover {
   background-color: var(--biru);
   border-radius: 8px;
 }
+
 
 #cartContent {
   flex-grow: 1;
@@ -608,7 +611,8 @@ main:hover {
   text-align: right;
   font-size: 0.95rem;
 }
-
+    
+/* Footer dalam scroll */
 #cartFooter {
   padding: 1rem;
   border-top: 1px solid var(--gray-light);
@@ -824,21 +828,21 @@ main:hover {
     <section class="catalog" id="catalog"></section>
   </main>
 
- <aside id="cartModal" aria-label="Keranjang Belanja">
+<aside id="cartModal" aria-label="Keranjang Belanja">
   <header>
     Keranjang Anda
     <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
   </header>
 
-  <!-- Wrapper agar bagian tengah bisa discroll -->
+  <!-- Wrapper agar SEMUA isi bisa discroll -->
   <div id="cartScrollWrapper">
     <!-- Konten Keranjang -->
     <div id="cartContent">
       <p style="text-align:center;color:#666;">Keranjang kosong.</p>
     </div>
 
-    <!-- Footer yang ikut scroll -->
-    <footer id="cartFooter" style="display:none;">
+    <!-- Footer SEKARANG berada di dalam area scroll -->
+    <footer id="cartFooter" style="display:block;">
       <!-- Ringkasan Total -->
       <div class="total">Total: Rp <span id="cartTotal">0</span></div>
 
