@@ -539,6 +539,7 @@ main:hover {
   background-color: #fafafa;
   border-top: 1px solid #eee;
 }
+
 /* Setiap item dalam keranjang */
 .cart-item {
   display: flex;
@@ -588,29 +589,30 @@ main:hover {
 .cart-item-qty button {
   background: var(--biru);
   color: white;
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.9rem;
   border-radius: 6px;
   border: none;
   cursor: pointer;
-  transition: background 0.2s ease;
 }
 
-.cart-item-qty button:hover {
-  background: #155fa0; /* warna hover biru tua */
-}
-
-/* Jumlah tampil di tengah */
 .cart-item-qty span {
   min-width: 24px;
   text-align: center;
-  font-weight: bold;
-  color: #333;
+  display: inline-block;
+}
+
+/* Harga */
+.cart-item-price {
+  font-weight: 700;
+  color: var(--merah);
+  min-width: 60px;
+  text-align: right;
   font-size: 0.95rem;
 }
- 
+    
 /* Footer dalam scroll */
 #cartFooter {
   padding: 1rem;
@@ -762,8 +764,9 @@ main:hover {
     box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
   }
 }
+
+
   </style>
-  
 </head>
 <body>
 <div id="splashScreen">
@@ -775,6 +778,7 @@ main:hover {
   </div>
 </div>
 
+  
 <header>
   <div class="logo">Lap<span>AKA</span>Bogor</div>
   
@@ -820,6 +824,7 @@ main:hover {
        style="color: #444; text-align: justify; margin: 0; line-height: 1.6;"></p>
   </div>
 </div>
+
 
     <section class="catalog" id="catalog"></section>
   </main>
@@ -1104,26 +1109,29 @@ function renderCartItems() {
 
     const div = document.createElement('div');
     div.className = 'cart-item';
+    div.style.display = 'flex';
+    div.style.justifyContent = 'space-between';
+    div.style.alignItems = 'center';
+    div.style.padding = '10px 0';
+    div.style.borderBottom = '1px solid #ddd';
 
     div.innerHTML = `
-      <div class="cart-item-image" style="background-image:url('${item.img || 'https://via.placeholder.com/60'}');"></div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-qty">
-          <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
-          <span>${item.qty}</span>
-          <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
+      <div class="cart-item-image" style="background-image:url('${item.img}'); width: 50px; height: 50px; background-size: cover; background-position: center; border-radius: 8px;" aria-label="Gambar produk ${item.name}"></div>
+      <div class="cart-item-info" style="flex: 1; margin-left: 10px;">
+        <div class="cart-item-name" style="font-weight: bold;">${item.name}</div>
+        <div class="cart-item-qty" aria-label="Jumlah produk" style="margin-top: 4px;">
+          <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">−</button>
+          <span style="margin: 0 8px;">${item.qty}</span>
+          <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
         </div>
       </div>
-      <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
+      <div class="cart-item-price" style="min-width: 80px; text-align: right;">Rp ${formatPrice(item.price * item.qty)}</div>
     `;
 
     cartContent.appendChild(div);
   }
 
- // Update total harga di elemen total
-if (cartTotalEl) {
-  cartTotalEl.innerHTML = `Total: <strong>Rp ${formatPrice(totalPrice)}</strong>`;
+  cartTotalEl.textContent = formatPrice(totalPrice);
 }
 
 
