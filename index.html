@@ -1104,31 +1104,28 @@ function renderCartItems() {
 
     const div = document.createElement('div');
     div.className = 'cart-item';
-    div.style.display = 'flex';
-    div.style.justifyContent = 'space-between';
-    div.style.alignItems = 'center';
-    div.style.padding = '10px 0';
-    div.style.borderBottom = '1px solid #ddd';
 
     div.innerHTML = `
-      <div class="cart-item-image" style="background-image:url('${item.img}'); width: 50px; height: 50px; background-size: cover; background-position: center; border-radius: 8px;" aria-label="Gambar produk ${item.name}"></div>
-      <div class="cart-item-info" style="flex: 1; margin-left: 10px;">
-        <div class="cart-item-name" style="font-weight: bold;">${item.name}</div>
-        <div class="cart-item-qty" aria-label="Jumlah produk" style="margin-top: 4px;">
-          <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">−</button>
-          <span style="margin: 0 8px;">${item.qty}</span>
-          <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
+      <div class="cart-item-image" style="background-image:url('${item.img || 'https://via.placeholder.com/60'}');"></div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="changeQty('${item.id}', -1)">−</button>
+          <span>${item.qty}</span>
+          <button class="qty-btn" onclick="changeQty('${item.id}', 1)">+</button>
         </div>
       </div>
-      <div class="cart-item-price" style="min-width: 80px; text-align: right;">Rp ${formatPrice(item.price * item.qty)}</div>
+      <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
     `;
 
     cartContent.appendChild(div);
   }
 
-  cartTotalEl.textContent = formatPrice(totalPrice);
+  // Update total harga di elemen total
+  if (cartTotalEl) {
+    cartTotalEl.textContent = formatPrice(totalPrice);
+  }
 }
-
 
   function openCart() {
     cartModal.classList.add('open');
