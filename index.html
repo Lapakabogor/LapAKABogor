@@ -1091,30 +1091,44 @@ function updateCartUI() {
   }
 }
 
-  function renderCartItems() {
-    cartContent.innerHTML = '';
-    let totalPrice = 0;
-    for (const key in cart) {
-      const item = cart[key];
-      totalPrice += item.price * item.qty;
-      const div = document.createElement('div');
-      div.className = 'cart-item';
-      div.innerHTML = `
-        <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
-        <div class="cart-item-info">
-          <div class="cart-item-name">${item.name}</div>
-          <div class="cart-item-qty" aria-label="Jumlah produk">
-            <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
-            <span>${item.qty}</span>
-            <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
-          </div>
+function renderCartItems() {
+  const cartContent = document.getElementById('cartContent');
+  const cartTotalEl = document.getElementById('cartTotal');
+  cartContent.innerHTML = '';
+
+  let totalPrice = 0;
+
+  for (const key in cart) {
+    const item = cart[key];
+    totalPrice += item.price * item.qty;
+
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.style.display = 'flex';
+    div.style.justifyContent = 'space-between';
+    div.style.alignItems = 'center';
+    div.style.padding = '10px 0';
+    div.style.borderBottom = '1px solid #ddd';
+
+    div.innerHTML = `
+      <div class="cart-item-image" style="background-image:url('${item.img}'); width: 50px; height: 50px; background-size: cover; background-position: center; border-radius: 8px;" aria-label="Gambar produk ${item.name}"></div>
+      <div class="cart-item-info" style="flex: 1; margin-left: 10px;">
+        <div class="cart-item-name" style="font-weight: bold;">${item.name}</div>
+        <div class="cart-item-qty" aria-label="Jumlah produk" style="margin-top: 4px;">
+          <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">−</button>
+          <span style="margin: 0 8px;">${item.qty}</span>
+          <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
         </div>
-        <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
-      `;
-      cartContent.appendChild(div);
-    }
-    cartTotalEl.textContent = formatPrice(totalPrice);
+      </div>
+      <div class="cart-item-price" style="min-width: 80px; text-align: right;">Rp ${formatPrice(item.price * item.qty)}</div>
+    `;
+
+    cartContent.appendChild(div);
   }
+
+  cartTotalEl.textContent = formatPrice(totalPrice);
+}
+
 
   function openCart() {
     cartModal.classList.add('open');
