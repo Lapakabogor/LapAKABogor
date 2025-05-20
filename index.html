@@ -1036,53 +1036,60 @@ function closeModal() {
   }, 200); // tunggu animasi selesai
 }
 
-
-  function addToCart(productId) {
-    if (cart[productId]) {
-      cart[productId].qty++;
-    } else {
-      const product = products.find(p => p.id === productId);
-      cart[productId] = {
-        ...product,
-        qty: 1
-      };
-    }
-    updateCartUI();
-    openCart();
+function addToCart(productId) {
+  if (cart[productId]) {
+    cart[productId].qty++;
+  } else {
+    const product = products.find(p => p.id === productId);
+    if (!product) return; // cegah error jika produk tidak ditemukan
+    cart[productId] = {
+      ...product,
+      qty: 1
+    };
   }
+  updateCartUI();
+  openCart();
+}
 
-  function removeFromCart(productId) {
+function removeFromCart(productId) {
+  if (cart[productId]) {
     delete cart[productId];
     updateCartUI();
   }
+}
 
-  function changeQty(productId, delta) {
-    if (!cart[productId]) return;
-    cart[productId].qty += delta;
-    if (cart[productId].qty <= 0) {
-      removeFromCart(productId);
-    } else {
-      updateCartUI();
-    }
+function changeQty(productId, delta) {
+  if (!cart[productId]) return;
+  cart[productId].qty += delta;
+  if (cart[productId].qty <= 0) {
+    removeFromCart(productId);
+  } else {
+    updateCartUI();
+  }
+}
+
+function updateCartUI() {
+  const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+
+  // Update indikator jumlah produk di ikon keranjang
+  if (totalItems > 0) {
+    cartCountEl.style.display = 'inline-block';
+    cartCountEl.textContent = totalItems;
+  } else {
+    cartCountEl.style.display = 'none';
   }
 
-  function updateCartUI() {
-    const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
-    if (totalItems > 0) {
-      cartCountEl.style.display = 'inline-block';
-      cartCountEl.textContent = totalItems;
-    } else {
-      cartCountEl.style.display = 'none';
-    }
-
-    if (totalItems === 0) {
-      cartContent.innerHTML = '<p style="text-align:center;color:#666;">Keranjang kosong.</p>';
-      cartFooter.style.display = 'none';
-    } else {
-      cartFooter.style.display = 'block';
-      renderCartItems();
-    }
+  // Update tampilan isi keranjang dan footer
+  if (totalItems === 0) {
+    // Keranjang kosong
+    cartContent.innerHTML = '<p style="text-align:center;color:#666;">Keranjang kosong.</p>';
+    cartFooter.style.display = 'none'; // sembunyikan footer total & checkout
+  } else {
+    // Ada isi keranjang
+    renderCartItems(); // render list produk di keranjang
+    cartFooter.style.display = 'block'; // tampilkan footer total & checkout
   }
+}
 
   function renderCartItems() {
     cartContent.innerHTML = '';
