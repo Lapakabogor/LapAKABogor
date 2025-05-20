@@ -253,7 +253,7 @@
       width: 100%;
       aspect-ratio: 16 / 9;
       border-radius: 0.75rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
       position: relative;
       border: 3px solid transparent;
       background: 
@@ -261,37 +261,41 @@
         linear-gradient(270deg, #ef4444, #2563eb, #10b981, #f97316, #ef4444) border-box;
       background-size: 800% 800%;
       animation: borderAnimation 15s ease infinite;
-      box-shadow: var(--shadow-lg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1),
+                  0 0 12px rgba(249, 115, 22, 0.2);
     }
-    
+
     @keyframes borderAnimation {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    
     .slides {
       display: flex;
-      width: 400%;
+      width: 500%; /* Diubah untuk 5 gambar */
       height: 100%;
-      animation: slide 40s linear infinite;
+      animation: slide 50s linear infinite; /* Durasi lebih panjang */
     }
-    
+
     .slides img {
-      flex: 0 0 100%;
-      width: 100%;
+      flex: 0 0 20%; /* Diubah untuk 5 gambar (100%/5) */
+      width: 20%; /* Diubah untuk 5 gambar */
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
+      margin: 0;
+      padding: 0;
+      border: none;
+      display: block;
     }
-    
+
     @keyframes slide {
-      0% { transform: translateX(0%); }
-      25% { transform: translateX(-100%); }
-      50% { transform: translateX(-200%); }
-      75% { transform: translateX(-300%); }
+      0%   { transform: translateX(0%); }
+      20%  { transform: translateX(-100%); }
+      40%  { transform: translateX(-200%); }
+      60%  { transform: translateX(-300%); }
+      80%  { transform: translateX(-400%); }
       100% { transform: translateX(0%); }
     }
-    
     /* === PRODUCT CATALOG === */
     .catalog {
       display: grid;
@@ -803,6 +807,7 @@
         <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/IKLAN%20kingkong.png" alt="Iklan Kopi Kingkong">
         <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/IKLAN%20yogood.png" alt="Iklan Yogood Mochi">
         <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/IKLAN%20bochiz.png" alt="Iklan Bochiz Spaghetti">
+        <img src="https://path-ke-gambar-iklan-5.jpg" alt="Iklan 5">
       </div>
     </div>
     
