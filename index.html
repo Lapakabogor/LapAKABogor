@@ -830,17 +830,19 @@ main:hover {
     <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
   </header>
 
-  <!-- Wrapper agar SEMUA isi bisa discroll -->
+  <!-- Wrapper agar semua isi bisa discroll -->
   <div id="cartScrollWrapper">
     <!-- Konten Keranjang -->
     <div id="cartContent">
       <p style="text-align:center;color:#666;">Keranjang kosong.</p>
     </div>
 
-    <!-- Footer SEKARANG berada di dalam area scroll -->
-    <footer id="cartFooter" style="display:block;">
-      <!-- Ringkasan Total -->
+    <!-- Footer ikut discroll, tetapi tetap di bawah konten -->
+    <footer id="cartFooter">
       <div class="total">Total: Rp <span id="cartTotal">0</span></div>
+      <button id="checkoutBtn">Checkout</button>
+    </footer>
+  </div>
 
       <!-- 1. Identitas Konsumen -->
       <div class="customer-info" style="margin: 10px 0;">
