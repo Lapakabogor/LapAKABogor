@@ -982,93 +982,116 @@ function closeModal() {
 
 
   function addToCart(productId) {
-    if (cart[productId]) {
-      cart[productId].qty++;
-    } else {
-      const product = products.find(p => p.id === productId);
-      cart[productId] = {
-        ...product,
-        qty: 1
-      };
-    }
-    updateCartUI();
-    openCart();
+  // Cek apakah produk ada di daftar produk
+  const product = products.find(p => p.id === productId);
+  if (!product) {
+    console.warn(`Produk dengan ID ${productId} tidak ditemukan.`);
+    return;
   }
 
-  function removeFromCart(productId) {
+  // Tambah jumlah jika produk sudah ada di cart
+  if (cart[productId]) {
+    cart[productId].qty++;
+  } else {
+    // Jika belum ada, tambahkan ke cart dengan qty 1
+    cart[productId] = {
+      ...product,
+      qty: 1
+    };
+  }
+
+  // Update tampilan keranjang
+  updateCartUI();
+
+  // Buka tampilan cart (jika ada fungsinya)
+  if (typeof openCart === "function") {
+    openCart();
+  }
+}
+
+function removeFromCart(productId) {
+  if (cart[productId]) {
     delete cart[productId];
     updateCartUI();
   }
+}
 
-  function changeQty(productId, delta) {
-    if (!cart[productId]) return;
-    cart[productId].qty += delta;
-    if (cart[productId].qty <= 0) {
-      removeFromCart(productId);
-    } else {
-      updateCartUI();
-    }
+function changeQty(productId, delta) {
+  if (!cart[productId]) return;
+
+  cart[productId].qty += delta;
+
+  if (cart[productId].qty <= 0) {
+    removeFromCart(productId);
+  } else {
+    updateCartUI();
+  }
+}
+
+function updateCartUI() {
+  const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+
+  // Update ikon jumlah di tombol keranjang
+  if (totalItems > 0) {
+    cartCountEl.style.display = 'inline-block';
+    cartCountEl.textContent = totalItems;
+  } else {
+    cartCountEl.style.display = 'none';
   }
 
-  function updateCartUI() {
-    const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
-    if (totalItems > 0) {
-      cartCountEl.style.display = 'inline-block';
-      cartCountEl.textContent = totalItems;
-    } else {
-      cartCountEl.style.display = 'none';
-    }
-
-    if (totalItems === 0) {
-      cartContent.innerHTML = '<p style="text-align:center;color:#666;">Keranjang kosong.</p>';
-      cartFooter.style.display = 'none';
-    } else {
-      cartFooter.style.display = 'block';
-      renderCartItems();
-    }
+  // Update konten cart
+  if (totalItems === 0) {
+    cartContent.innerHTML = '<p style="text-align:center; color:#666; margin-top:2rem;">Keranjang kosong.</p>';
+    cartFooter.style.display = 'none';
+  } else {
+    cartFooter.style.display = 'block';
+    renderCartItems(); // fungsi ini harus mengisi ulang isi HTML dari daftar cart
   }
+}
 
-  function renderCartItems() {
-    cartContent.innerHTML = '';
-    let totalPrice = 0;
-    for (const key in cart) {
-      const item = cart[key];
-      totalPrice += item.price * item.qty;
-      const div = document.createElement('div');
-      div.className = 'cart-item';
-      div.innerHTML = `
-        <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
-        <div class="cart-item-info">
-          <div class="cart-item-name">${item.name}</div>
-          <div class="cart-item-qty" aria-label="Jumlah produk">
-            <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
-            <span>${item.qty}</span>
-            <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
-          </div>
+function renderCartItems() {
+  cartContent.innerHTML = '';
+  let totalPrice = 0;
+
+  for (const key in cart) {
+    const item = cart[key];
+    const itemTotal = item.price * item.qty;
+    totalPrice += itemTotal;
+
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `
+      <div class="cart-item-image" style="background-image: url('${item.img}');" role="img" aria-label="Gambar produk ${item.name}"></div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-qty" aria-label="Jumlah produk">
+          <button type="button" aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">−</button>
+          <span>${item.qty}</span>
+          <button type="button" aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
         </div>
-        <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
-      `;
-      cartContent.appendChild(div);
-    }
-    cartTotalEl.textContent = formatPrice(totalPrice);
+        <div class="cart-item-price">Rp ${formatPrice(itemTotal)}</div>
+      </div>
+    `;
+    cartContent.appendChild(div);
   }
 
-  function openCart() {
-    cartModal.classList.add('open');
-  }
+  cartTotalEl.textContent = formatPrice(totalPrice);
+}
 
-  function closeCart() {
-    cartModal.classList.remove('open');
-  }
+function openCart() {
+  cartModal.classList.add('open');
+}
 
-  cartBtn.addEventListener('click', () => {
-    if (cartModal.classList.contains('open')) {
-      closeCart();
-    } else {
-      openCart();
-    }
-  });
-  closeCartBtn.addEventListener('click', closeCart);
+function closeCart() {
+  cartModal.classList.remove('open');
+}
+
+cartBtn.addEventListener('click', () => {
+  cartModal.classList.toggle('open');
+});
+
+closeCartBtn.addEventListener('click', closeCart);
+
 
   function performSearch() {
     const query = document.getElementById('searchInput').value.trim().toLowerCase();
