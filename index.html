@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <title>LapAKABogor - Platform Produk Mahasiswa Politeknik AKA Bogor</title>
+  <title>LapAKABogor - Platform Produk Mahasiswa Politeknik AKA Bogor
+  </title>
 <meta name="description" content="Temukan berbagai produk danusan, inovasi mahasiswa, serta produk IKM kampus di LapAKABogor. Belanja mudah, aman, dan langsung terhubung ke WhatsApp penjual.">
 <meta name="keywords" content="LapAKABogor, danusan, produk mahasiswa, IKM, Politeknik AKA Bogor, ecommerce kampus, toko online AKA Bogor">
 <meta name="robots" content="index, follow">
@@ -538,7 +539,6 @@ main:hover {
   background-color: #fafafa;
   border-top: 1px solid #eee;
 }
-
 /* Setiap item dalam keranjang */
 .cart-item {
   display: flex;
@@ -588,30 +588,29 @@ main:hover {
 .cart-item-qty button {
   background: var(--biru);
   color: white;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 1rem;
   border-radius: 6px;
   border: none;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
+.cart-item-qty button:hover {
+  background: #155fa0; /* warna hover biru tua */
+}
+
+/* Jumlah tampil di tengah */
 .cart-item-qty span {
   min-width: 24px;
   text-align: center;
-  display: inline-block;
-}
-
-/* Harga */
-.cart-item-price {
-  font-weight: 700;
-  color: var(--merah);
-  min-width: 60px;
-  text-align: right;
+  font-weight: bold;
+  color: #333;
   font-size: 0.95rem;
 }
-    
+ 
 /* Footer dalam scroll */
 #cartFooter {
   padding: 1rem;
@@ -763,9 +762,8 @@ main:hover {
     box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
   }
 }
-
-
   </style>
+  
 </head>
 <body>
 <div id="splashScreen">
@@ -777,7 +775,6 @@ main:hover {
   </div>
 </div>
 
-  
 <header>
   <div class="logo">Lap<span>AKA</span>Bogor</div>
   
@@ -823,7 +820,6 @@ main:hover {
        style="color: #444; text-align: justify; margin: 0; line-height: 1.6;"></p>
   </div>
 </div>
-
 
     <section class="catalog" id="catalog"></section>
   </main>
