@@ -498,17 +498,16 @@ main:hover {
   
 /* Area Scrollable Isi Keranjang */
 #cartScrollWrapper {
-  flex-grow: 1;
+  flex: 1;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  padding: 0;
+  padding: 0 1.25rem;
   background-color: #fafafa;
   scrollbar-width: thin;
   scrollbar-color: var(--biru) #e0e0e0;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #ddd;
-  max-height: calc(100vh - 180px); /* Menyesuaikan tinggi total header + footer */
   box-sizing: border-box;
 }
 
@@ -526,13 +525,16 @@ main:hover {
 }
 
 #cartContent {
-  flex-grow: 1;
+  flex: 1;
   overflow-y: auto;
   padding: 1rem 1rem 2rem 1rem;
-  padding-right: 0.5rem; /* agar tidak tertabrak scrollbar */
+  padding-right: 0.5rem; /* agar konten tidak tertabrak scrollbar */
   box-sizing: border-box;
   background-color: #fafafa;
   border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 /* Setiap item dalam keranjang */
@@ -545,7 +547,12 @@ main:hover {
   border-radius: 8px;
   padding: 0.75rem;
   background: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: box-shadow 0.2s ease;
+}
+
+.cart-item:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 /* Gambar produk */
@@ -557,6 +564,7 @@ main:hover {
   border-radius: 0.5rem;
   flex-shrink: 0;
   border: 1px solid #ddd;
+  background-color: #f5f5f5;
 }
 
 /* Informasi produk */
@@ -564,6 +572,9 @@ main:hover {
   flex-grow: 1;
   font-size: 0.9rem;
   color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Nama produk */
@@ -571,6 +582,7 @@ main:hover {
   font-weight: 700;
   margin-bottom: 0.25rem;
   line-height: 1.2;
+  word-break: break-word;
 }
 
 /* Kontrol jumlah */
@@ -578,26 +590,34 @@ main:hover {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-  margin-top: 4px;
+  margin-top: 0.25rem;
+  flex-wrap: nowrap;
 }
 
 .cart-item-qty button {
   background: var(--biru);
   color: white;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   font-weight: 700;
   font-size: 0.9rem;
   border-radius: 6px;
   border: none;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cart-item-qty button:hover {
+  background: #0056b3; /* fallback jika --biru kurang terang */
 }
 
 .cart-item-qty span {
-  min-width: 24px;
+  min-width: 28px;
   text-align: center;
   display: inline-block;
+  font-size: 0.9rem;
 }
+
 
 /* Harga */
 .cart-item-price {
@@ -608,7 +628,6 @@ main:hover {
   font-size: 0.95rem;
 }
     
-/* Footer dalam scroll */
 #cartFooter {
   padding: 1rem;
   border-top: 1px solid var(--gray-light);
@@ -619,14 +638,14 @@ main:hover {
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
+/* Total harga */
 #cartFooter .total {
   font-weight: 700;
   font-size: 1.15rem;
   color: var(--merah);
-  margin-bottom: 0.75rem;
   text-align: right;
 }
 
@@ -636,20 +655,20 @@ main:hover {
   background: var(--jingga);
   color: white;
   font-weight: 700;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   border-radius: 9999px;
   font-size: 1rem;
   border: none;
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.15s ease;
   box-shadow: 0 3px 6px rgba(0,0,0,0.12);
-  margin-top: 1rem;
 }
 
 #cartFooter .checkout-btn:hover {
-  background: #db6e17;
+  background-color: #db6e17; /* fallback tone jingga lebih gelap */
   transform: translateY(-2px);
 }
+
 
 /* Metode Pengantaran */
 .delivery-method {
@@ -730,13 +749,26 @@ main:hover {
     padding: 0.75rem;
   }
 
+  /* Modal keranjang */
   #cartModal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
     width: 100vw;
-    max-width: none;
-    height: 100vh;         /* penuh tinggi layar */
+    height: 100vh;
+    max-width: 100%;
+    background-color: white;
+    z-index: 9999;
+    overflow-y: auto;
     border-radius: 0;
-    overflow-y: auto;      /* scroll saat konten melebihi tinggi */
-    right: 0;              /* pastikan modal terbuka penuh */
+    display: flex;
+    flex-direction: column;
+  }
+
+  #cartModal.hidden {
+    display: none;
   }
 
   .product-card {
@@ -748,19 +780,33 @@ main:hover {
   }
 
   #cartContent {
-    padding-bottom: 5rem;  /* beri ruang bawah agar footer tidak tertutup */
+    flex: 1;
+    padding: 1rem;
+    padding-bottom: 6rem;  /* ruang ekstra untuk footer tetap terlihat */
   }
 
   #cartFooter {
     position: sticky;
     bottom: 0;
+    left: 0;
+    right: 0;
     z-index: 20;
-    background-color: white; /* jaga agar footer tetap terlihat */
+    background-color: white;
+    padding: 1rem;
     box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
   }
+ /* Tombol close modal (X) */
+  #closeCartBtn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    z-index: 10000;
+    cursor: pointer;
+  }
 }
-
-
   </style>
 </head>
 <body>
@@ -830,14 +876,11 @@ main:hover {
     <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
   </header>
 
-  <!-- Wrapper agar semua isi bisa discroll -->
   <div id="cartScrollWrapper">
-    <!-- Konten Keranjang -->
     <div id="cartContent">
       <p style="text-align:center;color:#666;">Keranjang kosong.</p>
     </div>
 
-    <!-- Footer ikut discroll, tetapi tetap di bawah konten -->
     <footer id="cartFooter">
       <div class="total">Total: Rp <span id="cartTotal">0</span></div>
       <button id="checkoutBtn">Checkout</button>
