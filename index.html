@@ -461,102 +461,154 @@ main:hover {
 #cartModal.open {
   right: 0;
 }
-
-/* Header */
+/* Header Keranjang Belanja */
 #cartModal header {
   background: var(--biru);
   color: white;
-  padding: 1rem;
+  padding: 1rem 1.25rem;
   font-weight: 700;
   font-size: 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-shrink: 0; /* agar header tidak menyusut */
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
-/* Tombol close */
+/* Tombol Close (X) */
 #cartModal header button.close-cart {
-  background: none;
+  background-color: rgba(255, 255, 255, 0.15);
   border: none;
   font-size: 1.5rem;
   color: white;
   cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
 }
-    
-/* Wrapper scrollable */
+
+#cartModal header button.close-cart:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+  
+/* Area Scrollable Isi Keranjang */
 #cartScrollWrapper {
   flex-grow: 1;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  padding-bottom: 6rem; /* supaya footer tidak menimpa konten */
+  gap: 1rem; /* beri jarak antar elemen */
+  padding: 1rem 1.25rem;
+  padding-bottom: 7rem; /* beri ruang ekstra agar tidak tertutup footer */
+  background-color: #fafafa; /* latar lembut agar beda dari footer/header */
+  scrollbar-width: thin;
+  scrollbar-color: var(--biru) #e0e0e0;
+  border-bottom: 1px solid #ddd;
+  border-top: 1px solid #eee;
+  border-radius: 0 0 12px 12px;
 }
+
+/* Untuk browser berbasis WebKit (Chrome, Safari) */
+#cartScrollWrapper::-webkit-scrollbar {
+  width: 6px;
+}
+
+#cartScrollWrapper::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 8px;
+}
+
+#cartScrollWrapper::-webkit-scrollbar-thumb {
+  background-color: var(--biru);
+  border-radius: 8px;
+}
+
 #cartContent {
   flex-grow: 1;
   overflow-y: auto;
-  padding: 1rem;
-  padding-right: 8px; /* agar scrollbar tidak menimpa konten */
+  padding: 1rem 1rem 2rem 1rem;
+  padding-right: 0.5rem; /* agar tidak tertabrak scrollbar */
   box-sizing: border-box;
+  background-color: #fafafa;
+  border-top: 1px solid #eee;
+}
 
-
-   .cart-item {
+/* Setiap item dalam keranjang */
+.cart-item {
   display: flex;
   gap: 0.75rem;
   margin-bottom: 1rem;
   align-items: center;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 0.75rem;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.03);
 }
 
+/* Gambar produk */
 .cart-item-image {
   width: 60px;
   height: 60px;
   background-position: center;
   background-size: cover;
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   flex-shrink: 0;
+  border: 1px solid #ddd;
 }
 
+/* Informasi produk */
 .cart-item-info {
   flex-grow: 1;
   font-size: 0.9rem;
+  color: #333;
 }
 
+/* Nama produk */
 .cart-item-name {
   font-weight: 700;
   margin-bottom: 0.25rem;
+  line-height: 1.2;
 }
 
+/* Kontrol jumlah */
 .cart-item-qty {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  margin-top: 4px;
 }
 
 .cart-item-qty button {
   background: var(--biru);
   color: white;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   font-weight: 700;
-  border-radius: 4px;
-  line-height: 1;
-  padding: 0;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
 }
 
 .cart-item-qty span {
-  min-width: 20px;
+  min-width: 24px;
   text-align: center;
   display: inline-block;
 }
 
+/* Harga */
 .cart-item-price {
   font-weight: 700;
   color: var(--merah);
   min-width: 60px;
   text-align: right;
+  font-size: 0.95rem;
 }
-    
+
 #cartFooter {
   padding: 1rem;
   border-top: 1px solid var(--gray-light);
@@ -565,15 +617,20 @@ main:hover {
   bottom: 0;
   z-index: 10;
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 #cartFooter .total {
   font-weight: 700;
   font-size: 1.15rem;
-  margin-bottom: 0.75rem;
   color: var(--merah);
+  margin-bottom: 0.75rem;
+  text-align: right;
 }
 
+/* Tombol Checkout */
 #cartFooter .checkout-btn {
   width: 100%;
   background: var(--jingga);
@@ -582,28 +639,35 @@ main:hover {
   padding: 0.75rem;
   border-radius: 9999px;
   font-size: 1rem;
-  transition: background-color 0.2s ease;
   border: none;
   cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.12);
   margin-top: 1rem;
 }
 
 #cartFooter .checkout-btn:hover {
   background: #db6e17;
+  transform: translateY(-2px);
 }
-
 
 /* Metode Pengantaran */
 .delivery-method {
   font-size: 14px;
   color: #333;
-  margin: 10px 0;
+  margin: 10px 0 5px;
 }
 
 .delivery-method label {
   display: block;
   margin-bottom: 6px;
   cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.delivery-method label:hover {
+  color: var(--biru);
 }
 
 /* Input Alamat */
@@ -626,12 +690,14 @@ main:hover {
   width: 100%;
   box-sizing: border-box;
   background-color: #f9f9f9;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
 #alamatPengantaran:focus {
   outline: none;
-  border-color: #007BFF;
+  border-color: var(--biru);
   background-color: #fff;
+  box-shadow: 0 0 6px var(--biru);
 }
 
 /* Metode Pembayaran */
@@ -645,38 +711,55 @@ main:hover {
   display: block;
   margin-bottom: 6px;
   cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
 }
+
+.payment-method label:hover {
+  color: var(--biru);
+}
+
 
 /* Responsif Mobile */
 @media (max-width: 600px) {
   header {
     padding: 0.5rem 0.75rem;
   }
+
   main {
     padding: 0.75rem;
   }
+
   #cartModal {
     width: 100vw;
     max-width: none;
     height: 100vh;         /* penuh tinggi layar */
     border-radius: 0;
     overflow-y: auto;      /* scroll saat konten melebihi tinggi */
+    right: 0;              /* pastikan modal terbuka penuh */
   }
+
   .product-card {
     font-size: 14px;
   }
+
   .product-info {
     padding: 0.5rem 0.5rem 0.75rem;
   }
+
   #cartContent {
     padding-bottom: 5rem;  /* beri ruang bawah agar footer tidak tertutup */
   }
+
   #cartFooter {
     position: sticky;
     bottom: 0;
     z-index: 20;
+    background-color: white; /* jaga agar footer tetap terlihat */
+    box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
   }
 }
+
 
   </style>
 </head>
