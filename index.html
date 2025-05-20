@@ -445,17 +445,17 @@ main:hover {
 /* Style khusus untuk cart modal */
 #cartModal {
   position: fixed;
-  top: 0; right: 0; bottom: 0;
-  width: 100%;
-  max-width: 420px;
-  background: #fff;
-  box-shadow: -2px 0 10px rgba(0,0,0,0.2);
-  z-index: 1000;
+  top: 0;
+  right: -100%;
+  width: 320px;
+  max-width: 100vw;
+  height: 100vh;
+  background: white;
+  box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+  transition: right 0.3s ease;
+  z-index: 9999;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  overflow: hidden;
 }
 
 #cartModal.open {
@@ -463,10 +463,11 @@ main:hover {
 }
 
 #cartModal header {
+  background: var(--biru);
+  color: white;
   padding: 1rem;
-  font-size: 18px;
-  font-weight: bold;
-  background-color: #f5f5f5;
+  font-weight: 700;
+  font-size: 1.25rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -480,111 +481,96 @@ main:hover {
   cursor: pointer;
 }
 
+
 #cartContent {
-  flex: 1;
-  overflow-y: auto;
-  padding: 10px;
-}
-
-.cart-item {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-  align-items: center;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.75rem;
-}
-
-.cart-item-image {
-  width: 60px;
-  height: 60px;
-  background-position: center;
-  background-size: cover;
-  border-radius: 0.5rem;
-  flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-}
-
-.cart-item-info {
   flex-grow: 1;
-  font-size: 0.9rem;
-}
-
-.cart-item-name {
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-  color: #222;
-}
-
-.cart-item-qty {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-top: 4px;
-}
-
-.cart-item-qty button {
-  background: var(--biru);
-  color: white;
-  width: 24px;
-  height: 24px;
-  font-weight: 700;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  line-height: 1;
-  padding: 0;
-}
-.cart-item-qty button:hover {
-  background: #1d4ed8; /* Biru yang lebih gelap saat hover */
-}
-
-.cart-item-qty span {
-  min-width: 24px;
-  text-align: center;
-  display: inline-block;
-}
-
-.cart-item-price {
-  font-weight: 700;
-  color: var(--merah);
-  margin-top: 4px;
-}
-
-#cartFooter {
-  background: #fff;
+  overflow-y: auto;
   padding: 1rem;
-  border-top: 1px solid #ddd;
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
+  padding-right: 8px; /* agar scrollbar tidak menimpa konten */
 }
+
+    .cart-item {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      align-items: center;
+    }
+    .cart-item-image {
+      width: 60px;
+      height: 60px;
+      background-position: center;
+      background-size: cover;
+      border-radius: 0.25rem;
+      flex-shrink: 0;
+    }
+    .cart-item-info {
+      flex-grow: 1;
+      font-size: 0.9rem;
+    }
+    .cart-item-name {
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .cart-item-qty button {
+      background: var(--biru);
+      color: white;
+      width: 22px;
+      height: 22px;
+      font-weight: 700;
+      border-radius: 4px;
+      line-height: 1;
+      padding: 0;
+    }
+    .cart-item-qty span {
+      min-width: 20px;
+      text-align: center;
+      display: inline-block;
+    }
+    .cart-item-price {
+      font-weight: 700;
+      color: var(--merah);
+      min-width: 60px;
+      text-align: right;
+    }
+    
+#cartFooter {
+  padding: 1rem;
+  border-top: 1px solid var(--gray-light);
+  background-color: white;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
 #cartFooter .total {
   font-weight: 700;
   font-size: 1.15rem;
   margin-bottom: 0.75rem;
   color: var(--merah);
-  text-align: right;
 }
 
 #cartFooter .checkout-btn {
-  background: var(--jingga, orange);
-  color: white;
   width: 100%;
-  padding: 12px;
+  background: var(--jingga);
+  color: white;
+  font-weight: 700;
+  padding: 0.75rem;
+  border-radius: 9999px;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
   border: none;
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 10px;
   cursor: pointer;
-  border-radius: 6px;
-}
-#cartFooter .checkout-btn:hover {
-  background: #db6e17;
-  transform: translateY(-1px);
+  margin-top: 1rem;
 }
 
-#cartFooter .checkout-btn:active {
-  transform: scale(0.98);
+#cartFooter .checkout-btn:hover {
+  background: #db6e17;
 }
 
 /* Metode Pengantaran */
@@ -599,35 +585,27 @@ main:hover {
   margin-bottom: 6px;
   cursor: pointer;
 }
+
 /* Input Alamat */
 #alamatInput {
-  margin-top: 1rem;
-  font-family: 'Poppins', sans-serif;
+  margin-top: 10px;
 }
 
 #alamatInput label {
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 13px;
   display: block;
-  margin-bottom: 6px;
-  color: #444;
+  margin-bottom: 4px;
+  color: #555;
 }
 
 #alamatPengantaran {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 0.5rem;
-  font-size: 0.95rem;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
   width: 100%;
   box-sizing: border-box;
-  background-color: #fdfdfd;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-#alamatPengantaran:focus {
-  outline: none;
-  border-color: var(--biru);
-  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+  background-color: #f9f9f9;
 }
 
 #alamatPengantaran:focus {
@@ -635,34 +613,18 @@ main:hover {
   border-color: #007BFF;
   background-color: #fff;
 }
+
 /* Metode Pembayaran */
 .payment-method {
-  font-size: 0.9rem;
+  font-size: 14px;
   color: #333;
-  margin-top: 1.25rem;
-  font-family: 'Poppins', sans-serif;
+  margin-top: 10px;
 }
 
 .payment-method label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  display: block;
+  margin-bottom: 6px;
   cursor: pointer;
-  background-color: #f9f9f9;
-  padding: 0.6rem 0.75rem;
-  border-radius: 0.5rem;
-  border: 1px solid #ddd;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-
-.payment-method input[type="radio"] {
-  accent-color: var(--jingga);
-}
-
-.payment-method label:hover {
-  background-color: #f1f1f1;
-  border-color: #ccc;
 }
 
 /* Responsif Mobile */
@@ -670,38 +632,18 @@ main:hover {
   header {
     padding: 0.5rem 0.75rem;
   }
-
   main {
     padding: 0.75rem;
   }
-
   #cartModal {
     width: 100vw;
     max-width: none;
-    height: 100vh;
-    border-radius: 0;
   }
-
   .product-card {
-    font-size: 0.875rem;
+    font-size: 14px;
   }
-
   .product-info {
     padding: 0.5rem 0.5rem 0.75rem;
-  }
-
-  .cart-item {
-    flex-direction: row;
-    align-items: flex-start;
-  }
-
-  #cartFooter {
-    padding: 1rem;
-    position: sticky;
-    bottom: 0;
-    background: white;
-    z-index: 10;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
   }
 }
   </style>
@@ -767,65 +709,59 @@ main:hover {
     <section class="catalog" id="catalog"></section>
   </main>
 
-<aside id="cartModal" aria-label="Keranjang Belanja">
-  <header>
-    <h2>Keranjang Anda</h2>
-    <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
-  </header>
+  <aside id="cartModal" aria-label="Keranjang Belanja">
+      <header>
+      Keranjang Anda
+      <button class="close-cart" id="closeCartBtn" aria-label="Tutup Keranjang">&times;</button>
+    </header>
+    <div id="cartContent">
+      <p style="text-align:center;color:#666;">Keranjang kosong.</p>
+    </div>
+    <footer id="cartFooter" style="display:none;">
+  <!-- Ringkasan Total -->
+  <div class="total">Total: Rp <span id="cartTotal">0</span></div>
 
-  <!-- Daftar isi keranjang -->
-  <div id="cartContent" class="cart-content">
-    <p style="text-align:center;color:#666;">Keranjang kosong.</p>
+  <!-- 1. Identitas Konsumen -->
+  <div class="customer-info" style="margin: 10px 0;">
+    <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
+    <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
+
+    <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
+    <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
+
+    <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
+    <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
   </div>
 
-  <!-- Footer keranjang (disembunyikan jika kosong) -->
-  <footer id="cartFooter" style="display: none;">
-    <!-- Ringkasan Total -->
-    <div class="total"><strong>Total:</strong> Rp <span id="cartTotal">0</span></div>
+  <!-- 2. Metode Pengantaran -->
+  <div class="delivery-method" style="margin: 10px 0;">
+    <label>
+      <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
+      Ambil Langsung (Politeknik AKA Bogor)
+    </label><br>
+    <label>
+      <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
+      Diantar
+    </label>
+  </div>
 
-    <!-- 1. Identitas Konsumen -->
-    <div class="customer-info" style="margin: 10px 0;">
-      <label for="namaKonsumen"><strong>Nama Anda:</strong></label><br>
-      <input type="text" id="namaKonsumen" placeholder="Contoh: Faishal Rahman" style="width: 100%; padding: 6px;"><br><br>
+  <!-- 3. Input Alamat jika Diantar -->
+  <div id="alamatInput" style="display:none;">
+    <label for="alamatPengantaran">Alamat Pengantaran:</label>
+    <input type="text" id="alamatPengantaran" placeholder="Masukkan alamat lengkap..." style="width: 100%; padding: 6px;">
+  </div>
 
-      <label for="noWhatsapp"><strong>Nomor WhatsApp:</strong></label><br>
-      <input type="tel" id="noWhatsapp" placeholder="Contoh: 0896xxxxxxx" style="width: 100%; padding: 6px;"><br><br>
+  <!-- 4. Metode Pembayaran -->
+  <div class="payment-method" style="margin: 10px 0;">
+    <label><input type="radio" name="pembayaran" value="QRIS" checked> QRIS</label><br>
+    <label><input type="radio" name="pembayaran" value="Cash"> Cash</label>
+  </div>
 
-      <label for="catatan"><strong>Catatan Tambahan (Opsional):</strong></label><br>
-      <textarea id="catatan" placeholder="Contoh: Tolong dibungkus rapi ya" style="width: 100%; padding: 6px;" rows="3"></textarea>
-    </div>
+  <!-- 5. Tombol Checkout -->
+  <button class="checkout-btn" onclick="checkout()">Checkout via WhatsApp</button>
+</footer>
 
-    <!-- 2. Metode Pengantaran -->
-    <div class="delivery-method" style="margin: 10px 0;">
-      <strong>Metode Pengantaran:</strong><br>
-      <label>
-        <input type="radio" name="pengantaran" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
-        Ambil Langsung (Politeknik AKA Bogor)
-      </label><br>
-      <label>
-        <input type="radio" name="pengantaran" value="Diantar" onchange="toggleAlamat()">
-        Diantar
-      </label>
-    </div>
-
-    <!-- 3. Input Alamat jika Diantar -->
-    <div id="alamatInput" style="display: none;">
-      <label for="alamatPengantaran"><strong>Alamat Pengantaran:</strong></label><br>
-      <input type="text" id="alamatPengantaran" placeholder="Masukkan alamat lengkap..." style="width: 100%; padding: 6px;">
-    </div>
-
-    <!-- 4. Metode Pembayaran -->
-    <div class="payment-method" style="margin: 10px 0;">
-      <strong>Metode Pembayaran:</strong><br>
-      <label><input type="radio" name="pembayaran" value="QRIS" checked> QRIS</label><br>
-      <label><input type="radio" name="pembayaran" value="Cash"> Cash</label>
-    </div>
-
-    <!-- 5. Tombol Checkout -->
-    <button class="checkout-btn" onclick="checkout()">Checkout via WhatsApp</button>
-  </footer>
-</aside>
-
+  </aside>
    <script>
 // Splash screen
 window.addEventListener('DOMContentLoaded', () => {
@@ -980,116 +916,93 @@ function closeModal() {
 
 
   function addToCart(productId) {
-  // Cek apakah produk ada di daftar produk
-  const product = products.find(p => p.id === productId);
-  if (!product) {
-    console.warn(`Produk dengan ID ${productId} tidak ditemukan.`);
-    return;
-  }
-
-  // Tambah jumlah jika produk sudah ada di cart
-  if (cart[productId]) {
-    cart[productId].qty++;
-  } else {
-    // Jika belum ada, tambahkan ke cart dengan qty 1
-    cart[productId] = {
-      ...product,
-      qty: 1
-    };
-  }
-
-  // Update tampilan keranjang
-  updateCartUI();
-
-  // Buka tampilan cart (jika ada fungsinya)
-  if (typeof openCart === "function") {
+    if (cart[productId]) {
+      cart[productId].qty++;
+    } else {
+      const product = products.find(p => p.id === productId);
+      cart[productId] = {
+        ...product,
+        qty: 1
+      };
+    }
+    updateCartUI();
     openCart();
   }
-}
 
-function removeFromCart(productId) {
-  if (cart[productId]) {
+  function removeFromCart(productId) {
     delete cart[productId];
     updateCartUI();
   }
-}
 
-function changeQty(productId, delta) {
-  if (!cart[productId]) return;
-
-  cart[productId].qty += delta;
-
-  if (cart[productId].qty <= 0) {
-    removeFromCart(productId);
-  } else {
-    updateCartUI();
-  }
-}
-
-function updateCartUI() {
-  const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
-
-  // Update ikon jumlah di tombol keranjang
-  if (totalItems > 0) {
-    cartCountEl.style.display = 'inline-block';
-    cartCountEl.textContent = totalItems;
-  } else {
-    cartCountEl.style.display = 'none';
+  function changeQty(productId, delta) {
+    if (!cart[productId]) return;
+    cart[productId].qty += delta;
+    if (cart[productId].qty <= 0) {
+      removeFromCart(productId);
+    } else {
+      updateCartUI();
+    }
   }
 
-  // Update konten cart
-  if (totalItems === 0) {
-    cartContent.innerHTML = '<p style="text-align:center; color:#666; margin-top:2rem;">Keranjang kosong.</p>';
-    cartFooter.style.display = 'none';
-  } else {
-    cartFooter.style.display = 'block';
-    renderCartItems(); // fungsi ini harus mengisi ulang isi HTML dari daftar cart
+  function updateCartUI() {
+    const totalItems = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
+    if (totalItems > 0) {
+      cartCountEl.style.display = 'inline-block';
+      cartCountEl.textContent = totalItems;
+    } else {
+      cartCountEl.style.display = 'none';
+    }
+
+    if (totalItems === 0) {
+      cartContent.innerHTML = '<p style="text-align:center;color:#666;">Keranjang kosong.</p>';
+      cartFooter.style.display = 'none';
+    } else {
+      cartFooter.style.display = 'block';
+      renderCartItems();
+    }
   }
-}
 
-function renderCartItems() {
-  cartContent.innerHTML = '';
-  let totalPrice = 0;
-
-  for (const key in cart) {
-    const item = cart[key];
-    const itemTotal = item.price * item.qty;
-    totalPrice += itemTotal;
-
-    const div = document.createElement('div');
-    div.className = 'cart-item';
-    div.innerHTML = `
-      <div class="cart-item-image" style="background-image: url('${item.img}');" role="img" aria-label="Gambar produk ${item.name}"></div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-qty" aria-label="Jumlah produk">
-          <button type="button" aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">−</button>
-          <span>${item.qty}</span>
-          <button type="button" aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
+  function renderCartItems() {
+    cartContent.innerHTML = '';
+    let totalPrice = 0;
+    for (const key in cart) {
+      const item = cart[key];
+      totalPrice += item.price * item.qty;
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML = `
+        <div class="cart-item-image" style="background-image:url('${item.img}');" aria-label="Gambar produk ${item.name}"></div>
+        <div class="cart-item-info">
+          <div class="cart-item-name">${item.name}</div>
+          <div class="cart-item-qty" aria-label="Jumlah produk">
+            <button aria-label="Kurangi jumlah" onclick="changeQty('${item.id}', -1)">-</button>
+            <span>${item.qty}</span>
+            <button aria-label="Tambah jumlah" onclick="changeQty('${item.id}', 1)">+</button>
+          </div>
         </div>
-        <div class="cart-item-price">Rp ${formatPrice(itemTotal)}</div>
-      </div>
-    `;
-    cartContent.appendChild(div);
+        <div class="cart-item-price">Rp ${formatPrice(item.price * item.qty)}</div>
+      `;
+      cartContent.appendChild(div);
+    }
+    cartTotalEl.textContent = formatPrice(totalPrice);
   }
 
-  cartTotalEl.textContent = formatPrice(totalPrice);
-}
+  function openCart() {
+    cartModal.classList.add('open');
+  }
 
-function openCart() {
-  cartModal.classList.add('open');
-}
+  function closeCart() {
+    cartModal.classList.remove('open');
+  }
 
-function closeCart() {
-  cartModal.classList.remove('open');
-}
-
-cartBtn.addEventListener('click', () => {
-  cartModal.classList.toggle('open');
-});
-
-closeCartBtn.addEventListener('click', closeCart);
-
+  cartBtn.addEventListener('click', () => {
+    if (cartModal.classList.contains('open')) {
+      closeCart();
+    } else {
+      openCart();
+    }
+  });
+  closeCartBtn.addEventListener('click', closeCart);
 
   function performSearch() {
     const query = document.getElementById('searchInput').value.trim().toLowerCase();
