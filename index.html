@@ -1289,13 +1289,10 @@ function renderCartItems() {
       renderCatalog(filtered);
     }
   }
-function checkout() {
-  // Hitung total belanja
-  const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
 
-  // Ambil identitas konsumen
-  const nama = document.getElementById("namaKonsumen").value.trim();
-  const whatsapp = document.getElementById("noWhatsapp").value.trim();
+function checkout() {
+  const nama = document.getElementById("nama").value.trim();
+  const whatsapp = document.getElementById("whatsapp").value.trim();
   const catatan = document.getElementById("catatan").value.trim();
 
   if (!nama || !whatsapp) {
@@ -1314,9 +1311,9 @@ function checkout() {
   const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked').value;
   summary += `\n*Pengantaran:* ${metodePengantaran}`;
 
-  // Jika memilih "Diantar", minta alamat
+  let alamat = "";
   if (metodePengantaran === "Diantar") {
-    const alamat = document.getElementById("alamatPengantaran").value.trim();
+    alamat = document.getElementById("alamatPengantaran").value.trim();
     if (!alamat) {
       alert("Silakan masukkan alamat pengantaran.");
       return;
@@ -1336,11 +1333,38 @@ function checkout() {
     summary += `\n*Catatan:* ${catatan}`;
   }
 
-  // Arahkan ke WhatsApp
   summary += '\n\nPesanan sudah lengkap, mohon segera diproses ya. 🙌';
-  const waMessage = encodeURIComponent(summary);
-  const waLink = `https://wa.me/6282125466588?text=${waMessage}`;
-  window.open(waLink, '_blank');
+
+  // Kirim data ke Google Sheets via Sheety API
+  const dataCheckout = {
+    nama: nama,
+    whatsapp: whatsapp,
+    catatan: catatan,
+    pesanan: summary,
+    total: total,
+    pengantaran: metodePengantaran,
+    alamat: alamat,
+    pembayaran: metodePembayaran ? metodePembayaran.value : ""
+  };
+
+  fetch("https://api.sheety.co/db2b2e8df0cd01b960972946563c1218/checkoutDataLapAkaBogor/sheet1", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ sheet1: dataCheckout })
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("Data checkout berhasil disimpan:", data);
+
+    // Redirect ke WhatsApp
+    const waMessage = encodeURIComponent(summary);
+    const waLink = `https://wa.me/6282125466588?text=${waMessage}`;
+    window.open(waLink, '_blank');
+  })
+  .catch(error => {
+    console.error("Gagal menyimpan data:", error);
+    alert("Terjadi kesalahan saat menyimpan data. Silakan coba lagi.");
+  });
 }
 
 // Fungsi untuk menampilkan input alamat jika pilih "Diantar"
