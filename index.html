@@ -924,18 +924,35 @@
           <input type="text" id="alamatPengantaran" class="form-control" placeholder="Masukkan alamat lengkap">
         </div>
         
-        <!-- Payment Method -->
-        <div class="radio-group">
-          <label>Metode Pembayaran</label>
-          <div class="radio-label">
-            <input type="radio" name="pembayaran" id="qris" value="QRIS" checked>
-            <label for="qris">QRIS</label>
-          </div>
-          <div class="radio-label">
-            <input type="radio" name="pembayaran" id="cash" value="Cash">
-            <label for="cash">Cash</label>
-          </div>
-        </div>
+      <!-- Payment Method -->
+<div class="radio-group">
+  <label>Metode Pembayaran</label>
+  <div class="radio-label">
+    <input type="radio" name="pembayaran" id="cash" value="Cash" checked>
+    <label for="cash">Cash</label>
+  </div>
+</div>
+
+<!-- Tambahan Rekening -->
+<div class="radio-group">
+  <label>Transfer ke Rekening a.n Asyifa Verend</label>
+  <div class="radio-label">
+    <p>BNI: 1476288975</p>
+    <p>BLU: 002737080797</p>
+    <p>Gojek/Spay: 082273020123</p>
+    <p>Bank Jago: 100332545182</p>
+  </div>
+  <label>BCA a.n Nada Zahira</label>
+  <div class="radio-label">
+    <p>7361227879</p>
+  </div>
+</div>
+
+<!-- Catatan -->
+<div class="payment-note">
+  <p><em>Silahkan konfirmasi terlebih dahulu pada WhatsApp sebelum membayar.</em></p>
+</div>
+
         
         <button class="checkout-btn" onclick="checkout()">Checkout via WhatsApp</button>
       </div>
