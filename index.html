@@ -905,22 +905,9 @@
           <textarea id="catatan" class="form-control" placeholder="Contoh: Tolong dibungkus rapi"></textarea>
         </div>
         
-       <!-- Delivery Method -->
-<div class="radio-group">
-  <label>Metode Pengantaran</label>
-  <div class="radio-label">
-    <input type="radio" name="pengantaran" id="pickup" value="Ambil Langsung" checked onchange="toggleTempat()">
-    <label for="pickup">Ambil Langsung (Politeknik AKA Bogor)</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="pengantaran" id="delivery" value="Diantar" onchange="toggleTempat()">
-    <label for="delivery">Diantar</label>
-  </div>
-</div>
-
 <!-- Pilihan Tempat -->
 <div class="radio-group" id="tempatOptions" style="display: block; margin-top: 10px;">
-  <label>Pilih Tempat Pengantaran / Pengambilan</label>
+  <label>Pilih Tempat Pengantaran / Pengambilan (Politeknik AKA Bogor)</label>
   <div class="radio-label">
     <input type="radio" name="tempat" id="gedungA" value="Gedung A" checked>
     <label for="gedungA">Gedung A</label>
@@ -1382,10 +1369,6 @@ function checkout() {
   }
   summary += `\n*Total:* Rp ${total.toLocaleString()}`;
 
-// Metode pengantaran
-const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked').value;
-summary += `\n*Pengantaran:* ${metodePengantaran}`;
-
 // Tambahkan pilihan tempat
 const tempatDipilih = document.querySelector('input[name="tempat"]:checked');
 if (tempatDipilih) {
@@ -1394,7 +1377,6 @@ if (tempatDipilih) {
   alert("Silakan pilih tempat pengantaran / pengambilan.");
   return;
 }
-
 
   // Metode pembayaran
   const metodePembayaran = document.querySelector('input[name="pembayaran"]:checked');
