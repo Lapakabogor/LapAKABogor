@@ -905,24 +905,60 @@
           <textarea id="catatan" class="form-control" placeholder="Contoh: Tolong dibungkus rapi"></textarea>
         </div>
         
-        <!-- Delivery Method -->
-        <div class="radio-group">
-          <label>Metode Pengantaran</label>
-          <div class="radio-label">
-            <input type="radio" name="pengantaran" id="pickup" value="Ambil Langsung (Politeknik AKA Bogor)" checked onchange="toggleAlamat()">
-            <label for="pickup">Ambil Langsung (Politeknik AKA Bogor)</label>
-          </div>
-          <div class="radio-label">
-            <input type="radio" name="pengantaran" id="delivery" value="Diantar" onchange="toggleAlamat()">
-            <label for="delivery">Diantar</label>
-          </div>
-        </div>
-        
-        <!-- Address Input -->
-        <div class="form-group" id="alamatInput" style="display: none;">
-          <label for="alamatPengantaran">Alamat Pengantaran</label>
-          <input type="text" id="alamatPengantaran" class="form-control" placeholder="Masukkan alamat lengkap">
-        </div>
+       <!-- Delivery Method -->
+<div class="radio-group">
+  <label>Metode Pengantaran</label>
+  <div class="radio-label">
+    <input type="radio" name="pengantaran" id="pickup" value="Ambil Langsung" checked onchange="toggleTempat()">
+    <label for="pickup">Ambil Langsung (Politeknik AKA Bogor)</label>
+  </div>
+  <div class="radio-label">
+    <input type="radio" name="pengantaran" id="delivery" value="Diantar" onchange="toggleTempat()">
+    <label for="delivery">Diantar</label>
+  </div>
+</div>
+
+<!-- Pilihan Tempat -->
+<div class="radio-group" id="tempatOptions" style="display: block; margin-top: 10px;">
+  <label>Pilih Tempat Pengantaran / Pengambilan</label>
+  <div class="radio-label">
+    <input type="radio" name="tempat" id="gedungA" value="Gedung A" checked>
+    <label for="gedungA">Gedung A</label>
+  </div>
+  <div class="radio-label">
+    <input type="radio" name="tempat" id="gedungB" value="Gedung B">
+    <label for="gedungB">Gedung B</label>
+  </div>
+  <div class="radio-label">
+    <input type="radio" name="tempat" id="gedungC" value="Gedung C">
+    <label for="gedungC">Gedung C</label>
+  </div>
+  <div class="radio-label">
+    <input type="radio" name="tempat" id="gedungD" value="Gedung D">
+    <label for="gedungD">Gedung D</label>
+  </div>
+  <div class="radio-label">
+    <input type="radio" name="tempat" id="gedungE" value="Gedung E">
+    <label for="gedungE">Gedung E</label>
+  </div>
+  <div class="radio-label">
+    <input type="radio" name="tempat" id="gedungF" value="Gedung F">
+    <label for="gedungF">Gedung F</label>
+  </div>
+  <div class="radio-label">
+    <input type="radio" name="tempat" id="gedungG" value="Gedung G">
+    <label for="gedungG">Gedung G</label>
+  </div>
+  <div class="radio-label">
+    <input type="radio" name="tempat" id="masjidNAJ" value="Masjid NAJ">
+    <label for="masjidNAJ">Masjid NAJ</label>
+  </div>
+  <div class="radio-label">
+    <input type="radio" name="tempat" id="postSatpam" value="Post Satpam">
+    <label for="postSatpam">Post Satpam</label>
+  </div>
+</div>
+
         
 <!-- Payment Method -->
 <div class="radio-group">
@@ -982,7 +1018,7 @@
 const products = [
   {
     id: 'p1',
-    name: 'Stick Ubi Ungu NanoKelor 75 gram',
+    name: 'Stick Ubi Ungu NanoKelor 75 gram CLOSE ORDER',
     price: 10000,
     img: 'https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/b829aa7ec3b23db0f6145105a9dcd4439e75f1d0/NOWWBI.jpg',
     description: 'Stick ubi ungu dengan nanoflavour daun kelor yang menyehatkan sekaligus membuat harimu menyenangkan. ' +
@@ -992,7 +1028,7 @@ const products = [
   },
   {
     id: 'p2',
-    name: 'Kopi Kingkong',
+    name: 'Kopi Kingkong CLOSE ORDER',
     price: 10000,
     img: 'https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/627983ed8999c02dca972274fdc3e8a48971f1c7/kingkong%202.jpg',
     description: 'Kopi Gula Singkong kami merupakan perpaduan rasa dan kualitas yang sempurna. ' +
@@ -1011,7 +1047,7 @@ const products = [
   },
   {
     id: 'p4',
-    name: 'Yo!Good Yoghurt Jus Buah OPEN PO (RABU 28 MEI)',
+    name: 'Yo!Good Yoghurt Jus Buah OPEN PO (READY RABU, 28 MEI 2025)',
     price: 15000,
     img: 'https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/0d49fb5372bfaa056bfaea11f3cc754c6598997c/yogooddd.jpg',
     description: 'Minuman yoghurt sehat yang dipadukan dengan jus buah segar seperti mangga manis, strawberry segar, dan pisang lembut. Kaya akan probiotik, vitamin, dan serat alami, dibuat tanpa pengawet dan dengan pemanis alami dari ekstrak stevia.'
@@ -1053,7 +1089,7 @@ Exp: 07-2026.`
   },
   {
   id: 'p9',
-  name: 'Puding Sedot (Pend!ng) OPEN PO 2 JUNI',
+  name: 'Puding Sedot (Pend!ng) OPEN PO (READY SENIN, 2 JUNI 2025)',
   price: 9000,
   img: 'https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/e601c9a19e7cf14935f239c74321d0fd2af54acc/pending.jpg',
   description: `ChocoD!ng - BerryD!ng - TaroD!ng
@@ -1066,7 +1102,7 @@ menghasilkan tekstur creamy dan pastinya bergizi.`
 },
 {
   id: 'p10',
-  name: 'SereniTea OPEN PO 28 MEI',
+  name: 'SereniTea OPEN PO (READY RABU, 28 MEI 2025)',
   price: 28000,
   img: 'https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/e601c9a19e7cf14935f239c74321d0fd2af54acc/sereniti.jpg',
   description: `SereniTea adalah Reed Diffuser dengan aroma menenangkan yang menghadirkan 
@@ -1080,7 +1116,7 @@ mengharumkan ruangan secara praktis dan aesthetic.`
 },
   {
   id: 'p11',
-  name: 'BananaBoom!! OPEN ORDER 28 MEI',
+  name: 'BananaBoom!! OPEN PO (READY RABU, 28 MEI 2025)',
   price: 5000,
   img: 'https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/414851a6e24fb1ed97cfdd9dbf163e05980b9310/piscok.jpg',
   description: 'BananaBoom menyajikan merek camilan murah dan enak juga kekinian yang menghadirkan kombinasi pisang matang dan coklat lumer dibalut kulit kruk. Cocok untuk semua kalangan usia terutama remaja dan anak muda yang suka ngemil. Isi: 2 pcs.'
@@ -1122,14 +1158,14 @@ mengharumkan ruangan secara praktis dan aesthetic.`
   },
   {
   "id": "p17",
-  "name": "Mochi Gendut",
+  "name": "Mochi Gendut OPEN PO (READY RABU, 28 MEI 2025)",
   "price": 8000,
   "img": "https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/70cf4be00f255384c7cd334a91628886f89f770d/mochi.jpg",
   "description": "Mochi Gendut – Mochi lembut isi lumer kini hadir di LapAKABogor! Lembut, lumer, dan bikin nagih! Mochi berisi krim lumer dan buah segar, siap manjain lidahmu. Camilan kekinian yang cocok buat hadiah, camilan santai, atau self-reward setelah hari panjang!✨ Varian Rasa: 🍓 Strawberry Cheesecake – manis-asam segar 🍫 Milky Choco – coklat susu lumer 🍪 Cookies n Cream – crunchy & creamy. ❄ Nikmat disajikan dingin 🎁 Wajib coba buat pecinta mochi! Open pre-order hingga hari Selasa, 27 Mei! Ready di hari Rabu, 28 Mei! Stok terbatas, jangan sampai kehabisan!"
 },
 {
   "id": "p18",
-  "name": "Cheesecuit",
+  "name": "Cheesecuit OPEN PO (READY RABU, 28 MEI 2025)",
   "price": 6000,
   "img": "https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/5643ba7e030863d32afb77b859d98b5058946b61/Cheese%20Cuit.jpg",
   "description": "Cheesecuit – Cheesecake renyah & lumer kini hadir di LapAKABogor! Camilan unik yang memadukan biskuit renyah dengan cream cheese lembut. Rasanya ngeju, lumer, dan bikin nagih!✨ Pilihan Rasa: 🍪 Cookies and Cream 🍫 Coklat 🍓 Strawberry 🧀 Keju. Pas banget buat teman nugas, ngemil santai, atau kasih ke orang tersayang! Open pre-order hingga hari Selasa, 27 Mei! Ready di hari Rabu, 28 Mei! Stok terbatas, jangan sampai kehabisan!"
@@ -1346,19 +1382,19 @@ function checkout() {
   }
   summary += `\n*Total:* Rp ${total.toLocaleString()}`;
 
-  // Metode pengantaran
-  const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked').value;
-  summary += `\n*Pengantaran:* ${metodePengantaran}`;
+// Metode pengantaran
+const metodePengantaran = document.querySelector('input[name="pengantaran"]:checked').value;
+summary += `\n*Pengantaran:* ${metodePengantaran}`;
 
-  // Jika memilih "Diantar", minta alamat
-  if (metodePengantaran === "Diantar") {
-    const alamat = document.getElementById("alamatPengantaran").value.trim();
-    if (!alamat) {
-      alert("Silakan masukkan alamat pengantaran.");
-      return;
-    }
-    summary += `\n*Alamat:* ${alamat}`;
-  }
+// Tambahkan pilihan tempat
+const tempatDipilih = document.querySelector('input[name="tempat"]:checked');
+if (tempatDipilih) {
+  summary += `\n*Tempat:* ${tempatDipilih.value}`;
+} else {
+  alert("Silakan pilih tempat pengantaran / pengambilan.");
+  return;
+}
+
 
   // Metode pembayaran
   const metodePembayaran = document.querySelector('input[name="pembayaran"]:checked');
