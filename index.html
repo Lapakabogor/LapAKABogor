@@ -946,7 +946,7 @@
   </div>
 </div>
 
- <!-- Payment Method -->
+<!-- Payment Method -->
 <div class="radio-group">
   <label>Metode Pembayaran</label>
   <div class="radio-label">
@@ -956,10 +956,10 @@
 </div>
 
 <!-- Tombol Bayar -->
-<button onclick="showQRIS()">Bayar Sekarang</button>
+<button type="button" onclick="showQRIS()">Bayar Sekarang</button>
 
 <!-- Modal QRIS -->
-<div id="modal-qris" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6);">
+<div id="modal-qris" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999;">
   <div style="position:relative; margin:100px auto; width:300px; background:#fff; padding:20px; border-radius:8px; text-align:center;">
     <h3>Pembayaran QRIS</h3>
     <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/f19880fd91f150d1e4da2e65d7b54ed5b890ea94/QRIS%20LAPAKA.png" alt="QRIS" style="width:250px; height:auto;">
@@ -1374,8 +1374,7 @@ if (tempatDipilih) {
 const metodePembayaran = "QRIS";
 summary += `\n*Pembayaran:* ${metodePembayaran}`;
   
-<!-- Script untuk memunculkan modal -->
-  function showQRIS() {
+function showQRIS() {
     document.getElementById('modal-qris').style.display = 'block';
   }
   // Tambahkan identitas konsumen
