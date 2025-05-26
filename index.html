@@ -1373,7 +1373,11 @@ if (tempatDipilih) {
 // Metode pembayaran
 const metodePembayaran = "QRIS";
 summary += `\n*Pembayaran:* ${metodePembayaran}`;
-
+  
+<!-- Script untuk memunculkan modal -->
+  function showQRIS() {
+    document.getElementById('modal-qris').style.display = 'block';
+  }
   // Tambahkan identitas konsumen
   summary += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
   if (catatan !== "") {
