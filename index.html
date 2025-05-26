@@ -476,7 +476,33 @@
       line-height: 1.7;
       white-space: pre-line;
     }
-    
+    /* Tambahan untuk modal khusus QRIS */
+.modal-qris .modal-content {
+  text-align: center;
+  max-width: 300px; /* Lebih sempit untuk QRIS */
+}
+
+.modal-qris img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+  border-radius: 0.5rem;
+}
+
+.modal-qris button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--jingga);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-qris button:hover {
+  background: var(--jingga-dark);
+}
     /* === CART MODAL === */
     #cartModal {
       position: fixed;
