@@ -954,17 +954,18 @@
     <label for="qris">QRIS (Scan untuk Membayar)</label>
   </div>
 </div>
-
 <!-- Tombol Bayar -->
 <button type="button" onclick="showQRIS()">Bayar Sekarang</button>
 
 <!-- Modal QRIS -->
-<div id="modal-qris" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999;">
-  <div style="position:relative; margin:100px auto; width:300px; background:#fff; padding:20px; border-radius:8px; text-align:center;">
+<div id="modal-qris" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:9999; display:flex; justify-content:center; align-items:center;">
+  <div style="background:#fff; padding:20px; border-radius:8px; text-align:center; max-width:90%;">
     <h3>Pembayaran QRIS</h3>
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/f19880fd91f150d1e4da2e65d7b54ed5b890ea94/QRIS%20LAPAKA.png" alt="QRIS" style="width:250px; height:auto;">
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/f19880fd91f150d1e4da2e65d7b54ed5b890ea94/QRIS%20LAPAKA.png" 
+         alt="QRIS" 
+         style="max-width:100%; height:auto; display:block; margin:0 auto;">
     <p>Silakan scan QRIS di atas untuk membayar.</p>
-    <button onclick="document.getElementById('modal-qris').style.display='none'">Tutup</button>
+    <button onclick="closeModal()" style="margin-top:15px; padding:8px 15px; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer;">Tutup</button>
   </div>
 </div>
 
@@ -1370,12 +1371,20 @@ if (tempatDipilih) {
   return;
 }
 
-// Metode pembayaran
-const metodePembayaran = "QRIS";
-summary += `\n*Pembayaran:* ${metodePembayaran}`;
+  function showQRIS() {
+    document.getElementById('modal-qris').style.display = 'flex';
+  }
   
-function showQRIS() {
-    document.getElementById('modal-qris').style.display = 'block';
+  function closeModal() {
+    document.getElementById('modal-qris').style.display = 'none';
+  }
+  
+  // Close modal when clicking outside the content
+  window.onclick = function(event) {
+    const modal = document.getElementById('modal-qris');
+    if (event.target == modal) {
+      closeModal();
+    }
   }
   // Tambahkan identitas konsumen
   summary += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
