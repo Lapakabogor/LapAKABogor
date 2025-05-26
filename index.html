@@ -946,33 +946,25 @@
   </div>
 </div>
 
-        
-<!-- Payment Method -->
+ <!-- Payment Method -->
 <div class="radio-group">
   <label>Metode Pembayaran</label>
   <div class="radio-label">
-    <input type="radio" name="pembayaran" id="cash" value="Cash" checked>
-    <label for="cash">Cash</label>
+    <input type="radio" name="pembayaran" id="qris" value="QRIS" checked>
+    <label for="qris">QRIS (Scan untuk Membayar)</label>
   </div>
-  <div class="radio-label">
-    <input type="radio" name="pembayaran" id="bni" value="BNI: 1476288975 a.n Asyifa Verend">
-    <label for="bni">BNI - 1476288975 a.n Asyifa Verend</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="pembayaran" id="blu" value="BLU: 002737080797 a.n Asyifa Verend">
-    <label for="blu">BLU - 002737080797 a.n Asyifa Verend</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="pembayaran" id="gojek" value="Gojek/Spay: 082273020123 a.n Asyifa Verend">
-    <label for="gojek">Gojek/Spay - 082273020123 a.n Asyifa Verend</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="pembayaran" id="jago" value="Bank Jago: 100332545182 a.n Asyifa Verend">
-    <label for="jago">Bank Jago - 100332545182 a.n Asyifa Verend</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="pembayaran" id="bca" value="BCA: 7361227879 a.n Nada Zahira">
-    <label for="bca">BCA - 7361227879 a.n Nada Zahira</label>
+</div>
+
+<!-- Tombol Bayar -->
+<button onclick="showQRIS()">Bayar Sekarang</button>
+
+<!-- Modal QRIS -->
+<div id="modal-qris" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6);">
+  <div style="position:relative; margin:100px auto; width:300px; background:#fff; padding:20px; border-radius:8px; text-align:center;">
+    <h3>Pembayaran QRIS</h3>
+    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/f19880fd91f150d1e4da2e65d7b54ed5b890ea94/QRIS%20LAPAKA.png" alt="QRIS" style="width:250px; height:auto;">
+    <p>Silakan scan QRIS di atas untuk membayar.</p>
+    <button onclick="document.getElementById('modal-qris').style.display='none'">Tutup</button>
   </div>
 </div>
 
@@ -1378,11 +1370,9 @@ if (tempatDipilih) {
   return;
 }
 
-  // Metode pembayaran
-  const metodePembayaran = document.querySelector('input[name="pembayaran"]:checked');
-  if (metodePembayaran) {
-    summary += `\n*Pembayaran:* ${metodePembayaran.value}`;
-  }
+// Metode pembayaran
+const metodePembayaran = "QRIS";
+summary += `\n*Pembayaran:* ${metodePembayaran}`;
 
   // Tambahkan identitas konsumen
   summary += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
