@@ -476,33 +476,7 @@
       line-height: 1.7;
       white-space: pre-line;
     }
-    /* Tambahan untuk modal khusus QRIS */
-.modal-qris .modal-content {
-  text-align: center;
-  max-width: 300px; /* Lebih sempit untuk QRIS */
-}
-
-.modal-qris img {
-  max-width: 100%;
-  height: auto;
-  margin: 1rem 0;
-  border-radius: 0.5rem;
-}
-
-.modal-qris button {
-  margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  background: var(--jingga);
-  color: white;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.modal-qris button:hover {
-  background: var(--jingga-dark);
-}
+    
     /* === CART MODAL === */
     #cartModal {
       position: fixed;
@@ -971,30 +945,13 @@
     <label for="postSatpam">Post Satpam</label>
   </div>
 </div>
+
 <!-- Payment Method -->
 <div class="radio-group">
   <label>Metode Pembayaran</label>
   <div class="radio-label">
     <input type="radio" name="pembayaran" id="qris" value="QRIS" checked>
     <label for="qris">QRIS (Scan untuk Membayar)</label>
-  </div>
-</div>
-
-<!-- Tombol Bayar -->
-<button type="button" class="checkout-btn" onclick="showQRIS()">Bayar Sekarang</button>
-
-<!-- Modal QRIS -->
-<div id="modal-qris" class="modal">
-  <div class="modal-content" style="max-width: 300px; text-align: center;">
-    <button class="close-modal" onclick="closeQRISModal()">&times;</button>
-    <h3>Pembayaran QRIS</h3>
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/f19880fd91f150d1e4da2e65d7b54ed5b890ea94/QRIS%20LAPAKA.png" 
-         alt="QRIS" 
-         style="width: 100%; height: auto; margin: 1rem 0;">
-    <p>Silakan scan QRIS di atas untuk membayar.</p>
-    <button onclick="closeQRISModal()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: var(--jingga); color: white; border: none; border-radius: 0.5rem; cursor: pointer;">
-      Tutup
-    </button>
   </div>
 </div>
 
@@ -1007,6 +964,35 @@
       </div>
     </div>
   </aside>
+
+  <!-- QRIS Payment Modal -->
+  <div id="qrisPaymentModal" class="modal">
+    <div class="modal-content" style="max-width: 320px; text-align: center;">
+      <button class="close-modal" onclick="closeQRISPaymentModal()">&times;</button>
+      <h3 style="margin-bottom: 1rem;">Pembayaran QRIS</h3>
+      
+      <div style="background: #f8f8f8; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/f19880fd91f150d1e4da2e65d7b54ed5b890ea94/QRIS%20LAPAKA.png" 
+             alt="QR Code Pembayaran" 
+             style="width: 100%; max-width: 250px; margin: 0 auto; display: block;">
+      </div>
+      
+      <p style="color: #e53e3e; font-weight: 500; margin-bottom: 1.5rem;">
+        ⚠️ Silahkan screenshot QRIS ini sebagai bukti pembayaran
+      </p>
+      
+      <div style="display: flex; gap: 0.5rem;">
+        <button onclick="closeQRISPaymentModal()" 
+                style="flex: 1; padding: 0.75rem; background: #e2e8f0; border: none; border-radius: 0.5rem;">
+          Tutup
+        </button>
+        <button id="proceedToWhatsAppBtn" 
+                style="flex: 1; padding: 0.75rem; background: var(--hijau); color: white; border: none; border-radius: 0.5rem;">
+          Lanjut ke WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
 
   <script>
     // Splash screen
@@ -1191,6 +1177,7 @@ mengharumkan ruangan secara praktis dan aesthetic.`
   const cartFooter = document.getElementById('cartFooter');
   const cartTotalEl = document.getElementById('cartTotal');
   let cart = {};
+  let whatsappPaymentLink = "";
 
   function formatPrice(num) {
     return num.toLocaleString('id-ID');
@@ -1343,106 +1330,114 @@ function renderCartItems() {
   cartTotalEl.textContent = formatPrice(totalPrice);
 }
 
+function openCart() {
+  cartModal.classList.add('open');
+}
 
-  function openCart() {
-    cartModal.classList.add('open');
+function closeCart() {
+  cartModal.classList.remove('open');
+}
+
+cartBtn.addEventListener('click', () => {
+  if (cartModal.classList.contains('open')) {
+    closeCart();
+  } else {
+    openCart();
   }
+});
+closeCartBtn.addEventListener('click', closeCart);
 
-  function closeCart() {
-    cartModal.classList.remove('open');
+function performSearch() {
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+  if (query === '') {
+    renderCatalog(products);
+  } else {
+    const filtered = products.filter(p => p.name.toLowerCase().includes(query));
+    renderCatalog(filtered);
   }
+}
 
-  cartBtn.addEventListener('click', () => {
-    if (cartModal.classList.contains('open')) {
-      closeCart();
-    } else {
-      openCart();
-    }
-  });
-  closeCartBtn.addEventListener('click', closeCart);
-
-  function performSearch() {
-    const query = document.getElementById('searchInput').value.trim().toLowerCase();
-    if (query === '') {
-      renderCatalog(products);
-    } else {
-      const filtered = products.filter(p => p.name.toLowerCase().includes(query));
-      renderCatalog(filtered);
-    }
-  }
-function checkout() {
-  // Hitung total belanja
+function prepareWhatsAppMessage() {
   const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
-
-  // Ambil identitas konsumen
   const nama = document.getElementById("namaKonsumen").value.trim();
   const whatsapp = document.getElementById("noWhatsapp").value.trim();
   const catatan = document.getElementById("catatan").value.trim();
+  const tempat = document.querySelector('input[name="tempat"]:checked').value;
+
+  let summary = "*Pesanan LapAKABogor Anda:*\n";
+  for (const [id, item] of Object.entries(cart)) {
+    summary += `- ${item.name} (${item.qty} x Rp ${item.price.toLocaleString()})\n`;
+  }
+  
+  summary += `\n*Total:* Rp ${total.toLocaleString()}`;
+  summary += `\n*Metode Pembayaran:* QRIS`;
+  summary += `\n*Tempat:* ${tempat}`;
+  summary += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
+  
+  if (catatan !== "") {
+    summary += `\n*Catatan:* ${catatan}`;
+  }
+  
+  summary += '\n\n(Saya sudah membayar via QRIS dan melampirkan bukti screenshot)';
+  whatsappPaymentLink = `https://wa.me/6282125466588?text=${encodeURIComponent(summary)}`;
+}
+
+function showQRISPaymentModal() {
+  // Validate form first
+  const nama = document.getElementById("namaKonsumen").value.trim();
+  const whatsapp = document.getElementById("noWhatsapp").value.trim();
+  const tempatDipilih = document.querySelector('input[name="tempat"]:checked');
 
   if (!nama || !whatsapp) {
     alert("Silakan isi nama dan nomor WhatsApp terlebih dahulu.");
     return;
   }
 
-  // Mulai menyusun isi pesan
-  let summary = "*Pesanan LapAKABogor Anda:*\n";
-  for (const [id, item] of Object.entries(cart)) {
-    summary += `- ${item.name} (${item.qty} x Rp ${item.price.toLocaleString()})\n`;
+  if (!tempatDipilih) {
+    alert("Silakan pilih tempat pengantaran/pengambilan.");
+    return;
   }
-  summary += `\n*Total:* Rp ${total.toLocaleString()}`;
 
-// Tambahkan pilihan tempat
-const tempatDipilih = document.querySelector('input[name="tempat"]:checked');
-if (tempatDipilih) {
-  summary += `\n*Tempat:* ${tempatDipilih.value}`;
-} else {
-  alert("Silakan pilih tempat pengantaran / pengambilan.");
-  return;
-}
-function showQRIS() {
-  const modal = document.getElementById('modal-qris');
+  // Prepare WhatsApp message
+  prepareWhatsAppMessage();
+  
+  // Show QRIS payment modal
+  const modal = document.getElementById('qrisPaymentModal');
   modal.style.display = 'flex';
   setTimeout(() => modal.classList.add('show'), 10);
+  
+  // Setup the WhatsApp button
+  document.getElementById('proceedToWhatsAppBtn').onclick = function() {
+    window.open(whatsappPaymentLink, '_blank');
+    closeQRISPaymentModal();
+    closeCart(); // Close cart modal after proceeding
+  };
 }
 
-function closeQRISModal() {
-  const modal = document.getElementById('modal-qris');
+function closeQRISPaymentModal() {
+  const modal = document.getElementById('qrisPaymentModal');
   modal.classList.remove('show');
   setTimeout(() => {
     modal.style.display = 'none';
   }, 200);
 }
 
+function checkout() {
+  // Show QRIS payment modal instead of going directly to WhatsApp
+  showQRISPaymentModal();
+}
+
 // Close modal when clicking outside
 window.addEventListener('click', function(event) {
-  const modal = document.getElementById('modal-qris');
+  const modal = document.getElementById('qrisPaymentModal');
   if (event.target === modal) {
-    closeQRISModal();
+    closeQRISPaymentModal();
   }
 });
-  // Tambahkan identitas konsumen
-  summary += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
-  if (catatan !== "") {
-    summary += `\n*Catatan:* ${catatan}`;
-  }
 
-  // Arahkan ke WhatsApp
-  summary += '\n\nPesanan sudah lengkap, mohon segera diproses ya. 🙌';
-  const waMessage = encodeURIComponent(summary);
-  const waLink = `https://wa.me/6282125466588?text=${waMessage}`;
-  window.open(waLink, '_blank');
-}
-
-// Fungsi untuk menampilkan input alamat jika pilih "Diantar"
-function toggleAlamat() {
-  const selected = document.querySelector('input[name="pengantaran"]:checked').value;
-  const alamatInput = document.getElementById('alamatInput');
-  alamatInput.style.display = (selected === "Diantar") ? 'block' : 'none';
-}
-
-  // Inisialisasi awal
-  renderCatalog(products);
-  updateCartUI();
+// Inisialisasi awal
+renderCatalog(products);
+updateCartUI();
 </script>
 </body>
 </html>
