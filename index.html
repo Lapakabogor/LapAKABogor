@@ -63,7 +63,7 @@
       display: block;
     }
     
-    input, textarea {
+    input, textarea, select {
       font-family: inherit;
     }
     
@@ -654,7 +654,7 @@
     }
     
     textarea.form-control {
-      min-height: 100px;
+      min-height: 60px;
       resize: vertical;
     }
     
@@ -689,6 +689,57 @@
     
     .checkout-btn:hover {
       background: var(--jingga-dark);
+    }
+    
+    /* Delivery Options */
+    .delivery-options {
+      margin-bottom: 1rem;
+      border: 1px solid var(--gray-medium);
+      border-radius: 0.5rem;
+      padding: 1rem;
+    }
+    
+    .delivery-option {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    
+    .delivery-option:last-child {
+      margin-bottom: 0;
+    }
+    
+    .delivery-option input {
+      margin-right: 0.5rem;
+    }
+    
+    .delivery-location {
+      margin-top: 0.5rem;
+      margin-left: 1.5rem;
+      display: none;
+    }
+    
+    .delivery-location select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--gray-medium);
+      border-radius: 0.25rem;
+    }
+    
+    /* Product Notes */
+    .product-notes {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+    }
+    
+    .product-notes textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--gray-medium);
+      border-radius: 0.25rem;
+      font-size: 0.85rem;
+      min-height: 40px;
+      margin-top: 0.25rem;
     }
     
     /* === FOOTER === */
@@ -785,6 +836,15 @@
       .product-card {
         max-width: 100%;
       }
+      
+      .cart-item {
+        flex-direction: column;
+      }
+      
+      .cart-item-image {
+        width: 100%;
+        height: 120px;
+      }
     }
   </style>
 </head>
@@ -821,31 +881,29 @@
 
   <!-- Main Content -->
   <main>
-<!-- Slider --> 
-<div class="slider">
-  <div class="slides">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/nowbi%20iklan.png" alt="Iklan Nowbi Stick Ubi Ungu">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/IKLAN%20kingkong.png" alt="Iklan Kopi Kingkong">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/IKLAN%20yogood.png" alt="Iklan Yogood Mochi">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/e1c6f548e955b3e7c91ff8cb929cb9e98c805224/IKLAN%20bochiz.png" alt="Iklan Bochiz Spaghetti (versi baru)">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/4b419e905c47a900c09e1cf4aa3b67efbf1d1c01/iklan%201.jpg" alt="Iklan Produk Ke-5">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/40fd02d6a569cd0bd94cd860017d92a1388bfc7f/iklan%20dimsum-1.png" alt="Iklan Dimsum">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/40fd02d6a569cd0bd94cd860017d92a1388bfc7f/iklan%20serenitie-1.png" alt="Iklan Serenitie">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/chicken_ricebowl.jpg" alt="Iklan Chicken Ricebowl">
+    <!-- Slider --> 
+    <div class="slider">
+      <div class="slides">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/nowbi%20iklan.png" alt="Iklan Nowbi Stick Ubi Ungu">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/IKLAN%20kingkong.png" alt="Iklan Kopi Kingkong">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/IKLAN%20yogood.png" alt="Iklan Yogood Mochi">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/e1c6f548e955b3e7c91ff8cb929cb9e98c805224/IKLAN%20bochiz.png" alt="Iklan Bochiz Spaghetti (versi baru)">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/4b419e905c47a900c09e1cf4aa3b67efbf1d1c01/iklan%201.jpg" alt="Iklan Produk Ke-5">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/40fd02d6a569cd0bd94cd860017d92a1388bfc7f/iklan%20dimsum-1.png" alt="Iklan Dimsum">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/40fd02d6a569cd0bd94cd860017d92a1388bfc7f/iklan%20serenitie-1.png" alt="Iklan Serenitie">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/chicken_ricebowl.jpg" alt="Iklan Chicken Ricebowl">
 
-    <!-- Duplikat gambar untuk transisi mulus -->
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/nowbi%20iklan.png" alt="Iklan Nowbi (copy)">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/IKLAN%20kingkong.png" alt="Iklan Kopi Kingkong (copy)">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/IKLAN%20yogood.png" alt="Iklan Yogood Mochi (copy)">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/e1c6f548e955b3e7c91ff8cb929cb9e98c805224/IKLAN%20bochiz.png" alt="Iklan Bochiz Spaghetti (copy)">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/4b419e905c47a900c09e1cf4aa3b67efbf1d1c01/iklan%201.jpg" alt="Iklan Produk Ke-5 (copy)">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/40fd02d6a569cd0bd94cd860017d92a1388bfc7f/iklan%20dimsum-1.png" alt="Iklan Dimsum (copy)">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/40fd02d6a569cd0bd94cd860017d92a1388bfc7f/iklan%20serenitie-1.png" alt="Iklan Serenitie (copy)">
-    <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/chicken_ricebowl.jpg" alt="Iklan Chicken Ricebowl (copy)">
-  </div>
-</div>
-
-
+        <!-- Duplikat gambar untuk transisi mulus -->
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/nowbi%20iklan.png" alt="Iklan Nowbi (copy)">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/IKLAN%20kingkong.png" alt="Iklan Kopi Kingkong (copy)">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/09c2de1f9e0dc435fbcd163308ee462feaee6e05/IKLAN%20yogood.png" alt="Iklan Yogood Mochi (copy)">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/e1c6f548e955b3e7c91ff8cb929cb9e98c805224/IKLAN%20bochiz.png" alt="Iklan Bochiz Spaghetti (copy)">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/4b419e905c47a900c09e1cf4aa3b67efbf1d1c01/iklan%201.jpg" alt="Iklan Produk Ke-5 (copy)">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/40fd02d6a569cd0bd94cd860017d92a1388bfc7f/iklan%20dimsum-1.png" alt="Iklan Dimsum (copy)">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/40fd02d6a569cd0bd94cd860017d92a1388bfc7f/iklan%20serenitie-1.png" alt="Iklan Serenitie (copy)">
+        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/main/chicken_ricebowl.jpg" alt="Iklan Chicken Ricebowl (copy)">
+      </div>
+    </div>
 
     <h2 class="section-title">Produk Mahasiswa</h2>
     
@@ -903,65 +961,46 @@
           <input type="tel" id="noWhatsapp" class="form-control" placeholder="Contoh: 089612345678" required>
         </div>
         
-        <div class="form-group">
-          <label for="catatan">Catatan Tambahan (Opsional)</label>
-          <textarea id="catatan" class="form-control" placeholder="Contoh: Tolong dibungkus rapi"></textarea>
+        <!-- Delivery Options -->
+        <div class="delivery-options">
+          <h3 style="margin-bottom: 0.5rem; font-size: 1rem;">Metode Pengiriman</h3>
+          
+          <div class="delivery-option">
+            <input type="radio" id="pickup" name="delivery" value="pickup" checked>
+            <label for="pickup">Ambil Sendiri (Gedung G) - Rp0</label>
+          </div>
+          
+          <div class="delivery-option">
+            <input type="radio" id="delivery" name="delivery" value="delivery">
+            <label for="delivery">Diantar (+Rp500/produk)</label>
+            <div class="delivery-location" id="deliveryLocation">
+              <select id="deliveryPlace">
+                <option value="Gedung A">Gedung A</option>
+                <option value="Gedung B">Gedung B</option>
+                <option value="Gedung C">Gedung C</option>
+                <option value="Gedung D">Gedung D</option>
+                <option value="Gedung E">Gedung E</option>
+                <option value="Gedung F">Gedung F</option>
+                <option value="Masjid NAJ">Masjid NAJ</option>
+                <option value="Post Satpam">Post Satpam</option>
+              </select>
+            </div>
+          </div>
         </div>
         
-<!-- Pilihan Tempat -->
-<div class="radio-group" id="tempatOptions" style="display: block; margin-top: 10px;">
-  <label>Pilih Tempat Pengantaran / Pengambilan (Politeknik AKA Bogor)</label>
-  <div class="radio-label">
-    <input type="radio" name="tempat" id="gedungA" value="Gedung A" checked>
-    <label for="gedungA">Gedung A</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="tempat" id="gedungB" value="Gedung B">
-    <label for="gedungB">Gedung B</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="tempat" id="gedungC" value="Gedung C">
-    <label for="gedungC">Gedung C</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="tempat" id="gedungD" value="Gedung D">
-    <label for="gedungD">Gedung D</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="tempat" id="gedungE" value="Gedung E">
-    <label for="gedungE">Gedung E</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="tempat" id="gedungF" value="Gedung F">
-    <label for="gedungF">Gedung F</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="tempat" id="gedungG" value="Gedung G">
-    <label for="gedungG">Gedung G</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="tempat" id="masjidNAJ" value="Masjid NAJ">
-    <label for="masjidNAJ">Masjid NAJ</label>
-  </div>
-  <div class="radio-label">
-    <input type="radio" name="tempat" id="postSatpam" value="Post Satpam">
-    <label for="postSatpam">Post Satpam</label>
-  </div>
-</div>
-
-<!-- Payment Method -->
-<div class="radio-group">
-  <label>Metode Pembayaran</label>
-  <div class="radio-label">
-    <input type="radio" name="pembayaran" id="qris" value="QRIS" checked>
-    <label for="qris">QRIS (Scan untuk Membayar)</label>
-  </div>
-</div>
-
-<!-- Catatan -->
-<div class="payment-note">
-  <p><em>Silahkan konfirmasi terlebih dahulu pada WhatsApp sebelum membayar.</em></p>
-</div>
+        <!-- Payment Method -->
+        <div class="radio-group">
+          <label>Metode Pembayaran</label>
+          <div class="radio-label">
+            <input type="radio" name="pembayaran" id="qris" value="QRIS" checked>
+            <label for="qris">QRIS (Scan untuk Membayar)</label>
+          </div>
+        </div>
+        
+        <!-- Catatan -->
+        <div class="payment-note">
+          <p><em>Silahkan konfirmasi terlebih dahulu pada WhatsApp sebelum membayar.</em></p>
+        </div>
         
         <button class="checkout-btn" onclick="checkout()">Checkout via WhatsApp</button>
       </div>
@@ -969,35 +1008,35 @@
   </aside>
 
   <!-- QRIS Payment Modal -->
-  <div id="qrisPaymentModal" class="modal">
-    <div class="modal-content" style="max-width: 320px; text-align: center;">
-      <button class="close-modal" onclick="closeQRISPaymentModal()">&times;</button>
-      <h3 style="margin-bottom: 1rem;">Pembayaran QRIS</h3>
-      
-      <div style="background: #f8f8f8; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
-        <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/f19880fd91f150d1e4da2e65d7b54ed5b890ea94/QRIS%20LAPAKA.png" 
-             alt="QR Code Pembayaran" 
-             style="width: 100%; max-width: 250px; margin: 0 auto; display: block;">
-      </div>
-      
-      <p style="color: #e53e3e; font-weight: 500; margin-bottom: 1.5rem;">
-        ⚠️ Silahkan screenshot QRIS ini sebagai bukti pembayaran
-      </p>
-      
-      <div style="display: flex; gap: 0.5rem;">
-        <button onclick="closeQRISPaymentModal()" 
-                style="flex: 1; padding: 0.75rem; background: #e2e8f0; border: none; border-radius: 0.5rem;">
-          Tutup
-        </button>
-        <button id="proceedToWhatsAppBtn" 
-                style="flex: 1; padding: 0.75rem; background: var(--hijau); color: white; border: none; border-radius: 0.5rem;">
-          Lanjut ke WhatsApp
-        </button>
-      </div>
+<div id="qrisPaymentModal" class="modal">
+  <div class="modal-content" style="max-width: 320px; text-align: center;">
+    <button class="close-modal" onclick="closeQRISPaymentModal()">&times;</button>
+    <h3 style="margin-bottom: 1rem;">Pembayaran QRIS</h3>
+    
+    <div style="background: #f8f8f8; padding: 1rem; border-radius: 0.5rem; margin-bottom: 1.5rem;">
+      <img src="https://raw.githubusercontent.com/Lapakabogor/LapAKABogor/f19880fd91f150d1e4da2e65d7b54ed5b890ea94/QRIS%20LAPAKA.png" 
+           alt="QR Code Pembayaran" 
+           style="width: 100%; max-width: 250px; margin: 0 auto; display: block;">
+    </div>
+    
+    <p style="color: #e53e3e; font-weight: 500; margin-bottom: 1.5rem;">
+      ⚠️ Silahkan screenshot QRIS ini sebagai bukti pembayaran
+    </p>
+    
+    <div style="display: flex; gap: 0.5rem;">
+      <button onclick="closeQRISPaymentModal()" 
+              style="flex: 1; padding: 0.75rem; background: #e2e8f0; border: none; border-radius: 0.5rem;">
+        Tutup
+      </button>
+      <button id="proceedToWhatsAppBtn" 
+              style="flex: 1; padding: 0.75rem; background: var(--hijau); color: white; border: none; border-radius: 0.5rem;">
+        Lanjut ke WhatsApp
+      </button>
     </div>
   </div>
+</div>
 
-  <script>
+<script>
     // Splash screen
     window.addEventListener('DOMContentLoaded', () => {
       const splash = document.getElementById('splashScreen');
@@ -1395,86 +1434,165 @@ function performSearch() {
 }
 
 function prepareWhatsAppMessage() {
-  const total = Object.values(cart).reduce((sum, item) => sum + item.price * item.qty, 0);
-  const nama = document.getElementById("namaKonsumen").value.trim();
-  const whatsapp = document.getElementById("noWhatsapp").value.trim();
-  const catatan = document.getElementById("catatan").value.trim();
-  const tempat = document.querySelector('input[name="tempat"]:checked').value;
-
-  let summary = "*Pesanan LapAKABogor Anda:*\n";
-  for (const [id, item] of Object.entries(cart)) {
-    summary += `- ${item.name} (${item.qty} x Rp ${item.price.toLocaleString()})\n`;
+    const nama = document.getElementById("namaKonsumen").value.trim();
+    const whatsapp = document.getElementById("noWhatsapp").value.trim();
+    const deliveryMethod = document.querySelector('input[name="delivery"]:checked').value;
+    const deliveryPlace = document.getElementById("deliveryPlace").value;
+    
+    // Calculate total price including delivery fees
+    let totalPrice = 0;
+    let deliveryFee = 0;
+    let totalItems = 0;
+    
+    for (const [id, item] of Object.entries(cart)) {
+      totalPrice += item.price * item.qty;
+      totalItems += item.qty;
+    }
+    
+    // Add delivery fee if delivery option is selected
+    if (deliveryMethod === "delivery") {
+      deliveryFee = totalItems * 500;
+      totalPrice += deliveryFee;
+    }
+    
+    let summary = "*Pesanan LapAKABogor Anda:*\n\n";
+    
+    // List all products
+    for (const [id, item] of Object.entries(cart)) {
+      summary += `- ${item.name} (${item.qty} x Rp ${item.price.toLocaleString()})\n`;
+      
+      // Add product-specific notes if available
+      if (item.note) {
+        summary += `  *Catatan:* ${item.note}\n`;
+      }
+    }
+    
+    // Add delivery information
+    summary += `\n*Metode Pengiriman:* ${deliveryMethod === "pickup" ? "Ambil Sendiri di Gedung G" : `Diantar ke ${deliveryPlace}`}`;
+    
+    if (deliveryFee > 0) {
+      summary += `\n*Biaya Pengiriman:* Rp ${deliveryFee.toLocaleString()}`;
+    }
+    
+    // Add totals
+    summary += `\n\n*Total Harga Produk:* Rp ${(totalPrice - deliveryFee).toLocaleString()}`;
+    if (deliveryFee > 0) {
+      summary += `\n*Total Biaya Pengiriman:* Rp ${deliveryFee.toLocaleString()}`;
+    }
+    summary += `\n*Total Pembayaran:* Rp ${totalPrice.toLocaleString()}`;
+    
+    // Add customer info
+    summary += `\n\n*Nama Pemesan:* ${nama}`;
+    summary += `\n*Nomor WhatsApp:* ${whatsapp}`;
+    
+    // Add payment method
+    summary += `\n*Metode Pembayaran:* QRIS`;
+    
+    summary += '\n\n(Saya sudah membayar via QRIS dan melampirkan bukti screenshot)';
+    
+    whatsappPaymentLink = `https://wa.me/6282125466588?text=${encodeURIComponent(summary)}`;
   }
-  
-  summary += `\n*Total:* Rp ${total.toLocaleString()}`;
-  summary += `\n*Metode Pembayaran:* QRIS`;
-  summary += `\n*Tempat:* ${tempat}`;
-  summary += `\n\n*Nama:* ${nama}\n*No. WhatsApp:* ${whatsapp}`;
-  
-  if (catatan !== "") {
-    summary += `\n*Catatan:* ${catatan}`;
+
+  function showQRISPaymentModal() {
+    // Validate form first
+    const nama = document.getElementById("namaKonsumen").value.trim();
+    const whatsapp = document.getElementById("noWhatsapp").value.trim();
+    
+    if (!nama || !whatsapp) {
+      alert("Silakan isi nama dan nomor WhatsApp terlebih dahulu.");
+      return;
+    }
+    
+    // Check if delivery method is selected
+    const deliveryMethod = document.querySelector('input[name="delivery"]:checked');
+    if (!deliveryMethod) {
+      alert("Silakan pilih metode pengiriman.");
+      return;
+    }
+    
+    // If delivery is selected but no place is chosen
+    if (deliveryMethod.value === "delivery" && !document.getElementById("deliveryPlace").value) {
+      alert("Silakan pilih tempat pengantaran.");
+      return;
+    }
+
+    // Prepare WhatsApp message
+    prepareWhatsAppMessage();
+    
+    // Show QRIS payment modal
+    const modal = document.getElementById('qrisPaymentModal');
+    modal.style.display = 'flex';
+    setTimeout(() => modal.classList.add('show'), 10);
+    
+    // Setup the WhatsApp button
+    document.getElementById('proceedToWhatsAppBtn').onclick = function() {
+      window.open(whatsappPaymentLink, '_blank');
+      closeQRISPaymentModal();
+      closeCart(); // Close cart modal after proceeding
+    };
   }
-  
-  summary += '\n\n(Saya sudah membayar via QRIS dan melampirkan bukti screenshot)';
-  whatsappPaymentLink = `https://wa.me/6282125466588?text=${encodeURIComponent(summary)}`;
-}
 
-function showQRISPaymentModal() {
-  // Validate form first
-  const nama = document.getElementById("namaKonsumen").value.trim();
-  const whatsapp = document.getElementById("noWhatsapp").value.trim();
-  const tempatDipilih = document.querySelector('input[name="tempat"]:checked');
-
-  if (!nama || !whatsapp) {
-    alert("Silakan isi nama dan nomor WhatsApp terlebih dahulu.");
-    return;
+  function closeQRISPaymentModal() {
+    const modal = document.getElementById('qrisPaymentModal');
+    modal.classList.remove('show');
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 200);
   }
 
-  if (!tempatDipilih) {
-    alert("Silakan pilih tempat pengantaran/pengambilan.");
-    return;
+  function checkout() {
+    // Show QRIS payment modal instead of going directly to WhatsApp
+    showQRISPaymentModal();
   }
 
-  // Prepare WhatsApp message
-  prepareWhatsAppMessage();
-  
-  // Show QRIS payment modal
-  const modal = document.getElementById('qrisPaymentModal');
-  modal.style.display = 'flex';
-  setTimeout(() => modal.classList.add('show'), 10);
-  
-  // Setup the WhatsApp button
-  document.getElementById('proceedToWhatsAppBtn').onclick = function() {
-    window.open(whatsappPaymentLink, '_blank');
-    closeQRISPaymentModal();
-    closeCart(); // Close cart modal after proceeding
-  };
-}
+  // Handle delivery option changes
+  document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      const deliveryLocation = document.getElementById('deliveryLocation');
+      if (this.value === 'delivery') {
+        deliveryLocation.style.display = 'block';
+      } else {
+        deliveryLocation.style.display = 'none';
+      }
+      updateCartTotal(); // Update total when delivery option changes
+    });
+  });
 
-function closeQRISPaymentModal() {
-  const modal = document.getElementById('qrisPaymentModal');
-  modal.classList.remove('show');
-  setTimeout(() => {
-    modal.style.display = 'none';
-  }, 200);
-}
+  // Update cart total when delivery place changes
+  document.getElementById('deliveryPlace').addEventListener('change', function() {
+    updateCartTotal();
+  });
 
-function checkout() {
-  // Show QRIS payment modal instead of going directly to WhatsApp
-  showQRISPaymentModal();
-}
-
-// Close modal when clicking outside
-window.addEventListener('click', function(event) {
-  const modal = document.getElementById('qrisPaymentModal');
-  if (event.target === modal) {
-    closeQRISPaymentModal();
+  // Function to update cart total with delivery fee
+  function updateCartTotal() {
+    let total = 0;
+    let totalItems = 0;
+    
+    for (const [id, item] of Object.entries(cart)) {
+      total += item.price * item.qty;
+      totalItems += item.qty;
+    }
+    
+    // Add delivery fee if delivery option is selected
+    const deliveryMethod = document.querySelector('input[name="delivery"]:checked');
+    if (deliveryMethod && deliveryMethod.value === "delivery") {
+      total += totalItems * 500;
+    }
+    
+    document.getElementById('cartTotal').textContent = total.toLocaleString('id-ID');
   }
-});
 
-// Inisialisasi awal
-renderCatalog(products);
-updateCartUI();
+  // Close modal when clicking outside
+  window.addEventListener('click', function(event) {
+    const modal = document.getElementById('qrisPaymentModal');
+    if (event.target === modal) {
+      closeQRISPaymentModal();
+    }
+  });
+
+  // Inisialisasi awal
+  renderCatalog(products);
+  updateCartUI();
 </script>
 </body>
 </html>
